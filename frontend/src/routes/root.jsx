@@ -9,16 +9,23 @@ export default function Root() {
           <ul>
             <li>
               <NavLink
-                to={`todo`}
+                to={`todo-keyless`}
                 className={({ isActive, isPending }) =>
                   isActive ? "active" : isPending ? "pending" : ""
                 }
               >
-                REST based Todo App
+                1. (REST) Keyless Todo App
               </NavLink>
             </li>
             <li>
-              <Link to={`placeholder`}>Placeholder</Link>
+              <NavLink
+                to={`todo-authenticated`}
+                className={({ isActive, isPending }) =>
+                  isActive ? "active" : isPending ? "pending" : ""
+                }
+              >
+                2. (REST) Authenticated Todo App
+              </NavLink>
             </li>
           </ul>
         </nav>

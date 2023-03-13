@@ -1,7 +1,7 @@
 import logo from "../assets/Gravitee.io White Logo.png";
 import { useState, useEffect } from "react";
 
-export default function Todo() {
+export default function TodoKeyless() {
   const [todos, setTodos] = useState([]);
   const [modalActive, setModalActive] = useState(false);
   const [newTodo, setNewTodo] = useState("");
@@ -63,7 +63,7 @@ export default function Todo() {
   return (
     <div>
       <div className="header">
-        <h1>Gravitee Todo List</h1>
+        <h1>Keyless (public) Access</h1>
         <a href="http://gravitee.io" target="_blank" rel="noopener noreferrer">
           <img src={logo} alt="Gravitee Logo" width="200"></img>
         </a>
