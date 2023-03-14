@@ -10,9 +10,22 @@ export default function TodoKeyless() {
     getTodos();
   }, []);
 
+  // Ensures alert is not shown twice in development
+  let alertShown = false;
   const getTodos = () => {
     fetch("/todos")
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+          // Catch non-2xx HTTP status codes
+        } else {
+          if (!alertShown) {
+            alert(`HTTP error, status = ${res.status}`);
+            alertShown = !alertShown;
+          }
+          throw new Error(`HTTP error, status = ${res.status}`);
+        }
+      })
       .then((data) => setTodos(data))
       .catch((err) => console.error(`Error: ${err}`));
   };
@@ -20,7 +33,15 @@ export default function TodoKeyless() {
   const completeTodo = async (id) => {
     const data = await fetch(`/todos/${id}`, {
       method: "PATCH",
-    }).then((res) => res.json());
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+        // Catch non-2xx HTTP status codes
+      } else {
+        alert(`HTTP error, status = ${res.status}`);
+        throw new Error(`HTTP error, status = ${res.status}`);
+      }
+    });
 
     setTodos((todos) =>
       todos.map((todo) => {
@@ -35,7 +56,15 @@ export default function TodoKeyless() {
   const deleteTodo = async (id) => {
     const data = await fetch(`/todos/${id}`, {
       method: "DELETE",
-    }).then((res) => res.json());
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+        // Catch non-2xx HTTP status codes
+      } else {
+        alert(`HTTP error, status = ${res.status}`);
+        throw new Error(`HTTP error, status = ${res.status}`);
+      }
+    });
 
     setTodos((todos) => todos.filter((todo) => todo._id !== data._id));
   };
