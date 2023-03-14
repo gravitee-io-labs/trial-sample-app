@@ -27,6 +27,16 @@ export default function Root() {
                 2. (REST) Authenticated Todo App
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                to={`todo-kafka`}
+                className={({ isActive, isPending }) =>
+                  isActive ? "active" : isPending ? "pending" : ""
+                }
+              >
+                3. (Kafka) Authenticated Todo App
+              </NavLink>
+            </li>
           </ul>
         </nav>
       </div>
