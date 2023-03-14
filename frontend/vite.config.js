@@ -5,9 +5,12 @@ import { defineConfig } from "vite";
 export default defineConfig({
   plugins: [react()],
   server: {
+    host: true,
+    port: 5173,
+    strictPort: true,
     proxy: {
       "/todos": {
-        target: "http://localhost:3001",
+        target: "http://host.docker.internal:8082",
       },
     },
   },

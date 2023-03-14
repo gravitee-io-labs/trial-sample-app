@@ -5,6 +5,7 @@ export default function TodoAuthenticated() {
   const [todos, setTodos] = useState([]);
   const [modalActive, setModalActive] = useState(false);
   const [newTodo, setNewTodo] = useState("");
+  const apiKey = import.meta.env.VITE_GIO_API_KEY || process.env.GIO_API_KEY;
 
   useEffect(() => {
     getTodos();
@@ -13,7 +14,7 @@ export default function TodoAuthenticated() {
   const getTodos = () => {
     fetch("/todos", {
       headers: {
-        "X-Gravitee-Api-Key": import.meta.env.VITE_API_KEY,
+        "X-Gravitee-Api-Key": apiKey,
       },
     })
       .then((res) => res.json())
@@ -25,7 +26,7 @@ export default function TodoAuthenticated() {
     const data = await fetch(`/todos/${id}`, {
       method: "PATCH",
       headers: {
-        "X-Gravitee-Api-Key": import.meta.env.VITE_API_KEY,
+        "X-Gravitee-Api-Key": apiKey,
       },
     }).then((res) => res.json());
 
@@ -43,7 +44,7 @@ export default function TodoAuthenticated() {
     const data = await fetch(`/todos/${id}`, {
       method: "DELETE",
       headers: {
-        "X-Gravitee-Api-Key": import.meta.env.VITE_API_KEY,
+        "X-Gravitee-Api-Key": apiKey,
       },
     }).then((res) => res.json());
 
@@ -55,7 +56,7 @@ export default function TodoAuthenticated() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-Gravitee-Api-Key": import.meta.env.VITE_API_KEY,
+        "X-Gravitee-Api-Key": apiKey,
       },
       body: JSON.stringify({ text: newTodo }),
     }).then((res) => {
