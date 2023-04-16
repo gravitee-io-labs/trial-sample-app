@@ -10,7 +10,8 @@ export default defineConfig({
     strictPort: true,
     proxy: {
       "/todos": {
-        target: "http://host.docker.internal:8082",
+        // target: "http://host.docker.internal:8082",
+        target: "http://localhost:3001",
       },
     },
   },
