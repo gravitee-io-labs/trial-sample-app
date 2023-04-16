@@ -24,8 +24,8 @@ export default function Root() {
           </svg>
         </div>
         <nav>
-          <ul className="hover: flex flex-col">
-            <li className="group transition-none duration-300 ease-linear hover:bg-primary-light hover:transition-all">
+          <ul className="flex flex-col">
+            <li className="menu-item group">
               <NavLink
                 to={`/`}
                 className={({ isActive, isPending }) =>
@@ -35,7 +35,7 @@ export default function Root() {
                 <SidebarIcon icon={<FaHome size="28" />} />
               </NavLink>
             </li>
-            <li className="group transition-none duration-300 ease-linear hover:bg-primary-light hover:transition-all">
+            <li className="menu-item group">
               <NavLink
                 to={`todo-keyless`}
                 className={({ isActive, isPending }) =>
@@ -45,7 +45,7 @@ export default function Root() {
                 <SidebarIcon icon={<FaCheckCircle size="28" />} />
               </NavLink>
             </li>
-            <li className="group transition-none duration-300 ease-linear hover:bg-primary-light hover:transition-all">
+            <li className="menu-item group">
               <NavLink
                 to={`todo-authenticated`}
                 className={({ isActive, isPending }) =>
@@ -55,7 +55,7 @@ export default function Root() {
                 <SidebarIcon icon={<FaChartBar size="28" />} />
               </NavLink>
             </li>
-            <li className="group transition-none duration-300 ease-linear hover:bg-primary-light hover:transition-all">
+            <li className="menu-item group">
               <NavLink
                 to={`todo-kafka`}
                 className={({ isActive, isPending }) =>
