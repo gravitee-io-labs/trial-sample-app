@@ -1,12 +1,26 @@
+import { FaHome, FaCheckCircle, FaChartBar, FaCog } from "react-icons/fa";
 import { Outlet, Link, NavLink } from "react-router-dom";
 
 export default function Root() {
   return (
     <>
-      <div id="sidebar">
+      <div
+        id="sidebar"
+        className=" top-0 left-0 flex flex-col w-16 h-screen m-0 text-white bg-gray-900 shadow-lg"
+      >
         <h1>Gravitee Trial App</h1>
         <nav>
           <ul>
+            <li>
+              <NavLink
+                to={`/`}
+                className={({ isActive, isPending }) =>
+                  isActive ? "active" : isPending ? "pending" : ""
+                }
+              >
+                <SidebarIcon icon={<FaHome size="28" />} />
+              </NavLink>
+            </li>
             <li>
               <NavLink
                 to={`todo-keyless`}
@@ -14,7 +28,7 @@ export default function Root() {
                   isActive ? "active" : isPending ? "pending" : ""
                 }
               >
-                1. (REST) Keyless Todo App
+                <SidebarIcon icon={<FaCheckCircle size="28" />} />
               </NavLink>
             </li>
             <li>
@@ -24,7 +38,7 @@ export default function Root() {
                   isActive ? "active" : isPending ? "pending" : ""
                 }
               >
-                2. (REST) Authenticated Todo App
+                <SidebarIcon icon={<FaChartBar size="28" />} />
               </NavLink>
             </li>
             <li>
@@ -34,7 +48,7 @@ export default function Root() {
                   isActive ? "active" : isPending ? "pending" : ""
                 }
               >
-                3. (Kafka) Authenticated Todo App
+                <SidebarIcon icon={<FaCog size="28" />} />
               </NavLink>
             </li>
           </ul>
@@ -46,3 +60,9 @@ export default function Root() {
     </>
   );
 }
+
+const SidebarIcon = ({ icon }) => (
+  <div className=" hover: hover:bg-green-600 hover:text-white rounded-3xl hover:rounded-xl relative flex items-center justify-center w-12 h-12 mx-auto my-2 text-green-500 transition-all duration-300 ease-linear bg-gray-800">
+    {icon}
+  </div>
+);
