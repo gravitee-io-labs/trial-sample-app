@@ -6,7 +6,7 @@ export default function Root() {
     <>
       <div
         id="sidebar"
-        className=" top-0 left-0 flex flex-col w-16 h-screen m-0 text-white bg-gray-900 shadow-lg"
+        className=" left-0 top-0 m-0 flex h-screen w-16 flex-col bg-gray-950 text-white shadow-lg"
       >
         <h1>Gravitee Trial App</h1>
         <nav>
@@ -62,7 +62,7 @@ export default function Root() {
 }
 
 const SidebarIcon = ({ icon }) => (
-  <div className=" hover: hover:bg-green-600 hover:text-white rounded-3xl hover:rounded-xl relative flex items-center justify-center w-12 h-12 mx-auto my-2 text-green-500 transition-all duration-300 ease-linear bg-gray-800">
+  <div className="relative mx-auto my-2 flex h-12 w-12 items-center justify-center rounded-3xl bg-primary text-accent-cyan transition-all duration-300 ease-linear hover:rounded-xl hover:bg-accent-cyan hover:text-black">
     {icon}
   </div>
 );
