@@ -1,0 +1,35 @@
+.header-text {
+  font-family: Montserrat, sans-serif;
+}
+
+.navbar:hover .header-text {
+  opacity: 1;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 800ms;
+  visibility: visible;
+  position: relative;
+}
+
+.menu-item {
+  @apply w-full py-2 transition-none duration-300 ease-linear hover:bg-primary-light hover:transition-all;
+
+  &:last-child {
+    margin-top: auto;
+  }
+
+  &:has(.active) {
+    @apply bg-primary-light;
+    box-shadow: inset 5px 0 0 0 theme(colors.accent-cyan);
+  }
+  .active {
+    .menu-item__icon {
+      @apply rounded-xl bg-primary-dark text-accent-cyan;
+    }
+  }
+}
+
+.navbar:hover .menu-item__text {
+  visibility: visible;
+  opacity: 1;
+}

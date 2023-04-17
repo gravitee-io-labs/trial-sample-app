@@ -1,14 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Monserrat&display=swap');
 
-
+@import "tailwindcss/base";
 @import "assets/styles/base/base.scss";
+
+@import "tailwindcss/components";
+@import "assets/styles/components/sidebar.scss";
 /* @import "assets/styles/layouts/layouts.scss"; */
-@import "assets/styles/components/components.scss";
+
 @import "tailwindcss/utilities";
 
 .todo {
 	position: relative;
-	background-color: var(--color-contrast);
+	background-color: theme(colors.secondary);
 	padding: 16px;
 	border-radius: 16px;
 	display: flex;
@@ -16,6 +20,7 @@
 	transition: 0.5s;
 	cursor: pointer;
 	margin-bottom: 16px;
+	color: white
 }
 
 .todo:hover {
@@ -27,12 +32,12 @@
 	height: 20px;
 	margin-right: 16px;
 	border-radius: 50%;
-	background-color: var(--color-primary);
+	background-color: theme(colors.primary);
 	transition: 0.4s;
 }
 
 .todo.is-complete .checkbox {
-	background-image: linear-gradient(to bottom, var(--color-primary), var(--accent-portage));
+	background-image: linear-gradient(to bottom, theme(colors.primary-light), theme(colors.accent-portage));
 }
 
 .todo .text {
@@ -48,7 +53,7 @@
 	width: 24px;
 	height: 24px;
 	border-radius: 50%;
-	background-color: var(--color-accent-rose);
+	background-color: theme(colors.accent-rose);
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -68,9 +73,9 @@
 	border-radius: 999px;
 	font-size: 28px;
 	font-weight: 900;
-	color: var(--color-accent-cyan);
-	background-color: var(--color-contrast);
-	background-image: linear-gradient(to bottom, var(--color-primary), var(--color-accent-portage));
+	color: theme(colors.accent-cyan);
+	background-color: theme(colors.secondary);
+	background-image:  linear-gradient(to bottom, theme(colors.primary-light), theme(colors.accent-portage));
 	cursor: pointer;
 }
 
@@ -81,10 +86,10 @@
 	transform: translate(-50%, -50%);
 	width: 100%;
 	max-width: 400px;
-	background-color: var(--color-primary);
+	background-color: theme(colors.primary);
 	padding: 32px;
 	border-radius: 16px;
-	box-shadow: 0px 2px 16px var(--color-contrast);
+	box-shadow: 0px 2px 16px theme(colors.secondary);
 }
 
 .modal__content {
@@ -100,12 +105,12 @@
 	width: 20px;
 	height: 20px;
 	font-size: 20px;
-	color: var(--color-accent-rose);
+	color: theme(colors.accent-rose);
 	cursor: pointer;
 }
 
 .modal h3 {
-	color: var(--color-accent-cyan);
+	color: theme(colors.accent-cyan);
 	margin-bottom: 16px;
 	font-weight: 400;
 	text-transform: uppercase;
@@ -128,7 +133,7 @@
 	margin: auto;
 	border: none;
 	border-radius: 999px;	
-	background-color: var(--color-accent-cyan);
+	background-color: theme(colors.accent-cyan);
 	display: inline-block;
 	font-weight: 700;
 	text-transform: uppercase;

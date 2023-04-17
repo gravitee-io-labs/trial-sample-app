@@ -1,7 +1,0 @@
-@import "tailwindcss/components";
-
-@layer {
-  .menu-item {
-    @apply transition-none duration-300 ease-linear hover:bg-primary-light hover:transition-all;
-  }
-}
