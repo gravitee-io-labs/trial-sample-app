@@ -1,7 +1,3 @@
-.header-text {
-  font-family: Montserrat, sans-serif;
-}
-
 .navbar:hover .header-text {
   opacity: 1;
   transition-property: all;
@@ -12,8 +8,6 @@
 }
 
 .menu-item {
-  @apply w-full py-2 transition-none duration-300 ease-linear hover:bg-primary-light hover:transition-all;
-
   &:last-child {
     margin-top: auto;
   }
@@ -21,8 +15,7 @@
   &:has(.active) {
     @apply bg-primary-light;
     box-shadow: inset 5px 0 0 0 theme(colors.accent-cyan);
-  }
-  .active {
+
     .menu-item__icon {
       @apply rounded-xl bg-primary-dark text-accent-cyan;
     }

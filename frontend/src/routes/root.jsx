@@ -2,12 +2,19 @@ import { FaHome, FaCheckCircle, FaChartBar, FaCog } from "react-icons/fa";
 import { Outlet, Link, NavLink } from "react-router-dom";
 
 export default function Root() {
+  const pages = [
+    { route: "/", icon: <FaHome size="28" />, text: "Home" },
+    { route: "todo-keyless", icon: <FaCheckCircle size="28" />, text: "Todos" },
+    { route: "todo-authenticated", icon: <FaChartBar size="28" />, text: "Analytics" },
+    { route: "todo-kafka", icon: <FaCog size="28" />, text: "Configuration" },
+  ];
+
   return (
     <>
       <nav className="navbar fixed z-50 h-full w-20 overflow-clip rounded-r-3xl bg-primary bg-clip-border text-white shadow-xl shadow-primary  transition-[width] duration-500 ease-in-out hover:w-72">
         <ul className="flex h-full flex-col items-center">
-          <li className="flex h-16 w-full items-center justify-center bg-secondary fill-black">
-            <span className="header-text invisible absolute mr-3 min-w-max text-3xl font-extrabold uppercase tracking-[0.15em] opacity-0 transition-none">
+          <li className="header flex h-16 w-full items-center justify-center bg-secondary fill-black">
+            <span className="header-text invisible absolute mr-3 min-w-max font-[Montserrat] text-3xl font-extrabold uppercase tracking-[0.15em] opacity-0 transition-none">
               Gravitee
             </span>
             <svg
@@ -24,58 +31,21 @@ export default function Root() {
               </g>
             </svg>
           </li>
-          <li className="menu-item group">
-            <NavLink
-              to={`/`}
-              className={({ isActive, isPending }) => {
-                return (
-                  "flex items-center " +
-                  (isActive ? "active" : isPending ? "pending" : "")
-                );
-              }}
-            >
-              <SidebarIcon icon={<FaHome size="28" />} text="Home" />
-            </NavLink>
-          </li>
-          <li className="menu-item group">
-            <NavLink
-              to={`todo-keyless`}
-              className={({ isActive, isPending }) => {
-                return (
-                  "flex items-center " +
-                  (isActive ? "active" : isPending ? "pending" : "")
-                );
-              }}
-            >
-              <SidebarIcon icon={<FaCheckCircle size="28" />} text="Todos" />
-            </NavLink>
-          </li>
-          <li className="menu-item group">
-            <NavLink
-              to={`todo-authenticated`}
-              className={({ isActive, isPending }) => {
-                return (
-                  "flex items-center " +
-                  (isActive ? "active" : isPending ? "pending" : "")
-                );
-              }}
-            >
-              <SidebarIcon icon={<FaChartBar size="28" />} text="Analytics" />
-            </NavLink>
-          </li>
-          <li className="menu-item group">
-            <NavLink
-              to={`todo-kafka`}
-              className={({ isActive, isPending }) => {
-                return (
-                  "flex items-center " +
-                  (isActive ? "active" : isPending ? "pending" : "")
-                );
-              }}
-            >
-              <SidebarIcon icon={<FaCog size="28" />} text="Settings" />
-            </NavLink>
-          </li>
+          {pages.map((page) => (
+            <li className="menu-item group w-full py-2 transition-none duration-300 ease-linear hover:bg-primary-light hover:transition-all">
+              <NavLink
+                to={page.route}
+                className={({ isActive, isPending }) => {
+                  return (
+                    "flex items-center " +
+                    (isActive ? "active" : isPending ? "pending" : "")
+                  );
+                }}
+              >
+                <MenuItem icon={page.icon} text={page.text} />
+              </NavLink>
+            </li>
+          ))}
         </ul>
       </nav>
       <div className="ml-20 h-full p-8">
@@ -85,7 +55,7 @@ export default function Root() {
   );
 }
 
-const SidebarIcon = ({ icon, text }) => (
+const MenuItem = ({ icon, text }) => (
   <>
     <div className="menu-item__icon mx-4 flex h-12 w-12 min-w-[3rem] items-center justify-center rounded-3xl bg-primary-light text-white transition-all duration-300 ease-linear group-hover:rounded-xl group-hover:bg-primary-dark group-hover:text-accent-cyan">
       {icon}
