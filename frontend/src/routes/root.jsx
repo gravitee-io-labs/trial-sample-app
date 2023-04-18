@@ -6,7 +6,7 @@ export default function Root() {
     { route: "/", icon: <FaHome size="28" />, text: "Home" },
     { route: "todo-keyless", icon: <FaCheckCircle size="28" />, text: "Todos" },
     { route: "todo-authenticated", icon: <FaChartBar size="28" />, text: "Analytics" },
-    { route: "todo-kafka", icon: <FaCog size="28" />, text: "Configuration" },
+    { route: "configuration", icon: <FaCog size="28" />, text: "Configuration" },
   ];
 
   return (

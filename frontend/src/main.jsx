@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import TodoAuthenticated from "./routes/todo-authenticated";
 import TodoKeyless from "./routes/todo-keyless";
+import Configuration from "./routes/configuration";
 import ReactDOM from "react-dom/client";
 import ErrorPage from "./error-page";
 import Index from "./routes/index";
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "todo-authenticated",
         element: <TodoAuthenticated />,
+      },
+      {
+        path: "configuration",
+        element: <Configuration />,
       },
     ],
   },
