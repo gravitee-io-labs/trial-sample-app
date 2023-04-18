@@ -1,4 +1,4 @@
-import logo from "../assets/Gravitee.io White Logo.png";
+import logo from "../assets/Gravitee.io Dark Blue Logo.png";
 import { useState, useEffect } from "react";
 
 export default function TodoKeyless() {
@@ -90,17 +90,22 @@ export default function TodoKeyless() {
   };
 
   return (
-    <div>
-      <div className="header">
-        <h1>Keyless (public) Access</h1>
-        <a href="http://gravitee.io" target="_blank" rel="noopener noreferrer">
-          <img src={logo} alt="Gravitee Logo" width="200"></img>
-        </a>
-      </div>
-
-      <h4>My Tasks</h4>
-
-      <div className="todos">
+    <>
+      <div className="px-72">
+        <div className="mb-8 flex items-center justify-between">
+          <h1 className="text-4xl font-bold">Todos</h1>
+          <a href="http://gravitee.io" target="_blank" rel="noopener noreferrer">
+            <img src={logo} alt="Gravitee Logo" width="200"></img>
+          </a>
+        </div>
+        <input
+          type="text"
+          className="my-4 h-12 w-full rounded-lg bg-[#f3f3f3] p-2"
+          placeholder="+ Create a task"
+          onChange={(e) => setNewTodo(e.target.value)}
+          value={newTodo}
+          onKeyDown={(e) => (e.key === "Enter" ? addTodo() : null)}
+        />
         {todos.map((todo) => (
           <div
             className={`todo ${todo.complete ? "is-complete" : ""}`}
@@ -121,36 +126,6 @@ export default function TodoKeyless() {
           </div>
         ))}
       </div>
-      <div className="open-modal" onClick={() => setModalActive(true)}>
-        +
-      </div>
-      {modalActive ? (
-        <div className="modal">
-          <div
-            className="modal__close"
-            onClick={() => {
-              setModalActive(false);
-              setNewTodo("");
-            }}
-          >
-            x
-          </div>
-          <div className="modal__content">
-            <h3>Add Task</h3>
-            <input
-              type="text"
-              className="add-todo-input"
-              onChange={(e) => setNewTodo(e.target.value)}
-              value={newTodo}
-            />
-            <button className="modal__create-task" onClick={addTodo}>
-              Create Task
-            </button>
-          </div>
-        </div>
-      ) : (
-        ""
-      )}
-    </div>
+    </>
   );
 }

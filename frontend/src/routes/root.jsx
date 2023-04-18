@@ -48,7 +48,7 @@ export default function Root() {
           ))}
         </ul>
       </nav>
-      <div className="ml-20 h-full p-8">
+      <div className="ml-20 h-full p-12">
         <Outlet />
       </div>
     </>
