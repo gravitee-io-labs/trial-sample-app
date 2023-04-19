@@ -1,5 +1,6 @@
 import logo from "../assets/Gravitee.io Dark Blue Logo.png";
 import { useState, useEffect } from "react";
+import { Tabs } from "flowbite-react";
 
 export default function TodoKeyless() {
   const [todos, setTodos] = useState([]);
@@ -90,42 +91,51 @@ export default function TodoKeyless() {
   };
 
   return (
-    <>
-      <div className="px-72">
-        <div className="mb-8 flex items-center justify-between">
-          <h1 className="text-4xl font-bold">Todos</h1>
-          <a href="http://gravitee.io" target="_blank" rel="noopener noreferrer">
-            <img src={logo} alt="Gravitee Logo" width="200"></img>
-          </a>
-        </div>
-        <input
-          type="text"
-          className="my-4 h-12 w-full rounded-lg bg-[#f3f3f3] p-2"
-          placeholder="+ Create a task"
-          onChange={(e) => setNewTodo(e.target.value)}
-          value={newTodo}
-          onKeyDown={(e) => (e.key === "Enter" ? addTodo() : null)}
-        />
-        {todos.map((todo) => (
-          <div
-            className={`todo ${todo.complete ? "is-complete" : ""}`}
-            key={todo._id}
-            onClick={() => completeTodo(todo._id)}
-          >
-            <div className="checkbox"></div>
-            <div className="text">{todo.text}</div>
-            <div
-              className="delete-todo"
-              onClick={(e) => {
-                e.stopPropagation();
-                deleteTodo(todo._id);
-              }}
-            >
-              x
-            </div>
-          </div>
-        ))}
+    <div className="px-72">
+      <div className="mb-8 flex items-center justify-between">
+        <h1 className="text-4xl font-bold">Todos</h1>
+        <a href="http://gravitee.io" target="_blank" rel="noopener noreferrer">
+          <img src={logo} alt="Gravitee Logo" width="200"></img>
+        </a>
       </div>
-    </>
+      <Tabs.Group
+        aria-label="Tabs with underline"
+        style="underline"
+        className="flex justify-center"
+      >
+        <Tabs.Item title="Current">
+          <input
+            type="text"
+            className="my-4 h-12 w-full rounded-lg bg-[#f3f3f3] p-2"
+            placeholder="+ Create a task"
+            onChange={(e) => setNewTodo(e.target.value)}
+            value={newTodo}
+            onKeyDown={(e) => (e.key === "Enter" ? addTodo() : null)}
+          />
+          {todos.map((todo) => (
+            <div
+              className={`todo ${todo.complete ? "is-complete" : ""}`}
+              key={todo._id}
+              onClick={() => completeTodo(todo._id)}
+            >
+              <div className="checkbox"></div>
+              <div className="text">{todo.text}</div>
+              <div
+                className="delete-todo"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deleteTodo(todo._id);
+                }}
+              >
+                x
+              </div>
+            </div>
+          ))}
+        </Tabs.Item>
+        <Tabs.Item active={true} title="Archived">
+          Archived todos
+        </Tabs.Item>
+      </Tabs.Group>
+    </div>
   );
 }
