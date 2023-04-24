@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import TodoAuthenticated from "./routes/todo-authenticated";
+import Analytics from "./routes/analytics";
 import Configuration from "./routes/configuration";
 import ReactDOM from "react-dom/client";
 import ErrorPage from "./error-page";
@@ -16,8 +16,8 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Todos /> },
       {
-        path: "todo-authenticated",
-        element: <TodoAuthenticated />,
+        path: "analytics",
+        element: <Analytics />,
       },
       {
         path: "configuration",

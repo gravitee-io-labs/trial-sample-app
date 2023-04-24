@@ -4,7 +4,7 @@ import { Outlet, Link, NavLink } from "react-router-dom";
 export default function Root() {
   const pages = [
     { route: "/", icon: <FaCheckCircle size="28" />, text: "Todos" },
-    { route: "todo-authenticated", icon: <FaChartBar size="28" />, text: "Analytics" },
+    { route: "analytics", icon: <FaChartBar size="28" />, text: "Analytics" },
     { route: "configuration", icon: <FaCog size="28" />, text: "Configuration" },
   ];
 
