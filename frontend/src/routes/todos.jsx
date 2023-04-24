@@ -4,7 +4,6 @@ import { Tabs } from "flowbite-react";
 
 export default function Todos() {
   const [todos, setTodos] = useState([]);
-  const [modalActive, setModalActive] = useState(false);
   const [newTodo, setNewTodo] = useState("");
 
   useEffect(() => {
@@ -86,7 +85,6 @@ export default function Todos() {
     });
 
     setTodos([...todos, data]);
-    setModalActive(false);
     setNewTodo("");
   };
 
