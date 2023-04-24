@@ -2,7 +2,7 @@ import logo from "../assets/Gravitee.io Dark Blue Logo.png";
 import { useState, useEffect } from "react";
 import { Tabs } from "flowbite-react";
 
-export default function TodoKeyless() {
+export default function Todos() {
   const [todos, setTodos] = useState([]);
   const [modalActive, setModalActive] = useState(false);
   const [newTodo, setNewTodo] = useState("");
@@ -103,7 +103,7 @@ export default function TodoKeyless() {
         style="underline"
         className="flex justify-center"
       >
-        <Tabs.Item title="Current">
+        <Tabs.Item title="Current" active={true}>
           <input
             type="text"
             className="my-4 h-12 w-full rounded-lg bg-[#f3f3f3] p-2"
@@ -132,9 +132,7 @@ export default function TodoKeyless() {
             </div>
           ))}
         </Tabs.Item>
-        <Tabs.Item active={true} title="Archived">
-          Archived todos
-        </Tabs.Item>
+        <Tabs.Item title="Archived">Archived todos</Tabs.Item>
       </Tabs.Group>
     </div>
   );
