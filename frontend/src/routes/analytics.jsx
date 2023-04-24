@@ -109,7 +109,7 @@ export default function Analytics() {
     },
   ];
   return (
-    <div className=" h-[90vh]">
+    <div className=" h-[80vh]">
       <h1 className="flex items-center justify-center text-4xl font-bold">
         Todo Analytics
       </h1>
