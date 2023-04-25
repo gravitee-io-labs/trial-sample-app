@@ -1,10 +1,4 @@
 version: '3'
- 
-networks:
-  nw-gravitee-frontend:
-  nw-gravitee-backend:
-  nw-app-frontend:
-  nw-app-backend:
 
 volumes:
   data-gravitee-elasticsearch:
@@ -25,8 +19,6 @@ services:
     volumes:
       - data-app-mongo:/data/db
       - ./logs/app-mongodb:/var/log/mongodb
-    networks:
-      - nw-app-backend
     ports:
       - "27018:27017"
 
@@ -35,8 +27,6 @@ services:
     container_name: app-backend
     ports:
       - "3001:3001"
-    networks:
-      - nw-app-backend
     depends_on:
       - app-mongodb
       - gateway
@@ -48,8 +38,6 @@ services:
     container_name: app-frontend
     ports:
       - "5173:5173"
-    networks:
-      - nw-app-frontend
     depends_on:
       - app-backend
     env_file:
@@ -84,19 +72,17 @@ services:
 
   mongodb:
     image: mongo:${MONGODB_VERSION:-5}
-    container_name: gio_apim_mongodb
+    container_name: gio-mongodb
     restart: always
     volumes:
       - data-gravitee-mongo:/data/db
       - ./logs/apim-mongodb:/var/log/mongodb
-    networks:
-      - nw-gravitee-backend
     ports:
       - "27017:27017"
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_VERSION:-7.17.8}
-    container_name: gio_apim_elasticsearch
+    container_name: gio-elasticsearch
     restart: always
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:9200/_cat/health?h=st" ]
@@ -119,12 +105,10 @@ services:
         soft: -1
         hard: -1
       nofile: 65536
-    networks:
-      - nw-gravitee-backend
 
   gateway:
     image: graviteeio/apim-gateway:${APIM_VERSION:-latest}
-    container_name: gio_apim_gateway
+    container_name: gio-gateway
     restart: always
     ports:
       - "8082:8082"
@@ -138,14 +122,10 @@ services:
       - gravitee_management_mongodb_uri=mongodb://mongodb:27017/gravitee?serverSelectionTimeoutMS=5000&connectTimeoutMS=5000&socketTimeoutMS=5000
       - gravitee_ratelimit_mongodb_uri=mongodb://mongodb:27017/gravitee?serverSelectionTimeoutMS=5000&connectTimeoutMS=5000&socketTimeoutMS=5000
       - gravitee_reporters_elasticsearch_endpoints_0=http://elasticsearch:9200
-    networks:
-      - nw-gravitee-backend
-      - nw-gravitee-frontend
-      - nw-app-backend
 
   management_api:
     image: graviteeio/apim-management-api:${APIM_VERSION:-latest}
-    container_name: gio_apim_management_api
+    container_name: gio-management-api
     restart: always
     ports:
       - "8083:8083"
@@ -160,13 +140,10 @@ services:
     environment:
       - gravitee_management_mongodb_uri=mongodb://mongodb:27017/gravitee?serverSelectionTimeoutMS=5000&connectTimeoutMS=5000&socketTimeoutMS=5000
       - gravitee_analytics_elasticsearch_endpoints_0=http://elasticsearch:9200
-    networks:
-      - nw-gravitee-backend
-      - nw-gravitee-frontend
 
   management_ui:
     image: graviteeio/apim-management-ui:${APIM_VERSION:-latest}
-    container_name: gio_apim_management_ui
+    container_name: gio-management-ui
     restart: always
     ports:
       - "8084:8080"
@@ -176,12 +153,10 @@ services:
       - MGMT_API_URL=http://localhost:8083/management/organizations/DEFAULT/environments/DEFAULT/
     volumes:
       - ./logs/apim-management-ui:/var/log/nginx
-    networks:
-      - nw-gravitee-frontend
 
   portal_ui:
     image: graviteeio/apim-portal-ui:${APIM_VERSION:-latest}
-    container_name: gio_apim_portal_ui
+    container_name: gio-portal-ui
     restart: always
     ports:
       - "8085:8080"
@@ -191,5 +166,3 @@ services:
       - PORTAL_API_URL=http://localhost:8083/portal/environments/DEFAULT
     volumes:
       - ./logs/apim-portal-ui:/var/log/nginx
-    networks:
-      - nw-gravitee-frontend

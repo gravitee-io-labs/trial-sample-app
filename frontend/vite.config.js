@@ -10,8 +10,8 @@ export default defineConfig({
     strictPort: true,
     proxy: {
       "/todos": {
-        // target: "http://host.docker.internal:8082",
-        target: "http://localhost:3001",
+        // target: "http://gio-gateway:8082",
+        target: "http://app-backend:3001",
       },
     },
   },
