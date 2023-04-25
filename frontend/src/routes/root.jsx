@@ -12,8 +12,8 @@ export default function Root() {
     <>
       <nav className="navbar fixed z-50 h-full w-20 overflow-clip rounded-r-3xl bg-primary bg-clip-border text-white shadow-xl shadow-primary  transition-[width] duration-500 ease-in-out hover:w-72">
         <ul className="flex h-full flex-col items-center">
-          <li className="header flex h-16 w-full items-center justify-center bg-secondary fill-black">
-            <span className="header-text invisible absolute mr-3 min-w-max font-[Montserrat] text-3xl font-extrabold uppercase tracking-[0.15em] opacity-0 transition-none">
+          <li className="header flex h-[70px] w-full items-center justify-center gap-5 bg-secondary fill-black">
+            <span className="header-text invisible absolute min-w-max font-[Montserrat] text-3xl font-extrabold uppercase tracking-[0.15em] opacity-0 transition-none">
               Gravitee
             </span>
             <svg
