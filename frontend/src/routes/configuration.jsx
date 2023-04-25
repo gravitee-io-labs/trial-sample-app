@@ -1,105 +1,41 @@
+import { useState } from "react";
+
 export default function Configuration() {
+  const [authRequired, setAuthRequired] = useState(false);
+
   return (
     <main className="flex flex-grow flex-col items-center">
       <div className="mb-10 border-b-2 border-secondary pb-8 text-4xl text-black">
-        <p>
+        <h1>
           Settings<span className="ml-1 text-6xl text-accent-cyan">.</span>
-        </p>
+        </h1>
       </div>
-      <form action id="form" className="w-auto px-5">
+      <form action id="form" className="w-96 px-5">
         <fieldset className="flex flex-col gap-10">
-          <div className="flex items-center justify-center gap-10">
-            <div className="relative">
-              <label
-                for="first-name"
-                className="absolute left-[0.25rem] top-[0.25rem] mx-2 text-sm font-bold text-[#9ca3af]"
-              >
-                First Name
-              </label>
-              <input
-                type="text"
-                name="first-name"
-                className="w-full rounded-xl border bg-[#f3f3f3] px-3 pb-2 pt-8 font-sans text-xl font-bold text-black shadow focus:shadow-inner focus:outline-none focus:valid:shadow-accent-cyan focus:invalid:shadow-red-700"
-                required
-              />
-            </div>
-            <div className="relative">
-              <label
-                for="last-name"
-                className="absolute left-[0.25rem] top-[0.25rem] mx-2 text-sm font-bold text-[#9ca3af]"
-              >
-                Last Name
-              </label>
-              <input
-                type="text"
-                name="last-name"
-                className="w-full rounded-xl border bg-[#f3f3f3] px-3 pb-2 pt-8 font-sans text-xl font-bold text-black shadow focus:shadow-inner focus:outline-none focus:valid:shadow-accent-cyan focus:invalid:shadow-red-700"
-                required
-              />
-            </div>
-          </div>
+          <h2 className=" text-2xl font-bold">Authorization</h2>
+          <Toggle
+            label={"Authorization required?"}
+            handleChange={() => {
+              setAuthRequired(!authRequired);
+            }}
+          />
           <div className="relative">
-            <label
-              for="email"
-              className="absolute left-[0.25rem] top-[0.25rem] mx-2 text-sm font-bold text-[#9ca3af]"
-            >
-              Email
+            <label for="api-key" className="form-label">
+              API Key
             </label>
             <input
-              type="email"
-              name="email"
-              className="w-full rounded-xl border bg-[#f3f3f3] px-3 pb-2 pt-8 font-sans text-xl font-bold text-black shadow focus:shadow-inner focus:outline-none focus:valid:shadow-accent-cyan focus:invalid:shadow-red-700"
-              required
+              type="text"
+              name="api-key"
+              className="form-input"
+              disabled={!authRequired}
+              required={!authRequired}
             />
           </div>
           <div className="relative">
-            <label
-              for="phone"
-              className="absolute left-[0.25rem] top-[0.25rem] mx-2 text-sm font-bold text-[#9ca3af]"
-            >
-              Phone Number
+            <label for="last-name" className="form-label">
+              Last Name
             </label>
-            <input
-              type="tel"
-              name="phone"
-              className="w-full rounded-xl border bg-[#f3f3f3] px-3 pb-2 pt-8 font-sans text-xl font-bold text-black shadow focus:shadow-inner focus:outline-none focus:valid:shadow-accent-cyan focus:invalid:shadow-red-700"
-              required
-            />
-          </div>
-          <div className="flex items-center justify-center gap-10">
-            <div className="relative">
-              <label
-                for="password"
-                className="absolute left-[0.25rem] top-[0.25rem] mx-2 text-sm font-bold text-[#9ca3af]"
-              >
-                Password
-              </label>
-              <input
-                type="password"
-                name="password"
-                id="password"
-                className="w-full rounded-xl border bg-[#f3f3f3] px-3 pb-2 pt-8 font-sans text-xl font-bold text-black shadow focus:shadow-inner focus:outline-none focus:valid:shadow-accent-cyan focus:invalid:shadow-red-700"
-                required
-              />
-              <p className="hide-message absolute text-red-600" id="password-match">
-                * Passwords do not match
-              </p>
-            </div>
-            <div className="relative">
-              <label
-                for="confirm-password"
-                className="absolute left-[0.25rem] top-[0.25rem] mx-2 text-sm font-bold text-[#9ca3af]"
-              >
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                name="confirm-password"
-                id="confirm-password"
-                className="w-full rounded-xl border bg-[#f3f3f3] px-3 pb-2 pt-8 font-sans text-xl font-bold text-black shadow focus:shadow-inner focus:outline-none focus:valid:shadow-accent-cyan focus:invalid:shadow-red-700"
-                required
-              />
-            </div>
+            <input type="text" name="last-name" className="form-input" required />
           </div>
           <button
             className="h-14 w-full self-center rounded-md bg-accent-cyan/80 font-bold tracking-wider text-black shadow-md shadow-accent-cyan/30"
@@ -119,3 +55,13 @@ export default function Configuration() {
     </main>
   );
 }
+
+const Toggle = ({ label, handleChange }) => (
+  <label class="relative inline-flex max-w-max cursor-pointer items-center">
+    <input type="checkbox" value="" class="peer sr-only" onChange={handleChange} />
+    <div class="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800"></div>
+    <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+      {label}
+    </span>
+  </label>
+);
