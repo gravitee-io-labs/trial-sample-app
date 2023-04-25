@@ -6,56 +6,7 @@
 
 @import "tailwindcss/components";
 @import "assets/styles/components/sidebar.scss";
+@import "assets/styles/components/todo.scss";
 /* @import "assets/styles/layouts/layouts.scss"; */
 
 @import "tailwindcss/utilities";
-
-.todo {
-	position: relative;
-	background-color: theme(colors.secondary);
-	padding: 16px;
-	border-radius: 16px;
-	display: flex;
-	align-items: center;
-	transition: 0.5s;
-	cursor: pointer;
-	margin-bottom: 16px;
-	color: white
-}
-
-.todo:hover {
-	opacity: 0.8;
-}
-
-.todo .checkbox {
-	width: 20px;
-	height: 20px;
-	/* margin-right: 16px; */
-	border-radius: 50%;
-	background-color: theme(colors.primary);
-	transition: 0.4s;
-}
-
-.todo.is-complete .checkbox {
-	background-image: linear-gradient(to bottom, theme(colors.primary-light), theme(colors.accent-portage));
-}
-
-.todo .text {
-	font-size: 20px;
-}
-
-.todo.is-complete .text {
-	text-decoration: line-through;
-}
-
-.todo .delete-todo {
-	margin-left: auto;
-	width: 24px;
-	height: 24px;
-	border-radius: 50%;
-	background-color: theme(colors.accent-rose);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-weight: 700;
-}

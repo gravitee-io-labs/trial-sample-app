@@ -150,7 +150,9 @@ export default function Todos() {
             .filter((todo) => !todo.archive)
             .map((todo) => (
               <div
-                className={`todo gap-6 ${todo.complete ? "is-complete" : ""}`}
+                className={`todo cursor-pointer gap-6 hover:opacity-80 ${
+                  todo.complete ? "is-complete" : ""
+                }`}
                 key={todo._id}
                 onClick={() => completeTodo(todo._id)}
               >
@@ -192,7 +194,10 @@ export default function Todos() {
                     archiveTodo(todo._id);
                   }}
                 >
-                  <FaInbox size="20" className="hover:fill-accent-portage" />
+                  <FaInbox
+                    size="20"
+                    className="cursor-pointer hover:fill-accent-portage"
+                  />
                 </div>
                 <div
                   onClick={(e) => {
@@ -200,7 +205,10 @@ export default function Todos() {
                     deleteTodo(todo._id);
                   }}
                 >
-                  <FaTrash size="20" className="hover:fill-accent-rose" />
+                  <FaTrash
+                    size="20"
+                    className="cursor-pointer hover:fill-accent-rose"
+                  />
                 </div>
               </div>
             ))}
