@@ -30,7 +30,7 @@
 .todo .checkbox {
 	width: 20px;
 	height: 20px;
-	margin-right: 16px;
+	/* margin-right: 16px; */
 	border-radius: 50%;
 	background-color: theme(colors.primary);
 	transition: 0.4s;

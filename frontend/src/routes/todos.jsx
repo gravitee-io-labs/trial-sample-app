@@ -1,6 +1,7 @@
 import logo from "../assets/Gravitee.io Dark Blue Logo.png";
 import { useState, useEffect } from "react";
 import { Tabs } from "flowbite-react";
+import { FaArchive, FaTrash } from "react-icons/fa";
 
 export default function Todos() {
   const [todos, setTodos] = useState([]);
@@ -112,13 +113,30 @@ export default function Todos() {
           />
           {todos.map((todo) => (
             <div
-              className={`todo ${todo.complete ? "is-complete" : ""}`}
+              className={`todo gap-6 ${todo.complete ? "is-complete" : ""}`}
               key={todo._id}
               onClick={() => completeTodo(todo._id)}
             >
               <div className="checkbox"></div>
               <div className="text">{todo.text}</div>
               <div
+                className="ml-auto"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <FaArchive size="20" className="hover:fill-accent-portage" />
+              </div>
+              <div
+                className=""
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deleteTodo(todo._id);
+                }}
+              >
+                <FaTrash size="20" className="hover:fill-accent-rose" />
+              </div>
+              {/* <div
                 className="delete-todo"
                 onClick={(e) => {
                   e.stopPropagation();
@@ -126,7 +144,7 @@ export default function Todos() {
                 }}
               >
                 x
-              </div>
+              </div> */}
             </div>
           ))}
         </Tabs.Item>

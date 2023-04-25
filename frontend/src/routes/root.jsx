@@ -1,4 +1,4 @@
-import { FaHome, FaCheckCircle, FaChartBar, FaCog } from "react-icons/fa";
+import { FaCheckCircle, FaChartBar, FaCog } from "react-icons/fa";
 import { Outlet, Link, NavLink } from "react-router-dom";
 
 export default function Root() {
