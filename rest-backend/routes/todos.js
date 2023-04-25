@@ -28,8 +28,13 @@ router
   })
   .patch(async (req, res) => {
     const todo = await Todo.findById(req.params.id);
+    const { action } = req.query;
 
-    todo.complete = !todo.complete;
+    if (action === "archive") {
+      todo.archive = !todo.archive;
+    } else {
+      todo.complete = !todo.complete;
+    }
 
     todo.save();
 

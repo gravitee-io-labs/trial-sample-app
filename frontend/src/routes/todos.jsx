@@ -1,7 +1,7 @@
 import logo from "../assets/Gravitee.io Dark Blue Logo.png";
 import { useState, useEffect } from "react";
 import { Tabs } from "flowbite-react";
-import { FaArchive, FaTrash } from "react-icons/fa";
+import { FaArchive, FaTrash, FaInbox } from "react-icons/fa";
 
 export default function Todos() {
   const [todos, setTodos] = useState([]);
@@ -32,9 +32,15 @@ export default function Todos() {
   };
 
   const completeTodo = async (id) => {
-    const data = await fetch(`/todos/${id}`, {
-      method: "PATCH",
-    }).then((res) => {
+    const data = await fetch(
+      `/todos/${id}?` +
+        new URLSearchParams({
+          action: "complete",
+        }),
+      {
+        method: "PATCH",
+      }
+    ).then((res) => {
       if (res.ok) {
         return res.json();
         // Catch non-2xx HTTP status codes
@@ -48,6 +54,35 @@ export default function Todos() {
       todos.map((todo) => {
         if (todo._id === data._id) {
           todo.complete = data.complete;
+        }
+        return todo;
+      })
+    );
+  };
+
+  const archiveTodo = async (id) => {
+    const data = await fetch(
+      `/todos/${id}?` +
+        new URLSearchParams({
+          action: "archive",
+        }),
+      {
+        method: "PATCH",
+      }
+    ).then((res) => {
+      if (res.ok) {
+        return res.json();
+        // Catch non-2xx HTTP status codes
+      } else {
+        alert(`HTTP error, status = ${res.status}`);
+        throw new Error(`HTTP error, status = ${res.status}`);
+      }
+    });
+
+    setTodos((todos) =>
+      todos.map((todo) => {
+        if (todo._id === data._id) {
+          todo.archive = data.archive;
         }
         return todo;
       })
@@ -111,44 +146,65 @@ export default function Todos() {
             value={newTodo}
             onKeyDown={(e) => (e.key === "Enter" ? addTodo() : null)}
           />
-          {todos.map((todo) => (
-            <div
-              className={`todo gap-6 ${todo.complete ? "is-complete" : ""}`}
-              key={todo._id}
-              onClick={() => completeTodo(todo._id)}
-            >
-              <div className="checkbox"></div>
-              <div className="text">{todo.text}</div>
+          {todos
+            .filter((todo) => !todo.archive)
+            .map((todo) => (
               <div
-                className="ml-auto"
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
+                className={`todo gap-6 ${todo.complete ? "is-complete" : ""}`}
+                key={todo._id}
+                onClick={() => completeTodo(todo._id)}
               >
-                <FaArchive size="20" className="hover:fill-accent-portage" />
+                <div className="checkbox"></div>
+                <div className="text">{todo.text}</div>
+                <div
+                  className="ml-auto"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    archiveTodo(todo._id);
+                  }}
+                >
+                  <FaArchive size="20" className="hover:fill-accent-portage" />
+                </div>
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteTodo(todo._id);
+                  }}
+                >
+                  <FaTrash size="20" className="hover:fill-accent-rose" />
+                </div>
               </div>
-              <div
-                className=""
-                onClick={(e) => {
-                  e.stopPropagation();
-                  deleteTodo(todo._id);
-                }}
-              >
-                <FaTrash size="20" className="hover:fill-accent-rose" />
-              </div>
-              {/* <div
-                className="delete-todo"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  deleteTodo(todo._id);
-                }}
-              >
-                x
-              </div> */}
-            </div>
-          ))}
+            ))}
         </Tabs.Item>
-        <Tabs.Item title="Archived">Archived todos</Tabs.Item>
+        <Tabs.Item title="Archived">
+          {todos
+            .filter((todo) => todo.archive)
+            .map((todo) => (
+              <div
+                className={`todo gap-6 ${todo.complete ? "is-complete" : ""}`}
+                key={todo._id}
+              >
+                <div className="text">{todo.text}</div>
+                <div
+                  className="ml-auto"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    archiveTodo(todo._id);
+                  }}
+                >
+                  <FaInbox size="20" className="hover:fill-accent-portage" />
+                </div>
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteTodo(todo._id);
+                  }}
+                >
+                  <FaTrash size="20" className="hover:fill-accent-rose" />
+                </div>
+              </div>
+            ))}
+        </Tabs.Item>
       </Tabs.Group>
     </div>
   );
