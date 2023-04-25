@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Analytics from "./routes/analytics";
+import NotificationHistory from "./routes/notification-history";
 import Configuration from "./routes/configuration";
 import ReactDOM from "react-dom/client";
 import ErrorPage from "./error-page";
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: "analytics",
         element: <Analytics />,
+      },
+      {
+        path: "notification-history",
+        element: <NotificationHistory />,
       },
       {
         path: "configuration",

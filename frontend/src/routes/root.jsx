@@ -1,10 +1,16 @@
 import { FaCheckCircle, FaChartBar, FaCog } from "react-icons/fa";
+import { IoNotifications } from "react-icons/io5";
 import { Outlet, Link, NavLink } from "react-router-dom";
 
 export default function Root() {
   const pages = [
     { route: "/", icon: <FaCheckCircle size="28" />, text: "Todos" },
     { route: "analytics", icon: <FaChartBar size="28" />, text: "Analytics" },
+    {
+      route: "notification-history",
+      icon: <IoNotifications size="28" />,
+      text: "Notification History",
+    },
     { route: "configuration", icon: <FaCog size="28" />, text: "Configuration" },
   ];
 
