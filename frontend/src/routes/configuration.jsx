@@ -4,10 +4,12 @@ import { useOutletContext } from "react-router-dom";
 export default function Configuration() {
   const [authRequired, setAuthRequired] = useState(false);
   const [host, setHost] = useOutletContext();
+  const [formModified, setFormModified] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    await setHost(e.target.hostInput.value);
+    setHost(e.target.hostInput.value);
+    setFormModified(false);
   };
 
   return (
@@ -24,6 +26,7 @@ export default function Configuration() {
             label={"Authorization required?"}
             handleChange={() => {
               setAuthRequired(!authRequired);
+              setFormModified(true);
             }}
           />
           <div className="relative">
@@ -36,6 +39,7 @@ export default function Configuration() {
               className="form-input"
               disabled={!authRequired}
               required={!authRequired}
+              onChange={() => setFormModified(true)}
             />
           </div>
           <div className="relative">
@@ -48,10 +52,15 @@ export default function Configuration() {
               className="form-input"
               required
               defaultValue={host}
+              onChange={() => setFormModified(true)}
             />
           </div>
           <button
-            className="h-14 w-full self-center rounded-md bg-accent-cyan/80 font-bold tracking-wider text-black shadow-md shadow-accent-cyan/30"
+            className={`h-14 w-full self-center rounded-md font-bold tracking-wider text-black shadow-md shadow-accent-cyan/30 ${
+              formModified
+                ? "bg-accent-cyan/80 shadow-accent-cyan/30"
+                : "bg-gray-300 shadow-gray-300/30"
+            }`}
             type="submit"
             id="submitForm"
           >
