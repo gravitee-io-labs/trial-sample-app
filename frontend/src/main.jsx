@@ -1,4 +1,9 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createRoutesFromElements,
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+} from "react-router-dom";
 import Analytics from "./routes/analytics";
 import NotificationHistory from "./routes/notification-history";
 import Configuration from "./routes/configuration";
@@ -9,28 +14,16 @@ import Root from "./routes/root";
 import React from "react";
 import "./index.css";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Root />,
-    errorElement: <ErrorPage />,
-    children: [
-      { index: true, element: <Todos /> },
-      {
-        path: "analytics",
-        element: <Analytics />,
-      },
-      {
-        path: "notification-history",
-        element: <NotificationHistory />,
-      },
-      {
-        path: "configuration",
-        element: <Configuration />,
-      },
-    ],
-  },
-]);
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
+      <Route index element={<Todos />} />
+      <Route path="analytics" element={<Analytics />} />
+      <Route path="notification-history" element={<NotificationHistory />} />
+      <Route path="configuration" element={<Configuration />} />
+    </Route>
+  )
+);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
