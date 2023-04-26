@@ -3,7 +3,7 @@ import { FaCheckCircle, FaChartBar, FaCog } from "react-icons/fa";
 import { IoNotifications } from "react-icons/io5";
 import { Outlet, NavLink } from "react-router-dom";
 
-export default function Root() {
+export default function RootLayout() {
   const [host, setHost] = useState("http://localhost:3001");
 
   const pages = [

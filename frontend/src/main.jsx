@@ -4,19 +4,19 @@ import {
   RouterProvider,
   Route,
 } from "react-router-dom";
-import Analytics from "./routes/analytics";
-import NotificationHistory from "./routes/notification-history";
-import Configuration from "./routes/configuration";
+import Analytics from "./routes/Analytics";
+import NotificationHistory from "./routes/NotificationHistory";
+import Configuration from "./routes/Configuration";
 import ReactDOM from "react-dom/client";
-import ErrorPage from "./error-page";
-import Todos from "./routes/todos";
-import Root from "./routes/root";
+import ErrorPage from "./ErrorPage";
+import Todos from "./routes/Todos";
+import RootLayout from "./layouts/RootLayout";
 import React from "react";
-import "./index.css";
+import "./assets/styles/index.css";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
+    <Route path="/" element={<RootLayout />} errorElement={<ErrorPage />}>
       <Route index element={<Todos />} />
       <Route path="analytics" element={<Analytics />} />
       <Route path="notification-history" element={<NotificationHistory />} />
