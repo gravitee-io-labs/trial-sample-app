@@ -10,7 +10,7 @@ volumes:
 
 services:
 
-# Custom Application
+  # Custom Application
 
   app-mongodb:
     image: mongo:${MONGODB_VERSION:-latest}
@@ -30,8 +30,9 @@ services:
     depends_on:
       - app-mongodb
       - gateway
+      - app-kafka-broker
     environment:
-    - DATABASE_HOST=app-mongodb
+      - DATABASE_HOST=app-mongodb
 
   app-frontend:
     build: ./frontend
@@ -41,22 +42,23 @@ services:
     depends_on:
       - app-backend
     env_file:
-    - .env
+      - .env
 
   app-kafka-broker:
     image: confluentinc/cp-kafka:7.3.2
     container_name: app-kafka-broker
     ports:
-    # To learn about configuring Kafka for access across networks see
-    # https://www.confluent.io/blog/kafka-client-cannot-connect-to-broker-on-aws-on-docker-etc/
+      # To learn about configuring Kafka for access across networks see
+      # https://www.confluent.io/blog/kafka-client-cannot-connect-to-broker-on-aws-on-docker-etc/
       - "9092:9092"
     depends_on:
       - zookeeper
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://broker:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: EXTERNAL:PLAINTEXT,INTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: EXTERNAL://localhost:9092,INTERNAL://app-kafka-broker:29092
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
@@ -68,7 +70,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
 
-# Gravitee
+  # Gravitee
 
   mongodb:
     image: mongo:${MONGODB_VERSION:-5}
@@ -85,7 +87,13 @@ services:
     container_name: gio-elasticsearch
     restart: always
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:9200/_cat/health?h=st" ]
+      test:
+        [
+          "CMD",
+          "curl",
+          "-f",
+          "http://localhost:9200/_cat/health?h=st"
+        ]
       interval: 5s
       timeout: 5s
       retries: 10

@@ -1,5 +1,8 @@
 import express from "express";
+import { kafka } from "../kafka.js";
 import { Todo } from "../models/todo.js";
+
+const producer = kafka.producer();
 
 export const router = express.Router();
 router
@@ -9,12 +12,24 @@ router
 
     res.json(todos);
   })
-  .post((req, res) => {
+  .post(async (req, res) => {
     const todo = new Todo({
       text: req.body.text,
     });
 
     todo.save();
+
+    try {
+      await producer.connect();
+      await producer.send({
+        topic: "test-topic",
+        messages: [{ value: "Hello KafkaJS user!" }],
+      });
+      console.log("Published message");
+      await producer.disconnect();
+    } catch (err) {
+      console.error("Error publishing message", err);
+    }
 
     res.json(todo);
   });
