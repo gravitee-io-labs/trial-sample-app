@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { FaCheckCircle, FaChartBar, FaCog } from "react-icons/fa";
 import { IoNotifications } from "react-icons/io5";
-import { Outlet, Link, NavLink } from "react-router-dom";
+import { Outlet, NavLink } from "react-router-dom";
 
 export default function Root() {
+  const [host, setHost] = useState("http://localhost:3001");
+
   const pages = [
     { route: "/", icon: <FaCheckCircle size="28" />, text: "Todos" },
     { route: "analytics", icon: <FaChartBar size="28" />, text: "Analytics" },
@@ -54,7 +57,7 @@ export default function Root() {
         </ul>
       </nav>
       <div className="ml-20 h-full p-12">
-        <Outlet />
+        <Outlet context={[host, setHost]} />
       </div>
     </>
   );

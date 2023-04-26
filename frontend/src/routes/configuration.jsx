@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useOutletContext } from "react-router-dom";
 
 export default function Configuration() {
   const [authRequired, setAuthRequired] = useState(false);
+  const [host, setHost] = useOutletContext();
 
   return (
     <main className="flex flex-grow flex-col items-center">
@@ -32,10 +34,17 @@ export default function Configuration() {
             />
           </div>
           <div className="relative">
-            <label for="last-name" className="form-label">
-              Last Name
+            <label for="host" className="form-label">
+              Host
             </label>
-            <input type="text" name="last-name" className="form-input" required />
+            <input
+              type="text"
+              name="host"
+              className="form-input"
+              required
+              onChange={(e) => setHost(e.target.value)}
+              defaultValue={host}
+            />
           </div>
           <button
             className="h-14 w-full self-center rounded-md bg-accent-cyan/80 font-bold tracking-wider text-black shadow-md shadow-accent-cyan/30"

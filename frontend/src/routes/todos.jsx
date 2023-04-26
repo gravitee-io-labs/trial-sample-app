@@ -2,10 +2,12 @@ import logo from "../assets/Gravitee.io Dark Blue Logo.png";
 import { useState, useEffect } from "react";
 import { Tabs } from "flowbite-react";
 import { FaArchive, FaTrash, FaInbox } from "react-icons/fa";
+import { useOutletContext } from "react-router-dom";
 
 export default function Todos() {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
+  const [host] = useOutletContext();
 
   useEffect(() => {
     getTodos();
@@ -14,7 +16,7 @@ export default function Todos() {
   // Ensures alert is not shown twice in development
   let alertShown = false;
   const getTodos = () => {
-    fetch("/todos")
+    fetch(host + "/todos")
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -33,7 +35,8 @@ export default function Todos() {
 
   const completeTodo = async (id) => {
     const data = await fetch(
-      `/todos/${id}?` +
+      host +
+        `/todos/${id}?` +
         new URLSearchParams({
           action: "complete",
         }),
@@ -62,7 +65,8 @@ export default function Todos() {
 
   const archiveTodo = async (id) => {
     const data = await fetch(
-      `/todos/${id}?` +
+      host +
+        `/todos/${id}?` +
         new URLSearchParams({
           action: "archive",
         }),
@@ -90,7 +94,7 @@ export default function Todos() {
   };
 
   const deleteTodo = async (id) => {
-    const data = await fetch(`/todos/${id}`, {
+    const data = await fetch(host + `/todos/${id}`, {
       method: "DELETE",
     }).then((res) => {
       if (res.ok) {
@@ -106,7 +110,7 @@ export default function Todos() {
   };
 
   const addTodo = async () => {
-    const data = await fetch("/todos", {
+    const data = await fetch(host + "/todos", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text: newTodo }),

@@ -8,11 +8,5 @@ export default defineConfig({
     host: true,
     port: 5173,
     strictPort: true,
-    proxy: {
-      "/todos": {
-        // target: "http://gio-gateway:8082",
-        target: "http://app-backend:3001",
-      },
-    },
   },
 });
