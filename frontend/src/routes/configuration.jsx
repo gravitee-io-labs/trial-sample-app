@@ -5,6 +5,11 @@ export default function Configuration() {
   const [authRequired, setAuthRequired] = useState(false);
   const [host, setHost] = useOutletContext();
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await setHost(e.target.hostInput.value);
+  };
+
   return (
     <main className="flex flex-grow flex-col items-center">
       <div className="mb-10 border-b-2 border-secondary pb-8 text-4xl text-black">
@@ -12,7 +17,7 @@ export default function Configuration() {
           Settings<span className="ml-1 text-6xl text-accent-cyan">.</span>
         </h1>
       </div>
-      <form action id="form" className="w-96 px-5">
+      <form action id="form" onSubmit={handleSubmit} className="w-96 px-5">
         <fieldset className="flex flex-col gap-10">
           <h2 className=" text-2xl font-bold">Authorization</h2>
           <Toggle
@@ -34,15 +39,14 @@ export default function Configuration() {
             />
           </div>
           <div className="relative">
-            <label for="host" className="form-label">
+            <label for="hostInput" className="form-label">
               Host
             </label>
             <input
               type="text"
-              name="host"
+              name="hostInput"
               className="form-input"
               required
-              onChange={(e) => setHost(e.target.value)}
               defaultValue={host}
             />
           </div>
@@ -51,14 +55,8 @@ export default function Configuration() {
             type="submit"
             id="submitForm"
           >
-            Create Account
+            Save
           </button>
-          <p className="self-center text-black">
-            Already have an account?{" "}
-            <a href="" className="text-secondary">
-              Sign in
-            </a>
-          </p>
         </fieldset>
       </form>
     </main>
