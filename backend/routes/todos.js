@@ -1,8 +1,6 @@
 import express from "express";
-import { kafka } from "../kafka.js";
+import { producer } from "../kafka.js";
 import { Todo } from "../models/todo.js";
-
-const producer = kafka.producer();
 
 export const router = express.Router();
 router
@@ -25,10 +23,9 @@ router
         topic: "test-topic",
         messages: [{ value: "Hello KafkaJS user!" }],
       });
-      console.log("Published message");
-      await producer.disconnect();
     } catch (err) {
       console.error("Error publishing message", err);
+      await producer.disconnect();
     }
 
     res.json(todo);
