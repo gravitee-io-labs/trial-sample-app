@@ -16,14 +16,28 @@ export default function Configuration() {
     <main className="flex flex-grow flex-col items-center">
       <div className="mb-10 border-b-2 border-secondary pb-8 text-4xl text-black">
         <h1>
-          Settings<span className="ml-1 text-6xl text-accent-cyan">.</span>
+          Configuration<span className="ml-1 text-6xl text-accent-cyan">.</span>
         </h1>
       </div>
       <form action id="form" onSubmit={handleSubmit} className="w-96 px-5">
         <fieldset className="flex flex-col gap-10">
+          <h2 className=" text-2xl font-bold">Target Server</h2>
+          <div className="relative">
+            <label for="hostInput" className="form-label">
+              Host
+            </label>
+            <input
+              type="text"
+              name="hostInput"
+              className="form-input"
+              required
+              defaultValue={host}
+              onChange={() => setFormModified(true)}
+            />
+          </div>
           <h2 className=" text-2xl font-bold">Authorization</h2>
           <Toggle
-            label={"Authorization required?"}
+            label={"Enable Premium Access"}
             handleChange={() => {
               setAuthRequired(!authRequired);
               setFormModified(true);
@@ -39,19 +53,6 @@ export default function Configuration() {
               className="form-input"
               disabled={!authRequired}
               required={!authRequired}
-              onChange={() => setFormModified(true)}
-            />
-          </div>
-          <div className="relative">
-            <label for="hostInput" className="form-label">
-              Host
-            </label>
-            <input
-              type="text"
-              name="hostInput"
-              className="form-input"
-              required
-              defaultValue={host}
               onChange={() => setFormModified(true)}
             />
           </div>
