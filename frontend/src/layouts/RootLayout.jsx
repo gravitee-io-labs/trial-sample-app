@@ -1,10 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaChartBar, FaCheckCircle, FaCog } from "react-icons/fa";
 import { IoNotifications } from "react-icons/io5";
 import { NavLink, Outlet } from "react-router-dom";
 
 export default function RootLayout() {
-  const [host, setHost] = useState("http://localhost:3001");
+  const [host, setHost] = useState();
+  useEffect(() => {
+    const storedPreference = localStorage.getItem("userPrefHost");
+    if (storedPreference) {
+      setHost(storedPreference);
+    } else {
+      setHost("http://localhost:3001");
+    }
+  }, []);
 
   const pages = [
     { route: "/", icon: <FaCheckCircle size="28" />, text: "Todos" },

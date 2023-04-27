@@ -8,7 +8,10 @@ export default function Configuration() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     setHost(e.target.hostInput.value);
+    localStorage.setItem("userPrefHost", e.target.hostInput.value);
+
     setFormModified(false);
   };
 
