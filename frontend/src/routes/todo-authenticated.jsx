@@ -1,11 +1,11 @@
+import { useEffect, useState } from "react";
 import logo from "../assets/Gravitee.io White Logo.png";
-import { useState, useEffect } from "react";
 
 export default function TodoAuthenticated() {
   const [todos, setTodos] = useState([]);
   const [modalActive, setModalActive] = useState(false);
   const [newTodo, setNewTodo] = useState("");
-  const apiKey = import.meta.env.VITE_GIO_API_KEY || process.env.GIO_API_KEY;
+  const apiKey = import.meta.env.VITE_GIO_API_KEY;
 
   useEffect(() => {
     getTodos();

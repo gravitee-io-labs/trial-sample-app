@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { FaCheckCircle, FaChartBar, FaCog } from "react-icons/fa";
+import { FaChartBar, FaCheckCircle, FaCog } from "react-icons/fa";
 import { IoNotifications } from "react-icons/io5";
-import { Outlet, NavLink } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 
 export default function RootLayout() {
   const [host, setHost] = useState("http://localhost:3001");

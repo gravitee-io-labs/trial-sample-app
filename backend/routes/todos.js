@@ -1,5 +1,5 @@
-import { Todo } from "../models/todo.js";
 import express from "express";
+import { Todo } from "../models/todo.js";
 
 export const router = express.Router();
 router

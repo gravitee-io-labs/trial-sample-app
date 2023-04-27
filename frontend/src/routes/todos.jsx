@@ -1,8 +1,8 @@
-import logo from "../assets/Gravitee.io Dark Blue Logo.png";
-import { useState, useEffect } from "react";
 import { Tabs } from "flowbite-react";
-import { FaArchive, FaTrash, FaInbox } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { FaArchive, FaInbox, FaTrash } from "react-icons/fa";
 import { useOutletContext } from "react-router-dom";
+import logo from "../assets/Gravitee.io Dark Blue Logo.png";
 
 export default function Todos() {
   const [todos, setTodos] = useState([]);
