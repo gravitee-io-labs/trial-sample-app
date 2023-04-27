@@ -51,8 +51,6 @@ services:
       - "5173:5173"
     depends_on:
       - app-backend
-    env_file:
-      - .env
 
   app-kafka-broker:
     image: confluentinc/cp-kafka:7.3.2
