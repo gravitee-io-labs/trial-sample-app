@@ -7,6 +7,16 @@ volumes:
     driver: local
   data-app-mongo:
     driver: local
+  secrets-app-kafka:
+    driver: local
+  data-app-kafka:
+    driver: local
+  secrets-app-zookeeper:
+    driver: local
+  data-app-zookeeper:
+    driver: local
+  log-app-zookeeper:
+    driver: local
 
 services:
 
@@ -62,6 +72,9 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+    volumes:
+      - secrets-app-kafka:/etc/kafka/secrets
+      - data-app-kafka:/var/lib/kafka/data
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.3.2
@@ -69,6 +82,10 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    volumes:
+      - data-app-zookeeper:/var/lib/zookeeper/data
+      - secrets-app-zookeeper:/etc/zookeeper/secrets
+      - log-app-zookeeper:/var/lib/zookeeper/log
 
   # Gravitee
 
