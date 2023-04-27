@@ -75,6 +75,7 @@ services:
     volumes:
       - secrets-app-kafka:/etc/kafka/secrets
       - data-app-kafka:/var/lib/kafka/data
+    restart: on-failure
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.3.2
