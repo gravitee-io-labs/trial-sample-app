@@ -68,7 +68,10 @@ export default function RootLayout() {
             </svg>
           </li>
           {pages.map((page) => (
-            <li className="menu-item group w-full py-2 transition-none duration-300 ease-linear hover:bg-primary-light hover:transition-all">
+            <li
+              className="menu-item group w-full py-2 transition-none duration-300 ease-linear hover:bg-primary-light hover:transition-all"
+              key={page.route}
+            >
               <NavLink
                 to={page.route}
                 className={({ isActive, isPending }) => {
