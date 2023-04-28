@@ -10,11 +10,11 @@ export default function NotificationHistory() {
         <h1 className="text-4xl font-bold">Notification Center</h1>
         <ResetButton />
       </div>
-      <div className="flex flex-col-reverse items-start gap-10">
+      <div className="flex flex-col-reverse items-center gap-10">
         {kafkaData.length ? (
           kafkaData.map((item) => (
             <div
-              className="flex w-11/12 flex-grow items-center justify-center rounded-xl bg-secondary p-5 text-lg text-white md:w-2/3"
+              className="flex w-11/12 flex-grow items-center justify-center rounded-xl bg-gray-300 p-5 text-lg text-black shadow-xl md:w-2/3"
               key={item.datetime}
             >
               {`Todo ${item.action} at ${item.time} GMT on ${item.date}`}
