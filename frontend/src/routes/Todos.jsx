@@ -7,7 +7,7 @@ import logo from "../assets/Gravitee.io Dark Blue Logo.png";
 export default function Todos() {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
-  const { host } = useOutletContext();
+  const { host, apiKey } = useOutletContext();
 
   useEffect(() => {
     getTodos();
@@ -16,7 +16,9 @@ export default function Todos() {
   // Ensures alert is not shown twice in development
   let alertShown = false;
   const getTodos = () => {
-    fetch(host + "/todos")
+    fetch(host + "/todos", {
+      headers: apiKey ? { "X-Gravitee-Api-Key": apiKey } : {},
+    })
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -42,6 +44,7 @@ export default function Todos() {
         }),
       {
         method: "PATCH",
+        headers: apiKey ? { "X-Gravitee-Api-Key": apiKey } : {},
       }
     ).then((res) => {
       if (res.ok) {
@@ -72,6 +75,7 @@ export default function Todos() {
         }),
       {
         method: "PATCH",
+        headers: apiKey ? { "X-Gravitee-Api-Key": apiKey } : {},
       }
     ).then((res) => {
       if (res.ok) {
@@ -96,6 +100,7 @@ export default function Todos() {
   const deleteTodo = async (id) => {
     const data = await fetch(host + `/todos/${id}`, {
       method: "DELETE",
+      headers: apiKey ? { "X-Gravitee-Api-Key": apiKey } : {},
     }).then((res) => {
       if (res.ok) {
         return res.json();
@@ -112,7 +117,9 @@ export default function Todos() {
   const createTodo = async () => {
     const data = await fetch(host + "/todos", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: apiKey
+        ? { "X-Gravitee-Api-Key": apiKey, "Content-Type": "application/json" }
+        : { "Content-Type": "application/json" },
       body: JSON.stringify({ text: newTodo }),
     }).then((res) => {
       if (res.ok) {

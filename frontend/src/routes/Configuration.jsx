@@ -3,7 +3,7 @@ import { useOutletContext } from "react-router-dom";
 
 export default function Configuration() {
   const [authRequired, setAuthRequired] = useState(false);
-  const { host, setHost } = useOutletContext();
+  const { host, setHost, apiKey, setApiKey } = useOutletContext();
   const [formModified, setFormModified] = useState(false);
 
   const handleSubmit = (e) => {
@@ -11,6 +11,9 @@ export default function Configuration() {
 
     setHost(e.target.hostInput.value);
     localStorage.setItem("userPrefHost", e.target.hostInput.value);
+
+    setApiKey(e.target.apiKey.value);
+    localStorage.setItem("userPrefApiKey", e.target.apiKey.value);
 
     setFormModified(false);
   };
@@ -58,15 +61,16 @@ export default function Configuration() {
             }}
           />
           <div className="relative">
-            <label htmlFor="api-key" className="form-label">
+            <label htmlFor="apiKey" className="form-label">
               API Key
             </label>
             <input
               type="text"
-              name="api-key"
+              name="apiKey"
               className="form-input"
               disabled={!authRequired}
               required={!authRequired}
+              defaultValue={apiKey}
               onChange={() => setFormModified(true)}
             />
           </div>

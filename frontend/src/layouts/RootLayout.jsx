@@ -13,6 +13,15 @@ export default function RootLayout() {
       setHost("http://localhost:3001");
     }
   }, []);
+  const [apiKey, setApiKey] = useState();
+  useEffect(() => {
+    const storedPreference = localStorage.getItem("userPrefApiKey");
+    if (storedPreference) {
+      setApiKey(storedPreference);
+    } else {
+      setApiKey("");
+    }
+  }, []);
 
   const [kafkaData, setKafkaData] = useState([]);
   useEffect(() => {
@@ -88,7 +97,9 @@ export default function RootLayout() {
         </ul>
       </nav>
       <div className="ml-20 h-full p-12">
-        <Outlet context={{ host, setHost, kafkaData, setKafkaData }} />
+        <Outlet
+          context={{ host, setHost, kafkaData, setKafkaData, apiKey, setApiKey }}
+        />
       </div>
     </>
   );
