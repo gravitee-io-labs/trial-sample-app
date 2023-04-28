@@ -1,35 +1,34 @@
 import { ResponsiveBar } from "@nivo/bar";
+import { useOutletContext } from "react-router-dom";
+
+const countObjectsByProperty = (arr, prop) => {
+  const counts = {};
+  for (let obj of arr) {
+    const value = obj[prop];
+    if (counts[value]) {
+      counts[value].quantity++;
+    } else {
+      counts[value] = {
+        [prop]: value,
+        quantity: 1,
+      };
+    }
+  }
+  return Object.values(counts);
+};
 
 export default function Analytics() {
-  const data = [
-    {
-      action: "Created",
-      quantity: 1,
-      quantityColor: "hsl(103, 70%, 50%)",
-    },
-    {
-      action: "Completed",
-      quantity: 11,
-      quantityColor: "hsl(97, 70%, 50%)",
-    },
-    {
-      action: "Archived",
-      quantity: 6,
-      quantityColor: "hsl(195, 70%, 50%)",
-    },
-    {
-      action: "Deleted",
-      quantity: 10,
-      quantityColor: "hsl(154, 70%, 50%)",
-    },
-  ];
+  const { kafkaData } = useOutletContext();
+
+  const graphData = countObjectsByProperty(kafkaData, "action");
+
   return (
     <div className=" h-[80vh]">
       <h1 className="flex items-center justify-center text-4xl font-bold">
         Todo Analytics
       </h1>
       <ResponsiveBar
-        data={data}
+        data={graphData}
         keys={["quantity"]}
         tooltip={({ id, value }) => (
           <div
