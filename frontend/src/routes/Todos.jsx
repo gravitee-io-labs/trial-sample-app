@@ -109,7 +109,7 @@ export default function Todos() {
     setTodos((todos) => todos.filter((todo) => todo._id !== data._id));
   };
 
-  const addTodo = async () => {
+  const createTodo = async () => {
     const data = await fetch(host + "/todos", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -154,7 +154,7 @@ export default function Todos() {
               placeholder="+ Add a task. Press enter to save."
               onChange={(e) => setNewTodo(e.target.value)}
               value={newTodo}
-              onKeyDown={(e) => (e.key === "Enter" ? addTodo() : null)}
+              onKeyDown={(e) => (e.key === "Enter" ? createTodo() : null)}
             />
             {todos
               .filter((todo) => !todo.archive)
