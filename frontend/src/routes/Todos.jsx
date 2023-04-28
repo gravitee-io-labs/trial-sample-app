@@ -7,7 +7,7 @@ import logo from "../assets/Gravitee.io Dark Blue Logo.png";
 export default function Todos() {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
-  const { host, apiKey } = useOutletContext();
+  const { host, apiKey, authRequired } = useOutletContext();
 
   useEffect(() => {
     getTodos();
@@ -17,7 +17,7 @@ export default function Todos() {
   let alertShown = false;
   const getTodos = () => {
     fetch(host + "/todos", {
-      headers: apiKey ? { "X-Gravitee-Api-Key": apiKey } : {},
+      headers: authRequired ? { "X-Gravitee-Api-Key": apiKey } : {},
     })
       .then((res) => {
         if (res.ok) {
@@ -44,7 +44,7 @@ export default function Todos() {
         }),
       {
         method: "PATCH",
-        headers: apiKey ? { "X-Gravitee-Api-Key": apiKey } : {},
+        headers: authRequired ? { "X-Gravitee-Api-Key": apiKey } : {},
       }
     ).then((res) => {
       if (res.ok) {
@@ -75,7 +75,7 @@ export default function Todos() {
         }),
       {
         method: "PATCH",
-        headers: apiKey ? { "X-Gravitee-Api-Key": apiKey } : {},
+        headers: authRequired ? { "X-Gravitee-Api-Key": apiKey } : {},
       }
     ).then((res) => {
       if (res.ok) {
@@ -100,7 +100,7 @@ export default function Todos() {
   const deleteTodo = async (id) => {
     const data = await fetch(host + `/todos/${id}`, {
       method: "DELETE",
-      headers: apiKey ? { "X-Gravitee-Api-Key": apiKey } : {},
+      headers: authRequired ? { "X-Gravitee-Api-Key": apiKey } : {},
     }).then((res) => {
       if (res.ok) {
         return res.json();
@@ -117,7 +117,7 @@ export default function Todos() {
   const createTodo = async () => {
     const data = await fetch(host + "/todos", {
       method: "POST",
-      headers: apiKey
+      headers: authRequired
         ? { "X-Gravitee-Api-Key": apiKey, "Content-Type": "application/json" }
         : { "Content-Type": "application/json" },
       body: JSON.stringify({ text: newTodo }),

@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
 export default function Configuration() {
-  const [authRequired, setAuthRequired] = useState(false);
-  const { host, setHost, apiKey, setApiKey } = useOutletContext();
+  const { host, setHost, apiKey, setApiKey, authRequired, setAuthRequired } =
+    useOutletContext();
   const [formModified, setFormModified] = useState(false);
 
   const handleSubmit = (e) => {
@@ -11,6 +11,8 @@ export default function Configuration() {
 
     setHost(e.target.hostInput.value);
     localStorage.setItem("userPrefHost", e.target.hostInput.value);
+
+    localStorage.setItem("userPrefAuthRequired", e.target.authRequired.checked);
 
     setApiKey(e.target.apiKey.value);
     localStorage.setItem("userPrefApiKey", e.target.apiKey.value);
@@ -54,11 +56,13 @@ export default function Configuration() {
           </div>
           <h2 className=" text-2xl font-bold">Authorization</h2>
           <Toggle
-            label={"Enable Premium Access"}
+            userLabel={"Enable Premium Access"}
             handleChange={() => {
-              setAuthRequired(!authRequired);
               setFormModified(true);
+              setAuthRequired(!authRequired);
             }}
+            htmlName="authRequired"
+            defaultValue={authRequired}
           />
           <div className="relative">
             <label htmlFor="apiKey" className="form-label">
@@ -80,12 +84,16 @@ export default function Configuration() {
   );
 }
 
-const Toggle = ({ label, handleChange }) => (
+const Toggle = ({ userLabel, htmlName, handleChange, defaultValue }) => (
   <label className="relative inline-flex max-w-max cursor-pointer items-center">
-    <input type="checkbox" value="" className="peer sr-only" onChange={handleChange} />
+    <input
+      type="checkbox"
+      name={htmlName}
+      defaultChecked={defaultValue}
+      className="peer sr-only"
+      onClick={handleChange}
+    />
     <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800"></div>
-    <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
-      {label}
-    </span>
+    <span className="ml-3 text-sm font-medium text-gray-900">{userLabel}</span>
   </label>
 );

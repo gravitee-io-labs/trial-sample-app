@@ -10,9 +10,19 @@ export default function RootLayout() {
     if (storedPreference) {
       setHost(storedPreference);
     } else {
-      setHost("http://localhost:3001");
+      setHost("http://localhost:8082");
     }
   }, []);
+  const [authRequired, setAuthRequired] = useState();
+  useEffect(() => {
+    const storedPreference = localStorage.getItem("userPrefAuthRequired");
+    if (storedPreference) {
+      setAuthRequired(JSON.parse(storedPreference));
+    } else {
+      setAuthRequired(false);
+    }
+  }, []);
+
   const [apiKey, setApiKey] = useState();
   useEffect(() => {
     const storedPreference = localStorage.getItem("userPrefApiKey");
@@ -98,7 +108,16 @@ export default function RootLayout() {
       </nav>
       <div className="ml-20 h-full p-12">
         <Outlet
-          context={{ host, setHost, kafkaData, setKafkaData, apiKey, setApiKey }}
+          context={{
+            host,
+            setHost,
+            kafkaData,
+            setKafkaData,
+            apiKey,
+            setApiKey,
+            authRequired,
+            setAuthRequired,
+          }}
         />
       </div>
     </>
