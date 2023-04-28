@@ -16,7 +16,7 @@ export default function Todos() {
   // Ensures alert is not shown twice in development
   let alertShown = false;
   const getTodos = () => {
-    fetch(host + "/todos", {
+    fetch("http://" + host + "/todos", {
       headers: authRequired ? { "X-Gravitee-Api-Key": apiKey } : {},
     })
       .then((res) => {
@@ -37,7 +37,8 @@ export default function Todos() {
 
   const completeTodo = async (id) => {
     const data = await fetch(
-      host +
+      "http://" +
+        host +
         `/todos/${id}?` +
         new URLSearchParams({
           action: "complete",
@@ -68,7 +69,8 @@ export default function Todos() {
 
   const archiveTodo = async (id) => {
     const data = await fetch(
-      host +
+      "http://" +
+        host +
         `/todos/${id}?` +
         new URLSearchParams({
           action: "archive",
@@ -98,7 +100,7 @@ export default function Todos() {
   };
 
   const deleteTodo = async (id) => {
-    const data = await fetch(host + `/todos/${id}`, {
+    const data = await fetch("http://" + host + `/todos/${id}`, {
       method: "DELETE",
       headers: authRequired ? { "X-Gravitee-Api-Key": apiKey } : {},
     }).then((res) => {
@@ -115,7 +117,7 @@ export default function Todos() {
   };
 
   const createTodo = async () => {
-    const data = await fetch(host + "/todos", {
+    const data = await fetch("http://" + host + "/todos", {
       method: "POST",
       headers: authRequired
         ? { "X-Gravitee-Api-Key": apiKey, "Content-Type": "application/json" }

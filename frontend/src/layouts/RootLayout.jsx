@@ -10,7 +10,7 @@ export default function RootLayout() {
     if (storedPreference) {
       setHost(storedPreference);
     } else {
-      setHost("http://localhost:8082");
+      setHost("localhost:8082");
     }
   }, []);
   const [authRequired, setAuthRequired] = useState();
@@ -35,7 +35,7 @@ export default function RootLayout() {
 
   const [kafkaData, setKafkaData] = useState([]);
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:8082/kafka/todo-actions/");
+    const ws = new WebSocket("ws://" + host + "/kafka/todo-actions/");
     ws.onopen = () => console.log("WebSocket connected");
     ws.onerror = () => console.log("WebSocket error");
     ws.onclose = () => console.log("WebSocket closed");
@@ -51,7 +51,7 @@ export default function RootLayout() {
         setKafkaData([]);
       }
     };
-  }, []);
+  }, [host]);
 
   const pages = [
     { route: "/", icon: <FaCheckCircle size="28" />, text: "Todos" },

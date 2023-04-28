@@ -43,7 +43,7 @@ export default function Configuration() {
           <h2 className=" text-2xl font-bold">Target Server</h2>
           <div className="relative">
             <label htmlFor="hostInput" className="form-label">
-              Host
+              Fully Qualified Domain Name
             </label>
             <input
               type="text"
