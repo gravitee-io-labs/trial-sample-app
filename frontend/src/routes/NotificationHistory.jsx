@@ -1,14 +1,16 @@
 import { useOutletContext } from "react-router-dom";
+import ResetButton from "../components/ResetButton";
 
 export default function NotificationHistory() {
   const { kafkaData } = useOutletContext();
 
   return (
-    <>
-      <h1 className="sticky top-0 mb-8 flex items-center justify-center bg-content/80 text-4xl font-bold">
-        Notification Center
-      </h1>
-      <div className="flex flex-col-reverse items-center gap-10 xl:px-64">
+    <div className="xl:px-64">
+      <div className="sticky top-0 mb-8 flex flex-col justify-between gap-5 bg-content/80 sm:flex-row">
+        <h1 className="text-4xl font-bold">Notification Center</h1>
+        <ResetButton />
+      </div>
+      <div className="flex flex-col-reverse items-start gap-10">
         {kafkaData.length ? (
           kafkaData.map((item) => (
             <div
@@ -25,6 +27,6 @@ export default function NotificationHistory() {
           </h2>
         )}
       </div>
-    </>
+    </div>
   );
 }

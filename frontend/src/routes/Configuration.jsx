@@ -30,7 +30,7 @@ export default function Configuration() {
       <form action id="form" onSubmit={handleSubmit} className="w-96 px-5">
         <fieldset className="flex flex-col gap-10">
           <button
-            className={`h-10 w-1/2 self-center rounded-md font-bold tracking-wider text-black shadow-md shadow-accent-cyan/30 ${
+            className={`h-10 w-1/2 self-center rounded-md font-bold tracking-wider text-black shadow-md ${
               formModified
                 ? "bg-accent-cyan/80 shadow-accent-cyan/30 hover:opacity-70"
                 : "cursor-not-allowed bg-gray-300 shadow-gray-300/30"

@@ -1,5 +1,6 @@
 import { ResponsiveBar } from "@nivo/bar";
 import { useOutletContext } from "react-router-dom";
+import ResetButton from "../components/ResetButton";
 
 const countObjectsByProperty = (arr, prop) => {
   const counts = {};
@@ -24,9 +25,10 @@ export default function Analytics() {
 
   return (
     <div className=" h-[80vh]">
-      <h1 className="flex items-center justify-center text-4xl font-bold">
-        Todo Analytics
-      </h1>
+      <div className="sticky top-0 mb-8 flex flex-col justify-between gap-5 bg-content/80 px-64 sm:flex-row">
+        <h1 className="text-4xl font-bold">Analytics</h1>
+        <ResetButton />
+      </div>
       <ResponsiveBar
         data={graphData}
         keys={["quantity"]}

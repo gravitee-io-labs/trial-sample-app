@@ -6,6 +6,7 @@ const kafka = new Kafka({
 });
 
 export const producer = kafka.producer();
+export const admin = kafka.admin();
 
 const errorTypes = ["unhandledRejection", "uncaughtException"];
 const signalTraps = ["SIGTERM", "SIGINT"];

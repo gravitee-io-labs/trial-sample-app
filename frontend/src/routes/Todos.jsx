@@ -100,10 +100,18 @@ export default function Todos() {
   };
 
   const deleteTodo = async (id) => {
-    const data = await fetch("http://" + host + `/todos/${id}`, {
-      method: "DELETE",
-      headers: authRequired ? { "X-Gravitee-Api-Key": apiKey } : {},
-    }).then((res) => {
+    const data = await fetch(
+      "http://" +
+        host +
+        `/todos/${id}?` +
+        new URLSearchParams({
+          action: "single",
+        }),
+      {
+        method: "DELETE",
+        headers: authRequired ? { "X-Gravitee-Api-Key": apiKey } : {},
+      }
+    ).then((res) => {
       if (res.ok) {
         return res.json();
         // Catch non-2xx HTTP status codes

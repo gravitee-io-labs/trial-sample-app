@@ -1,5 +1,5 @@
 import express from "express";
-import { producer } from "../kafka.js";
+import { admin, producer } from "../kafka.js";
 import { Todo } from "../models/todo.js";
 
 const saveToKafka = async (action) => {
@@ -50,8 +50,20 @@ router
     todo.save();
 
     saveToKafka("Created");
-
     res.json(todo);
+  })
+  .delete(async (req, res) => {
+    try {
+      await admin.connect();
+      await admin.deleteTopics({
+        topics: ["todo-actions"],
+        timeout: 5000,
+      });
+    } catch (err) {
+      console.error("Error deleting topic", err);
+      await admin.disconnect();
+    }
+    res.json("todo-actions topic deleted");
   });
 
 router
