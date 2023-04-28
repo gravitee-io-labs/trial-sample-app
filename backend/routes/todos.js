@@ -19,11 +19,27 @@ router
 
     try {
       await producer.connect();
-      const date = new Date();
+
+      const now = new Date();
+      const formattedDate = now.toLocaleDateString();
+      const formattedTime = now.toLocaleTimeString(undefined, {
+        hour12: false,
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        millisecond: "numeric",
+      });
+
       await producer.send({
-        topic: "todo-created",
+        topic: "todo-actions",
         messages: [
-          { value: JSON.stringify({ datetime: date, action: "Todo Created" }) },
+          {
+            value: JSON.stringify({
+              date: formattedDate,
+              time: formattedTime,
+              action: "Created",
+            }),
+          },
         ],
       });
     } catch (err) {

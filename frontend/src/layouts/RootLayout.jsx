@@ -16,7 +16,7 @@ export default function RootLayout() {
 
   const [kafkaData, setKafkaData] = useState([]);
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:8082/kafka/todo-created/");
+    const ws = new WebSocket("ws://localhost:8082/kafka/todo-actions/");
     ws.onopen = () => console.log("WebSocket connected");
     ws.onerror = () => console.log("WebSocket error");
     ws.onclose = () => console.log("WebSocket closed");
