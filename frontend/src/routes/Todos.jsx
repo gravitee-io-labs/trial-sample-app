@@ -11,8 +11,7 @@ export default function Todos() {
 
   useEffect(() => {
     getTodos();
-    console.log("test");
-  }, []);
+  }, [host]);
 
   // Ensures alert is not shown twice in development
   let alertShown = false;
