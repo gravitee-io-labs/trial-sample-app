@@ -8,11 +8,11 @@ export default function NotificationHistory() {
       <h1 className="sticky top-0 mb-8 flex items-center justify-center bg-content/80 text-4xl font-bold">
         Notification Center
       </h1>
-      <div className="flex flex-col-reverse items-center gap-10 px-72">
+      <div className="flex flex-col-reverse items-center gap-10 xl:px-64">
         {kafkaData.length ? (
           kafkaData.map((item) => (
             <div
-              className="flex h-16 w-2/3 items-center justify-center rounded-xl bg-secondary text-lg text-white"
+              className="flex w-11/12 flex-grow items-center justify-center rounded-xl bg-secondary p-5 text-lg text-white md:w-2/3"
               key={item.datetime}
             >
               {`Todo ${item.action} at ${item.time} GMT on ${item.date}`}

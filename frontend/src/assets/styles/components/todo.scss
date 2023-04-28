@@ -1,15 +1,16 @@
 .todo {
   position: relative;
+  flex-grow: 1;
   background-color: theme(colors.secondary);
-  padding: 16px;
+  padding: 20px;
   border-radius: 16px;
   display: flex;
   align-items: center;
   transition: 0.5s;
-  margin-bottom: 16px;
   color: white;
 
   .checkbox {
+    flex-shrink: 0;
     width: 20px;
     height: 20px;
     border-radius: 50%;

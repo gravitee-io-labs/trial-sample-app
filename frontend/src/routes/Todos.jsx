@@ -129,10 +129,15 @@ export default function Todos() {
   };
 
   return (
-    <div className="px-72">
+    <div className="xl:px-72">
       <div className="mb-8 flex items-center justify-between">
         <h1 className="text-4xl font-bold">Todos</h1>
-        <a href="http://gravitee.io" target="_blank" rel="noopener noreferrer">
+        <a
+          className=" hidden md:block"
+          href="http://gravitee.io"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <img src={logo} alt="Gravitee Logo" width="200"></img>
         </a>
       </div>
@@ -142,80 +147,84 @@ export default function Todos() {
         className="flex justify-center"
       >
         <Tabs.Item title="Current" active={true}>
-          <input
-            type="text"
-            className="my-4 h-12 w-full rounded-lg bg-[#f3f3f3] p-2"
-            placeholder="+ Create a task"
-            onChange={(e) => setNewTodo(e.target.value)}
-            value={newTodo}
-            onKeyDown={(e) => (e.key === "Enter" ? addTodo() : null)}
-          />
-          {todos
-            .filter((todo) => !todo.archive)
-            .map((todo) => (
-              <div
-                className={`todo cursor-pointer gap-6 hover:opacity-80 ${
-                  todo.complete ? "is-complete" : ""
-                }`}
-                key={todo._id}
-                onClick={() => completeTodo(todo._id)}
-              >
-                <div className="checkbox"></div>
-                <div className="text">{todo.text}</div>
+          <div className="flex flex-col gap-5">
+            <input
+              type="text"
+              className="my-4 h-12 w-full rounded-lg bg-[#f3f3f3] p-2"
+              placeholder="+ Add a task. Press enter to save."
+              onChange={(e) => setNewTodo(e.target.value)}
+              value={newTodo}
+              onKeyDown={(e) => (e.key === "Enter" ? addTodo() : null)}
+            />
+            {todos
+              .filter((todo) => !todo.archive)
+              .map((todo) => (
                 <div
-                  className="ml-auto"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    archiveTodo(todo._id);
-                  }}
+                  className={`todo cursor-pointer gap-6 hover:opacity-80 ${
+                    todo.complete ? "is-complete" : ""
+                  }`}
+                  key={todo._id}
+                  onClick={() => completeTodo(todo._id)}
                 >
-                  <FaArchive size="20" className="hover:fill-accent-portage" />
+                  <div className="checkbox"></div>
+                  <div className="text">{todo.text}</div>
+                  <div
+                    className="ml-auto"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      archiveTodo(todo._id);
+                    }}
+                  >
+                    <FaArchive size="20" className="hover:fill-accent-portage" />
+                  </div>
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteTodo(todo._id);
+                    }}
+                  >
+                    <FaTrash size="20" className="hover:fill-accent-rose" />
+                  </div>
                 </div>
-                <div
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    deleteTodo(todo._id);
-                  }}
-                >
-                  <FaTrash size="20" className="hover:fill-accent-rose" />
-                </div>
-              </div>
-            ))}
+              ))}
+          </div>
         </Tabs.Item>
         <Tabs.Item title="Archived">
-          {todos
-            .filter((todo) => todo.archive)
-            .map((todo) => (
-              <div
-                className={`todo gap-6 ${todo.complete ? "is-complete" : ""}`}
-                key={todo._id}
-              >
-                <div className="text">{todo.text}</div>
+          <div className="flex flex-col gap-5">
+            {todos
+              .filter((todo) => todo.archive)
+              .map((todo) => (
                 <div
-                  className="ml-auto"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    archiveTodo(todo._id);
-                  }}
+                  className={`todo gap-6 ${todo.complete ? "is-complete" : ""}`}
+                  key={todo._id}
                 >
-                  <FaInbox
-                    size="20"
-                    className="cursor-pointer hover:fill-accent-portage"
-                  />
+                  <div className="text">{todo.text}</div>
+                  <div
+                    className="ml-auto"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      archiveTodo(todo._id);
+                    }}
+                  >
+                    <FaInbox
+                      size="20"
+                      className="cursor-pointer hover:fill-accent-portage"
+                    />
+                  </div>
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteTodo(todo._id);
+                    }}
+                  >
+                    <FaTrash
+                      size="20"
+                      className="cursor-pointer hover:fill-accent-rose"
+                    />
+                  </div>
                 </div>
-                <div
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    deleteTodo(todo._id);
-                  }}
-                >
-                  <FaTrash
-                    size="20"
-                    className="cursor-pointer hover:fill-accent-rose"
-                  />
-                </div>
-              </div>
-            ))}
+              ))}
+          </div>
         </Tabs.Item>
       </Tabs.Group>
     </div>
