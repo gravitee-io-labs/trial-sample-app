@@ -3,7 +3,7 @@ import { useOutletContext } from "react-router-dom";
 
 export default function Configuration() {
   const [authRequired, setAuthRequired] = useState(false);
-  const [host, setHost] = useOutletContext();
+  const { host, setHost } = useOutletContext();
   const [formModified, setFormModified] = useState(false);
 
   const handleSubmit = (e) => {

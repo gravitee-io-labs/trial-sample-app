@@ -19,9 +19,12 @@ router
 
     try {
       await producer.connect();
+      const date = new Date();
       await producer.send({
-        topic: "test-topic",
-        messages: [{ value: "Hello KafkaJS user!" }],
+        topic: "todo-created",
+        messages: [
+          { value: JSON.stringify({ datetime: date, action: "Todo Created" }) },
+        ],
       });
     } catch (err) {
       console.error("Error publishing message", err);

@@ -14,6 +14,26 @@ export default function RootLayout() {
     }
   }, []);
 
+  const [kafkaData, setKafkaData] = useState([]);
+  useEffect(() => {
+    const ws = new WebSocket("ws://localhost:8082/kafka/todo-created/");
+    ws.onopen = () => console.log("WebSocket connected");
+    ws.onerror = () => console.log("WebSocket error");
+    ws.onclose = () => console.log("WebSocket closed");
+    ws.onmessage = async (event) => {
+      let data = await event.data.text();
+      data = await JSON.parse(data);
+      setKafkaData((prevData) => [...prevData, data]);
+    };
+
+    return () => {
+      if (ws.readyState === 1) {
+        ws.close();
+        setKafkaData([]);
+      }
+    };
+  }, []);
+
   const pages = [
     { route: "/", icon: <FaCheckCircle size="28" />, text: "Todos" },
     { route: "analytics", icon: <FaChartBar size="28" />, text: "Analytics" },
@@ -65,7 +85,7 @@ export default function RootLayout() {
         </ul>
       </nav>
       <div className="ml-20 h-full p-12">
-        <Outlet context={[host, setHost]} />
+        <Outlet context={{ host, setHost, kafkaData, setKafkaData }} />
       </div>
     </>
   );

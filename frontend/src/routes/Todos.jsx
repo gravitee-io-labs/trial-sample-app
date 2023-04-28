@@ -7,10 +7,11 @@ import logo from "../assets/Gravitee.io Dark Blue Logo.png";
 export default function Todos() {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
-  const [host] = useOutletContext();
+  const { host } = useOutletContext();
 
   useEffect(() => {
     getTodos();
+    console.log("test");
   }, []);
 
   // Ensures alert is not shown twice in development
