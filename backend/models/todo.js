@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 
 const todoSchema = new Schema({
+  userId: { type: String, required: true, default: "root" },
   text: { type: String, required: true },
   complete: { type: Boolean, default: false },
   archive: { type: Boolean, default: false },

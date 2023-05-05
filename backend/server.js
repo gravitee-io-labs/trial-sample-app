@@ -1,7 +1,7 @@
-import { router as todoRouter } from "./routes/todos.js";
 import cors from "cors";
 import express from "express";
 import mongoose from "mongoose";
+import { router as todoRouter } from "./routes/todos.js";
 
 const app = express();
 
@@ -13,7 +13,7 @@ app.set("port", process.env.PORT || 3001);
 mongoose.set("strictQuery", false);
 mongoose
   .connect(
-    `mongodb://${process.env.DATABASE_HOST || "127.0.0.1"}:27017/todo-backend`,
+    `mongodb+srv://bigmike:${process.env.MONGODB_PW}@cluster0.2ogi8pf.mongodb.net/?retryWrites=true&w=majority`,
     {}
   )
   .then(() => console.log("Connected to database"))

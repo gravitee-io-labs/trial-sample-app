@@ -43,6 +43,8 @@ services:
       - app-kafka-broker
     environment:
       - DATABASE_HOST=app-mongodb
+    env_file:
+      - .env
 
   app-frontend:
     build: ./frontend
