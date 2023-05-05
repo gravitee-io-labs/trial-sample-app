@@ -13,8 +13,6 @@ export default function Todos() {
     getTodos();
   }, [host]);
 
-  // Ensures alert is not shown twice in development
-  let alertShown = false;
   const getTodos = () => {
     fetch("http://" + host + "/todos", {
       headers: authRequired ? { "X-Gravitee-Api-Key": apiKey } : {},
@@ -24,10 +22,6 @@ export default function Todos() {
           return res.json();
           // Catch non-2xx HTTP status codes
         } else {
-          if (!alertShown) {
-            alert(`HTTP error, status = ${res.status}`);
-            alertShown = !alertShown;
-          }
           throw new Error(`HTTP error, status = ${res.status}`);
         }
       })
