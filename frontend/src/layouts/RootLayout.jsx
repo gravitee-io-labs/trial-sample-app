@@ -5,6 +5,7 @@ import { NavLink, Outlet } from "react-router-dom";
 
 export default function RootLayout() {
   const [host, setHost] = useState();
+  const [userId, setUserId] = useState();
   useEffect(() => {
     const storedPreference = localStorage.getItem("userPrefHost");
     if (storedPreference) {
@@ -13,6 +14,15 @@ export default function RootLayout() {
       setHost("localhost:8082");
     }
   }, []);
+  useEffect(() => {
+    const storedPreference = localStorage.getItem("userId");
+    if (storedPreference) {
+      setUserId(storedPreference);
+    } else {
+      setUserId("root");
+    }
+  }, []);
+
   const [authRequired, setAuthRequired] = useState();
   useEffect(() => {
     const storedPreference = localStorage.getItem("userPrefAuthRequired");
@@ -111,6 +121,8 @@ export default function RootLayout() {
           context={{
             host,
             setHost,
+            userId,
+            setUserId,
             kafkaData,
             setKafkaData,
             apiKey,

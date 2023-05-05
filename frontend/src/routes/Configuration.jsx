@@ -2,8 +2,16 @@ import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
 export default function Configuration() {
-  const { host, setHost, apiKey, setApiKey, authRequired, setAuthRequired } =
-    useOutletContext();
+  const {
+    host,
+    setHost,
+    apiKey,
+    setApiKey,
+    authRequired,
+    setAuthRequired,
+    userId,
+    setUserId,
+  } = useOutletContext();
   const [formModified, setFormModified] = useState(false);
 
   const handleSubmit = (e) => {
@@ -11,6 +19,9 @@ export default function Configuration() {
 
     setHost(e.target.hostInput.value);
     localStorage.setItem("userPrefHost", e.target.hostInput.value);
+
+    setUserId(e.target.userIdInput.value);
+    localStorage.setItem("userId", e.target.userIdInput.value);
 
     localStorage.setItem("userPrefAuthRequired", e.target.authRequired.checked);
 
@@ -51,6 +62,19 @@ export default function Configuration() {
               className="form-input"
               required
               defaultValue={host}
+              onChange={() => setFormModified(true)}
+            />
+          </div>
+          <div className="relative">
+            <label htmlFor="userIdInput" className="form-label">
+              Gravitee User ID
+            </label>
+            <input
+              type="text"
+              name="userIdInput"
+              className="form-input"
+              required
+              defaultValue={userId}
               onChange={() => setFormModified(true)}
             />
           </div>
