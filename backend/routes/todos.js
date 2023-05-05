@@ -38,12 +38,14 @@ export const router = express.Router();
 router
   .route("/")
   .get(async (req, res) => {
-    const todos = await Todo.find();
+    const userId = req.headers["user-id"];
+    const todos = await Todo.find({ userId });
 
     res.json(todos);
   })
   .post(async (req, res) => {
     const todo = new Todo({
+      userId: req.headers["user-id"],
       text: req.body.text,
     });
 

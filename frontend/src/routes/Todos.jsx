@@ -7,7 +7,7 @@ import logo from "../assets/Gravitee.io Dark Blue Logo.png";
 export default function Todos() {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
-  const { host, apiKey, authRequired } = useOutletContext();
+  const { host, userId, apiKey, authRequired } = useOutletContext();
 
   useEffect(() => {
     getTodos();
@@ -15,7 +15,10 @@ export default function Todos() {
 
   const getTodos = () => {
     fetch("http://" + host + "/todos", {
-      headers: authRequired ? { "X-Gravitee-Api-Key": apiKey } : {},
+      headers: {
+        "user-id": userId,
+        ...(authRequired ? { "X-Gravitee-Api-Key": apiKey } : {}),
+      },
     })
       .then((res) => {
         if (res.ok) {
@@ -29,6 +32,29 @@ export default function Todos() {
       .catch((err) => console.error(`Error: ${err}`));
   };
 
+  const createTodo = async () => {
+    const data = await fetch("http://" + host + "/todos", {
+      method: "POST",
+      headers: {
+        "user-id": userId,
+        "Content-Type": "application/json",
+        ...(authRequired ? { "X-Gravitee-Api-Key": apiKey } : {}),
+      },
+      body: JSON.stringify({ userId, text: newTodo }),
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+        // Catch non-2xx HTTP status codes
+      } else {
+        alert(`HTTP error, status = ${res.status}`);
+        throw new Error(`HTTP error, status = ${res.status}`);
+      }
+    });
+
+    setTodos([...todos, data]);
+    setNewTodo("");
+  };
+
   const completeTodo = async (id) => {
     const data = await fetch(
       "http://" +
@@ -39,7 +65,10 @@ export default function Todos() {
         }),
       {
         method: "PATCH",
-        headers: authRequired ? { "X-Gravitee-Api-Key": apiKey } : {},
+        headers: {
+          "user-id": userId,
+          ...(authRequired ? { "X-Gravitee-Api-Key": apiKey } : {}),
+        },
       }
     ).then((res) => {
       if (res.ok) {
@@ -71,7 +100,10 @@ export default function Todos() {
         }),
       {
         method: "PATCH",
-        headers: authRequired ? { "X-Gravitee-Api-Key": apiKey } : {},
+        headers: {
+          "user-id": userId,
+          ...(authRequired ? { "X-Gravitee-Api-Key": apiKey } : {}),
+        },
       }
     ).then((res) => {
       if (res.ok) {
@@ -103,7 +135,10 @@ export default function Todos() {
         }),
       {
         method: "DELETE",
-        headers: authRequired ? { "X-Gravitee-Api-Key": apiKey } : {},
+        headers: {
+          "user-id": userId,
+          ...(authRequired ? { "X-Gravitee-Api-Key": apiKey } : {}),
+        },
       }
     ).then((res) => {
       if (res.ok) {
@@ -116,27 +151,6 @@ export default function Todos() {
     });
 
     setTodos((todos) => todos.filter((todo) => todo._id !== data._id));
-  };
-
-  const createTodo = async () => {
-    const data = await fetch("http://" + host + "/todos", {
-      method: "POST",
-      headers: authRequired
-        ? { "X-Gravitee-Api-Key": apiKey, "Content-Type": "application/json" }
-        : { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: newTodo }),
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-        // Catch non-2xx HTTP status codes
-      } else {
-        alert(`HTTP error, status = ${res.status}`);
-        throw new Error(`HTTP error, status = ${res.status}`);
-      }
-    });
-
-    setTodos([...todos, data]);
-    setNewTodo("");
   };
 
   return (
