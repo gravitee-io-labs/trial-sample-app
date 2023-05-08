@@ -11,7 +11,7 @@ export default function RootLayout() {
     if (storedPreference) {
       setHost(storedPreference);
     } else {
-      setHost("localhost:8082");
+      setHost("http://localhost:8082");
     }
   }, []);
   useEffect(() => {

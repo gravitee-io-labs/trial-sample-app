@@ -13,8 +13,41 @@ export default function Todos() {
     getTodos();
   }, [host]);
 
+  const logAction = (action) => {
+    const now = new Date();
+    const formattedDate = now.toLocaleDateString();
+    const formattedTime = now.toLocaleTimeString(undefined, {
+      hour12: false,
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+      millisecond: "numeric",
+    });
+    fetch(host + "/todo-actions", {
+      method: "POST",
+      headers: {
+        ...(authRequired ? { "X-Gravitee-Api-Key": apiKey } : {}),
+      },
+      body: JSON.stringify({
+        userId,
+        date: formattedDate,
+        time: formattedTime,
+        action,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+          // Catch non-2xx HTTP status codes
+        } else {
+          throw new Error(`HTTP error, status = ${res.status}`);
+        }
+      })
+      .catch((err) => console.error(`Error: ${err}`));
+  };
+
   const getTodos = () => {
-    fetch("http://" + host + "/todos", {
+    fetch(host + "/todos", {
       headers: {
         "user-id": userId,
         ...(authRequired ? { "X-Gravitee-Api-Key": apiKey } : {}),
@@ -33,7 +66,7 @@ export default function Todos() {
   };
 
   const createTodo = async () => {
-    const data = await fetch("http://" + host + "/todos", {
+    const data = await fetch(host + "/todos", {
       method: "POST",
       headers: {
         "user-id": userId,
@@ -57,8 +90,7 @@ export default function Todos() {
 
   const completeTodo = async (id) => {
     const data = await fetch(
-      "http://" +
-        host +
+      host +
         `/todos/${id}?` +
         new URLSearchParams({
           action: "complete",
@@ -92,8 +124,7 @@ export default function Todos() {
 
   const archiveTodo = async (id) => {
     const data = await fetch(
-      "http://" +
-        host +
+      host +
         `/todos/${id}?` +
         new URLSearchParams({
           action: "archive",
@@ -127,8 +158,7 @@ export default function Todos() {
 
   const deleteTodo = async (id) => {
     const data = await fetch(
-      "http://" +
-        host +
+      host +
         `/todos/${id}?` +
         new URLSearchParams({
           action: "single",
@@ -179,7 +209,9 @@ export default function Todos() {
               placeholder="+ Add a task. Press enter to save."
               onChange={(e) => setNewTodo(e.target.value)}
               value={newTodo}
-              onKeyDown={(e) => (e.key === "Enter" ? createTodo() : null)}
+              onKeyDown={(e) =>
+                e.key === "Enter" ? (createTodo(), logAction("Create")) : null
+              }
             />
             {todos
               .filter((todo) => !todo.archive)
@@ -189,7 +221,10 @@ export default function Todos() {
                     todo.complete ? "is-complete" : ""
                   }`}
                   key={todo._id}
-                  onClick={() => completeTodo(todo._id)}
+                  onClick={() => {
+                    completeTodo(todo._id);
+                    logAction("Complete");
+                  }}
                 >
                   <div className="checkbox"></div>
                   <div className="text">{todo.text}</div>
@@ -198,6 +233,7 @@ export default function Todos() {
                     onClick={(e) => {
                       e.stopPropagation();
                       archiveTodo(todo._id);
+                      logAction("Archive");
                     }}
                   >
                     <FaArchive size="20" className="hover:fill-accent-portage" />
@@ -206,6 +242,7 @@ export default function Todos() {
                     onClick={(e) => {
                       e.stopPropagation();
                       deleteTodo(todo._id);
+                      logAction("Delete");
                     }}
                   >
                     <FaTrash size="20" className="hover:fill-accent-rose" />
@@ -240,6 +277,7 @@ export default function Todos() {
                     onClick={(e) => {
                       e.stopPropagation();
                       deleteTodo(todo._id);
+                      logAction("Delete");
                     }}
                   >
                     <FaTrash
