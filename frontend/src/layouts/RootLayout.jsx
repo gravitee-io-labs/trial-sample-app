@@ -83,7 +83,7 @@ export default function RootLayout() {
               Gravitee
             </span>
             <svg
-              xmlns:xlink="http://www.w3.org/1999/xlink"
+              xmlnsXlink="http://www.w3.org/1999/xlink"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fit=""
