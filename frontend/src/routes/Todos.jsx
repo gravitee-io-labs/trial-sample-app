@@ -37,7 +37,7 @@ export default function Todos() {
     })
       .then((res) => {
         if (res.ok) {
-          return res.json();
+          return res;
           // Catch non-2xx HTTP status codes
         } else {
           throw new Error(`HTTP error, status = ${res.status}`);
