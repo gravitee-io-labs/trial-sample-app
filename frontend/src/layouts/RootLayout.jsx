@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { FaChartBar, FaCheckCircle, FaCog } from "react-icons/fa";
 import { IoNotifications } from "react-icons/io5";
 import { NavLink, Outlet } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 export default function RootLayout() {
   const [host, setHost] = useState();
@@ -45,7 +46,14 @@ export default function RootLayout() {
 
   const [kafkaData, setKafkaData] = useState([]);
   useEffect(() => {
-    const ws = new WebSocket("wss://" + host + "/todo-actions/");
+    const ws = new WebSocket(
+      "wss://" +
+        host +
+        "/todo-actions?" +
+        new URLSearchParams({
+          "x-gravitee-client-identifier": uuidv4(),
+        })
+    );
     ws.onopen = () => console.log("WebSocket connected");
     ws.onerror = () => console.log("WebSocket error");
     ws.onclose = () => console.log("WebSocket closed");
