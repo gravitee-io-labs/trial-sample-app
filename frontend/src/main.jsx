@@ -22,7 +22,10 @@ const router = createBrowserRouter(
       <Route path="notification-history" element={<NotificationHistory />} />
       <Route path="configuration" element={<Configuration />} />
     </Route>
-  )
+  ),
+  {
+    basename: "/trial-sample-app",
+  }
 );
 
 ReactDOM.createRoot(document.getElementById("root")).render(
