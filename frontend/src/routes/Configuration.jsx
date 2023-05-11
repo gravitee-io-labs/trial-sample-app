@@ -51,6 +51,19 @@ export default function Configuration() {
           >
             Save Changes
           </button>
+          <div className="relative">
+            <label htmlFor="userIdInput" className="form-label">
+              Gravitee User ID
+            </label>
+            <input
+              type="text"
+              name="userIdInput"
+              className="form-input"
+              required
+              defaultValue={userId}
+              onChange={() => setFormModified(true)}
+            />
+          </div>
           <h2 className=" text-2xl font-bold">Target Server</h2>
           <div className="relative">
             <label htmlFor="hostInput" className="form-label">
@@ -62,19 +75,6 @@ export default function Configuration() {
               className="form-input"
               required
               defaultValue={host}
-              onChange={() => setFormModified(true)}
-            />
-          </div>
-          <div className="relative">
-            <label htmlFor="userIdInput" className="form-label">
-              Gravitee User ID
-            </label>
-            <input
-              type="text"
-              name="userIdInput"
-              className="form-input"
-              required
-              defaultValue={userId}
               onChange={() => setFormModified(true)}
             />
           </div>
