@@ -1,13 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import {
-  createBrowserRouter,
-  createRoutesFromElements,
+  Navigate,
   Route,
   RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
 } from "react-router-dom";
-import "./assets/styles/index.css";
 import ErrorPage from "./ErrorPage";
+import "./assets/styles/index.css";
 import RootLayout from "./layouts/RootLayout";
 import Analytics from "./routes/Analytics";
 import Configuration from "./routes/Configuration";
@@ -21,6 +22,7 @@ const router = createBrowserRouter(
       <Route path="analytics" element={<Analytics />} />
       <Route path="notification-history" element={<NotificationHistory />} />
       <Route path="configuration" element={<Configuration />} />
+      <Route path="*" element={<Navigate replace to="/" />} />
     </Route>
   ),
   {
