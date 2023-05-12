@@ -18,7 +18,7 @@ export default function NotificationHistory() {
             </div>
           ))
         ) : (
-          <h2 className="mt-5 text-2xl font-semibold">
+          <h2 className="font-semibold">
             There is no data or the websocket connection was closed. Refresh the page to
             re-establish the connection.
           </h2>

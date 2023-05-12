@@ -40,8 +40,8 @@ export default function Configuration() {
         formModified={formModified}
       ></CustomHeader>
       <main className="flex flex-grow flex-col items-center">
-        <fieldset className="flex w-96 flex-col gap-10 px-5">
-          <h2 className=" text-2xl font-bold">Target Server</h2>
+        <fieldset className="flex w-96 flex-col gap-4 px-5">
+          <h2>Target Server</h2>
           <div className="relative">
             <label htmlFor="userIdInput" className="form-label">
               Gravitee User ID
@@ -69,7 +69,7 @@ export default function Configuration() {
               onChange={() => setFormModified(true)}
             />
           </div>
-          <h2 className=" text-2xl font-bold">Authorization</h2>
+          <h2>Authorization</h2>
           <Toggle
             userLabel={"Enable Premium Access"}
             handleChange={() => {

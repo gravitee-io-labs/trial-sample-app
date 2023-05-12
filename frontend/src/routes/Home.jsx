@@ -4,18 +4,17 @@ export default function NotificationHistory() {
   return (
     <>
       <CustomHeader title="Home"></CustomHeader>
-      <div className="xl:px-[30rem]">
-        <h2 className="text-2xl font-bold">
-          Welcome to Gravitee's API Management Trial App
-        </h2>
-        <div>
+      <div className="flex w-full flex-col items-center px-12 ">
+        <h2 className="">Welcome to Gravitee's API Management Trial App</h2>
+        <p>
           This app has been built for you to experience the full benefits of API
           Management with your trial.
           <br></br>
-          Before you start, head to the configuration area to link this app to your API
-          Management installation. In this app you can experience the following
-          demonstrations of the power of APIs!
-        </div>
+          <br></br>
+          In this app, you can choose from any of the following paths to experience the
+          power of Gravitee API Management. Selecting a path will configure the
+          application and open up the relevant documentation.
+        </p>
       </div>
     </>
   );
