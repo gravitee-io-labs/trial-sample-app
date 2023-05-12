@@ -38,17 +38,20 @@ export default function Configuration() {
       <main className="flex flex-grow flex-col items-center">
         <form action id="form" onSubmit={handleSubmit} className="w-96 px-5">
           <fieldset className="flex flex-col gap-10">
-            <button
-              className={`h-10 w-1/2 self-center rounded-md font-bold tracking-wider text-black shadow-md ${
-                formModified
-                  ? "bg-accent-cyan/80 shadow-accent-cyan/30 hover:opacity-70"
-                  : "cursor-not-allowed bg-gray-300 shadow-gray-300/30"
-              }`}
-              type="submit"
-              id="submitForm"
-            >
-              Save Changes
-            </button>
+            <div className=" flex justify-center border-b-2 border-secondary pb-8">
+              <button
+                className={`h-12 w-1/2 self-center rounded-md font-bold tracking-wider text-black shadow-md ${
+                  formModified
+                    ? "bg-accent-cyan/80 shadow-accent-cyan/30 hover:opacity-70"
+                    : "cursor-not-allowed bg-gray-300 shadow-gray-300/30"
+                }`}
+                type="submit"
+                id="submitForm"
+              >
+                Save Changes
+              </button>
+            </div>
+            <h2 className=" text-2xl font-bold">Target Server</h2>
             <div className="relative">
               <label htmlFor="userIdInput" className="form-label">
                 Gravitee User ID
@@ -62,7 +65,7 @@ export default function Configuration() {
                 onChange={() => setFormModified(true)}
               />
             </div>
-            <h2 className=" text-2xl font-bold">Target Server</h2>
+
             <div className="relative">
               <label htmlFor="hostInput" className="form-label">
                 Fully Qualified Domain Name
