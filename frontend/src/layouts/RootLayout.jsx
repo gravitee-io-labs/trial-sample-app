@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaChartBar, FaCheckCircle, FaCog } from "react-icons/fa";
-import { IoNotifications } from "react-icons/io5";
+import { IoHomeOutline, IoNotifications } from "react-icons/io5";
 import { NavLink, Outlet } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
@@ -72,7 +72,8 @@ export default function RootLayout() {
   }, [host]);
 
   const pages = [
-    { route: "/", icon: <FaCheckCircle size="28" />, text: "Todos" },
+    { route: "/", icon: <IoHomeOutline size="28" />, text: "Home" },
+    { route: "/todos", icon: <FaCheckCircle size="28" />, text: "Todos" },
     { route: "analytics", icon: <FaChartBar size="28" />, text: "Analytics" },
     {
       route: "notification-history",
