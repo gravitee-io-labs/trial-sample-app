@@ -124,7 +124,7 @@ export default function RootLayout() {
           ))}
         </ul>
       </nav>
-      <div className="ml-20 h-full p-12">
+      <div className="ml-20 h-full">
         <Outlet
           context={{
             host,
