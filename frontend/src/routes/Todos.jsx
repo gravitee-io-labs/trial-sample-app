@@ -2,7 +2,7 @@ import { Tabs } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { FaArchive, FaInbox, FaTrash } from "react-icons/fa";
 import { useOutletContext } from "react-router-dom";
-import logo from "../assets/Gravitee.io Dark Blue Logo.png";
+import CustomHeader from "../components/CustomHeader";
 
 export default function Todos() {
   const [todos, setTodos] = useState([]);
@@ -187,22 +187,12 @@ export default function Todos() {
   };
 
   return (
-    <div className="xl:px-72">
-      <div className="mb-8 flex items-center justify-between">
-        <h1 className="text-4xl font-bold">Todos</h1>
-        <a
-          className=" hidden md:block"
-          href="http://gravitee.io"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src={logo} alt="Gravitee Logo" width="200"></img>
-        </a>
-      </div>
+    <>
+      <CustomHeader title="Todos"></CustomHeader>
       <Tabs.Group
         aria-label="Tabs with underline"
         style="underline"
-        className="flex justify-center"
+        className="flex justify-center xl:px-72"
       >
         <Tabs.Item title="Current" active={true}>
           <div className="flex flex-col gap-5">
@@ -293,6 +283,6 @@ export default function Todos() {
           </div>
         </Tabs.Item>
       </Tabs.Group>
-    </div>
+    </>
   );
 }

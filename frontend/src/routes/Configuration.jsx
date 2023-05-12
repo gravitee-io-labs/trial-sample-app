@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
+import CustomHeader from "../components/CustomHeader";
 
 export default function Configuration() {
   const {
@@ -32,79 +33,77 @@ export default function Configuration() {
   };
 
   return (
-    <main className="flex flex-grow flex-col items-center">
-      <div className="mb-10 border-b-2 border-secondary pb-8 text-4xl text-black">
-        <h1>
-          Configuration<span className="ml-1 text-6xl text-accent-cyan">.</span>
-        </h1>
-      </div>
-      <form action id="form" onSubmit={handleSubmit} className="w-96 px-5">
-        <fieldset className="flex flex-col gap-10">
-          <button
-            className={`h-10 w-1/2 self-center rounded-md font-bold tracking-wider text-black shadow-md ${
-              formModified
-                ? "bg-accent-cyan/80 shadow-accent-cyan/30 hover:opacity-70"
-                : "cursor-not-allowed bg-gray-300 shadow-gray-300/30"
-            }`}
-            type="submit"
-            id="submitForm"
-          >
-            Save Changes
-          </button>
-          <div className="relative">
-            <label htmlFor="userIdInput" className="form-label">
-              Gravitee User ID
-            </label>
-            <input
-              type="text"
-              name="userIdInput"
-              className="form-input"
-              required
-              defaultValue={userId}
-              onChange={() => setFormModified(true)}
+    <>
+      <CustomHeader title="Configuration"></CustomHeader>
+      <main className="flex flex-grow flex-col items-center">
+        <form action id="form" onSubmit={handleSubmit} className="w-96 px-5">
+          <fieldset className="flex flex-col gap-10">
+            <button
+              className={`h-10 w-1/2 self-center rounded-md font-bold tracking-wider text-black shadow-md ${
+                formModified
+                  ? "bg-accent-cyan/80 shadow-accent-cyan/30 hover:opacity-70"
+                  : "cursor-not-allowed bg-gray-300 shadow-gray-300/30"
+              }`}
+              type="submit"
+              id="submitForm"
+            >
+              Save Changes
+            </button>
+            <div className="relative">
+              <label htmlFor="userIdInput" className="form-label">
+                Gravitee User ID
+              </label>
+              <input
+                type="text"
+                name="userIdInput"
+                className="form-input"
+                required
+                defaultValue={userId}
+                onChange={() => setFormModified(true)}
+              />
+            </div>
+            <h2 className=" text-2xl font-bold">Target Server</h2>
+            <div className="relative">
+              <label htmlFor="hostInput" className="form-label">
+                Fully Qualified Domain Name
+              </label>
+              <input
+                type="text"
+                name="hostInput"
+                className="form-input"
+                required
+                defaultValue={host}
+                onChange={() => setFormModified(true)}
+              />
+            </div>
+            <h2 className=" text-2xl font-bold">Authorization</h2>
+            <Toggle
+              userLabel={"Enable Premium Access"}
+              handleChange={() => {
+                setFormModified(true);
+                setAuthRequired(!authRequired);
+              }}
+              htmlName="authRequired"
+              defaultValue={authRequired}
             />
-          </div>
-          <h2 className=" text-2xl font-bold">Target Server</h2>
-          <div className="relative">
-            <label htmlFor="hostInput" className="form-label">
-              Fully Qualified Domain Name
-            </label>
-            <input
-              type="text"
-              name="hostInput"
-              className="form-input"
-              required
-              defaultValue={host}
-              onChange={() => setFormModified(true)}
-            />
-          </div>
-          <h2 className=" text-2xl font-bold">Authorization</h2>
-          <Toggle
-            userLabel={"Enable Premium Access"}
-            handleChange={() => {
-              setFormModified(true);
-              setAuthRequired(!authRequired);
-            }}
-            htmlName="authRequired"
-            defaultValue={authRequired}
-          />
-          <div className="relative">
-            <label htmlFor="apiKey" className="form-label">
-              API Key
-            </label>
-            <input
-              type="text"
-              name="apiKey"
-              className="form-input"
-              disabled={!authRequired}
-              required={!authRequired}
-              defaultValue={apiKey}
-              onChange={() => setFormModified(true)}
-            />
-          </div>
-        </fieldset>
-      </form>
-    </main>
+            <div className="relative">
+              <label htmlFor="apiKey" className="form-label">
+                API Key
+              </label>
+              <input
+                type="text"
+                name="apiKey"
+                className="form-input"
+                disabled={!authRequired}
+                required={!authRequired}
+                defaultValue={apiKey}
+                onChange={() => setFormModified(true)}
+              />
+            </div>
+          </fieldset>
+        </form>
+      </main>
+    </>
   );
 }
 

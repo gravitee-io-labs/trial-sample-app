@@ -1,6 +1,6 @@
 import { ResponsiveBar } from "@nivo/bar";
 import { useOutletContext } from "react-router-dom";
-import ResetButton from "../components/ResetButton";
+import CustomHeader from "../components/CustomHeader";
 
 const countObjectsByProperty = (arr, prop) => {
   const counts = {};
@@ -24,11 +24,8 @@ export default function Analytics() {
   const graphData = countObjectsByProperty(kafkaData, "action");
 
   return (
-    <div className=" h-[80vh]">
-      <div className="sticky top-0 mb-8 flex flex-col justify-between gap-5 bg-content/80 px-64 sm:flex-row">
-        <h1 className="text-4xl font-bold">Analytics</h1>
-        <ResetButton />
-      </div>
+    <div className="h-[80vh]">
+      <CustomHeader title="Analytics" includeReset={true}></CustomHeader>
       <ResponsiveBar
         data={graphData}
         keys={["quantity"]}
