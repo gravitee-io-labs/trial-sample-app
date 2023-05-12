@@ -25,7 +25,7 @@ export default function Analytics() {
 
   return (
     <div className="h-[80vh]">
-      <CustomHeader title="Analytics" includeReset={true}></CustomHeader>
+      <CustomHeader title="Analytics" buttonType="reset"></CustomHeader>
       <ResponsiveBar
         data={graphData}
         keys={["quantity"]}

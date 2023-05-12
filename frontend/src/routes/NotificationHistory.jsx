@@ -6,9 +6,9 @@ export default function NotificationHistory() {
 
   return (
     <>
-      <CustomHeader title="Notification Center" includeReset={true}></CustomHeader>
+      <CustomHeader title="Notification Center" buttonType="reset"></CustomHeader>
       <div className="xl:px-64">
-        <div className="flex flex-col-reverse items-center gap-10">
+        <div className="flex flex-col-reverse items-center gap-10 ">
           {kafkaData.length ? (
             kafkaData.map((item) => (
               <div
