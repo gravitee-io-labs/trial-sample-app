@@ -22,7 +22,6 @@ const router = createBrowserRouter(
       <Route path="analytics" element={<Analytics />} />
       <Route path="notification-history" element={<NotificationHistory />} />
       <Route path="configuration" element={<Configuration />} />
-      <Route path="*" element={<Navigate replace to="/" />} />
     </Route>
   ),
   {
