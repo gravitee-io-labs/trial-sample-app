@@ -46,7 +46,7 @@ export default function Home() {
           power of Gravitee API Management. Selecting a path will configure the
           application and open up the relevant documentation.
         </p>
-        <div className="mt-6 flex flex-col gap-5 lg:flex-row">
+        <div className="mt-6 flex flex-wrap justify-center gap-5">
           {tutorial_options.map((tutorial) => (
             <Card {...tutorial} key={tutorial.title}></Card>
           ))}
