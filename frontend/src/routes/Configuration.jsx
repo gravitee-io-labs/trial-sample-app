@@ -65,6 +65,7 @@ export default function Configuration() {
               name="hostInput"
               className="form-input"
               required
+              disabled
               defaultValue={host}
               onChange={() => setFormModified(true)}
             />
