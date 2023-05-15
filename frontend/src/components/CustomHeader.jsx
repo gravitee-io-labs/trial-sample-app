@@ -7,7 +7,7 @@ export default function CustomHeader({
   formModified = false,
 }) {
   return (
-    <div className="sticky top-0 z-50 mb-4 flex w-full flex-col items-center justify-between gap-5 bg-content/80 px-12 py-4 drop-shadow-md sm:flex-row xl:px-64">
+    <div className="sticky top-0 z-40 mb-4 flex w-full flex-col items-center justify-between gap-5 bg-content/80 px-12 py-4 drop-shadow-md sm:flex-row xl:px-64">
       <h1>{title}</h1>
       {buttonType === "none" && (
         <a
