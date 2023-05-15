@@ -5,7 +5,8 @@ export default function Home() {
   const tutorial_options = [
     {
       title: "Basic Security and Access Control",
-      description: "A basic example of a Gravitee's core features",
+      description:
+        "This tutorial showcases Gravitee's core features which include securing a Gateway API, applying API access restrictions, and managing applications and subscriptions.",
       architecture: "http-proxy",
       entrypoint: "REST",
       endpoint: "REST",
@@ -14,17 +15,18 @@ export default function Home() {
     },
     {
       title: "Real-time Data and Protocol Mediation",
-      description: "A basic example of a Gravitee's core features",
+      description:
+        "This tutorial demonstrates Gravitee's ability to natively handle, and mediate between, both asynchronous and synchronous protocols.",
       architecture: "message introspection",
       entrypoint: "Websocket",
       endpoint: "Kafka",
-      planSecurity: "API Key",
+      planSecurity: "None (temporary - shared API key support)",
       policies: "Latency",
     },
     {
       title: "Advanced Policies and Security",
-      description: "A basic example of a Gravitee's core features",
-      architecture: "message introspection",
+      description: "This tutorial details more advanced polices and security measures.",
+      architecture: "http-proxy",
       entrypoint: "Websocket",
       endpoint: "Kafka",
       planSecurity: "JWT",

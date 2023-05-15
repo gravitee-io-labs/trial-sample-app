@@ -12,7 +12,7 @@ export default function Card({
   return (
     <Link
       to="/todos"
-      className="h-96 w-72 border border-solid p-5 shadow-lg transition-transform duration-300 ease-in-out hover:translate-y-[-4px]"
+      className="h-[26rem] w-80 border border-solid p-5 shadow-lg transition-transform duration-300 ease-in-out hover:translate-y-[-4px]"
     >
       <h3 className="">{title}</h3>
       <div>{description}</div>
