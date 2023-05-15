@@ -74,13 +74,13 @@ export default function RootLayout() {
   const pages = [
     { route: "/", icon: <IoHomeOutline size="28" />, text: "Home" },
     { route: "/todos", icon: <FaCheckCircle size="28" />, text: "Todos" },
-    { route: "analytics", icon: <FaChartBar size="28" />, text: "Analytics" },
+    { route: "/analytics", icon: <FaChartBar size="28" />, text: "Analytics" },
     {
-      route: "notification-history",
+      route: "/notification-history",
       icon: <IoNotifications size="28" />,
       text: "Notification History",
     },
-    { route: "configuration", icon: <FaCog size="28" />, text: "Configuration" },
+    { route: "/configuration", icon: <FaCog size="28" />, text: "Configuration" },
   ];
 
   return (
