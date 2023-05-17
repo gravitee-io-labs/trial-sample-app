@@ -89,7 +89,7 @@ export default function Configuration() {
               name="apiKey"
               className="form-input"
               disabled={!authRequired}
-              required={!authRequired}
+              required={authRequired}
               defaultValue={apiKey}
               onChange={() => setFormModified(true)}
             />
