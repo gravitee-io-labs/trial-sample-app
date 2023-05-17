@@ -39,7 +39,7 @@ export default function Todos() {
 
       // Catch non-2xx HTTP status codes
       if (!res.ok) {
-        throw new Error(`HTTP error, status = ${res.status}`);
+        throw new Error(`HTTP status code ${res.status}.`);
       }
     } catch (error) {
       console.error(error);
@@ -54,11 +54,11 @@ export default function Todos() {
           ...(authRequired ? { "X-Gravitee-Api-Key": apiKey } : {}),
         },
       });
+      const data = await res.json();
       // Catch non-2xx HTTP status codes
       if (!res.ok) {
-        throw new Error(`HTTP error, status = ${res.status}`);
+        throw new Error(`HTTP status code ${res.status}. ${data.message}`);
       }
-      const data = await res.json();
       setTodos(data);
     } catch (error) {
       console.error(error);
@@ -76,17 +76,17 @@ export default function Todos() {
         },
         body: JSON.stringify({ userId, text: newTodo }),
       });
+      const data = await res.json();
       // Catch non-2xx HTTP status codes
       if (!res.ok) {
-        throw new Error(`HTTP error, status = ${res.status}`);
+        throw new Error(`HTTP status code ${res.status}. ${data.message}`);
       }
 
-      const data = await res.json();
       setTodos([...todos, data]);
       setNewTodo("");
     } catch (error) {
-      alert(error);
       console.error(error);
+      alert(error);
     }
   };
 
@@ -107,12 +107,12 @@ export default function Todos() {
           },
         }
       );
+      const data = await res.json();
       // Catch non-2xx HTTP status codes
       if (!res.ok) {
-        throw new Error(`HTTP error, status = ${res.status}`);
+        throw new Error(`HTTP status code ${res.status}. ${data.message}`);
       }
 
-      const data = await res.json();
       setTodos((todos) =>
         todos.map((todo) => {
           if (todo._id === data._id) {
@@ -143,12 +143,12 @@ export default function Todos() {
           },
         }
       );
+      const data = await res.json();
       // Catch non-2xx HTTP status codes
       if (!res.ok) {
-        throw new Error(`HTTP error, status = ${res.status}`);
+        throw new Error(`HTTP status code ${res.status}. ${data.message}`);
       }
 
-      const data = await res.json();
       setTodos((todos) =>
         todos.map((todo) => {
           if (todo._id === data._id) {
@@ -158,8 +158,8 @@ export default function Todos() {
         })
       );
     } catch (error) {
-      alert(error);
       console.error(error);
+      alert(error);
     }
   };
 
@@ -172,12 +172,12 @@ export default function Todos() {
           ...(authRequired ? { "X-Gravitee-Api-Key": apiKey } : {}),
         },
       });
+      const data = await res.json();
       // Catch non-2xx HTTP status codes
       if (!res.ok) {
-        throw new Error(`HTTP error, status = ${res.status}`);
+        throw new Error(`HTTP status code ${res.status}. ${data.message}`);
       }
 
-      const data = await res.json();
       setTodos((todos) => todos.filter((todo) => todo._id !== data._id));
     } catch (error) {
       console.error(error);
