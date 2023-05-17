@@ -11,9 +11,9 @@ export function SaveFormButton({ formModified }) {
       text="Save Changes"
       type="submit"
       id="submitForm"
+      disabled={!formModified}
       extraClasses={
-        !formModified &&
-        "cursor-not-allowed bg-gray-300 shadow-gray-300/30 hover:opacity-100"
+        !formModified && "cursor-not-allowed bg-gray-300 shadow-gray-300/30"
       }
     ></BaseButton>
   );
@@ -25,13 +25,15 @@ function BaseButton({
   handleClick = null,
   type = null,
   id = null,
+  disabled = null,
 }) {
   return (
     <button
-      className={`h-14 w-28 rounded-md bg-accent-cyan/80 font-bold tracking-wider text-black shadow-md shadow-accent-cyan/30 hover:opacity-70 ${extraClasses}`}
+      className={`h-14 w-28 rounded-md bg-accent-cyan/80 font-bold tracking-wider text-black shadow-md shadow-accent-cyan/30 enabled:hover:opacity-70 ${extraClasses}`}
       onClick={handleClick}
       type={type}
       id={id}
+      disabled={disabled}
     >
       {text}
     </button>
