@@ -6,45 +6,38 @@ import useWebSocket from "react-use-websocket";
 import { v4 as uuidv4 } from "uuid";
 
 export default function RootLayout() {
-  const [host, setHost] = useState();
-  const [userId, setUserId] = useState();
-  useEffect(() => {
+  const [host, setHost] = useState(() => {
     const storedPreference = localStorage.getItem("userPrefHost");
     if (storedPreference) {
-      setHost(storedPreference);
+      return storedPreference;
     } else {
-      setHost("apim-master-gateway.team-apim.gravitee.dev");
+      return "apim-master-gateway.team-apim.gravitee.dev";
     }
-  }, []);
-  useEffect(() => {
+  });
+  const [userId, setUserId] = useState(() => {
     const storedPreference = localStorage.getItem("userId");
     if (storedPreference) {
-      setUserId(storedPreference);
+      return storedPreference;
     } else {
-      setUserId("root");
+      return "root";
     }
-  }, []);
-
-  const [authRequired, setAuthRequired] = useState();
-  useEffect(() => {
+  });
+  const [authRequired, setAuthRequired] = useState(() => {
     const storedPreference = localStorage.getItem("userPrefAuthRequired");
     if (storedPreference) {
-      setAuthRequired(JSON.parse(storedPreference));
+      return JSON.parse(storedPreference);
     } else {
-      setAuthRequired(false);
+      return false;
     }
-  }, []);
-
-  const [apiKey, setApiKey] = useState();
-  useEffect(() => {
+  });
+  const [apiKey, setApiKey] = useState(() => {
     const storedPreference = localStorage.getItem("userPrefApiKey");
     if (storedPreference) {
-      setApiKey(storedPreference);
+      return storedPreference;
     } else {
-      setApiKey("");
+      return "";
     }
-  }, []);
-
+  });
   const [kafkaData, setKafkaData] = useState([]);
 
   const [kafkaConsumerId] = useState(() => uuidv4());
