@@ -13,169 +13,175 @@ export default function Todos() {
     getTodos();
   }, [host]);
 
-  const logAction = (action) => {
-    const now = new Date();
-    const formattedDate = now.toLocaleDateString();
-    const formattedTime = now.toLocaleTimeString(undefined, {
-      hour12: false,
-      hour: "numeric",
-      minute: "numeric",
-      second: "numeric",
-      millisecond: "numeric",
-    });
-    fetch("https://" + host + "/todo-actions", {
-      method: "POST",
-      headers: {
-        ...(authRequired ? { "X-Gravitee-Api-Key": apiKey } : {}),
-      },
-      body: JSON.stringify({
-        userId,
-        date: formattedDate,
-        time: formattedTime,
-        action,
-      }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res;
-          // Catch non-2xx HTTP status codes
-        } else {
-          throw new Error(`HTTP error, status = ${res.status}`);
-        }
-      })
-      .catch((err) => console.error(`Error: ${err}`));
+  const logAction = async (action) => {
+    try {
+      const now = new Date();
+      const formattedDate = now.toLocaleDateString();
+      const formattedTime = now.toLocaleTimeString(undefined, {
+        hour12: false,
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        millisecond: "numeric",
+      });
+      const res = await fetch("https://" + host + "/todo-actions", {
+        method: "POST",
+        headers: {
+          ...(authRequired ? { "X-Gravitee-Api-Key": apiKey } : {}),
+        },
+        body: JSON.stringify({
+          userId,
+          date: formattedDate,
+          time: formattedTime,
+          action,
+        }),
+      });
+
+      // Catch non-2xx HTTP status codes
+      if (!res.ok) {
+        throw new Error(`HTTP error, status = ${res.status}`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const getTodos = () => {
-    fetch("https://" + host + "/todos", {
-      headers: {
-        "user-id": userId,
-        ...(authRequired ? { "X-Gravitee-Api-Key": apiKey } : {}),
-      },
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-          // Catch non-2xx HTTP status codes
-        } else {
-          throw new Error(`HTTP error, status = ${res.status}`);
-        }
-      })
-      .then((data) => setTodos(data))
-      .catch((err) => console.error(`Error: ${err}`));
+  const getTodos = async () => {
+    try {
+      const res = await fetch("https://" + host + "/todos", {
+        headers: {
+          "user-id": userId,
+          ...(authRequired ? { "X-Gravitee-Api-Key": apiKey } : {}),
+        },
+      });
+      // Catch non-2xx HTTP status codes
+      if (!res.ok) {
+        throw new Error(`HTTP error, status = ${res.status}`);
+      }
+      const data = await res.json();
+      setTodos(data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const createTodo = async () => {
-    const data = await fetch("https://" + host + "/todos", {
-      method: "POST",
-      headers: {
-        "user-id": userId,
-        "Content-Type": "application/json",
-        ...(authRequired ? { "X-Gravitee-Api-Key": apiKey } : {}),
-      },
-      body: JSON.stringify({ userId, text: newTodo }),
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-        // Catch non-2xx HTTP status codes
-      } else {
-        alert(`HTTP error, status = ${res.status}`);
+    try {
+      const res = await fetch("https://" + host + "/todos", {
+        method: "POST",
+        headers: {
+          "user-id": userId,
+          "Content-Type": "application/json",
+          ...(authRequired ? { "X-Gravitee-Api-Key": apiKey } : {}),
+        },
+        body: JSON.stringify({ userId, text: newTodo }),
+      });
+      // Catch non-2xx HTTP status codes
+      if (!res.ok) {
         throw new Error(`HTTP error, status = ${res.status}`);
       }
-    });
 
-    setTodos([...todos, data]);
-    setNewTodo("");
+      const data = await res.json();
+      setTodos([...todos, data]);
+      setNewTodo("");
+    } catch (error) {
+      alert(error);
+      console.error(error);
+    }
   };
 
   const completeTodo = async (id) => {
-    const data = await fetch(
-      "https://" +
-        host +
-        `/todos/${id}?` +
-        new URLSearchParams({
-          action: "complete",
-        }),
-      {
-        method: "PATCH",
-        headers: {
-          "user-id": userId,
-          ...(authRequired ? { "X-Gravitee-Api-Key": apiKey } : {}),
-        },
-      }
-    ).then((res) => {
-      if (res.ok) {
-        return res.json();
-        // Catch non-2xx HTTP status codes
-      } else {
-        alert(`HTTP error, status = ${res.status}`);
+    try {
+      const res = await fetch(
+        "https://" +
+          host +
+          `/todos/${id}?` +
+          new URLSearchParams({
+            action: "complete",
+          }),
+        {
+          method: "PATCH",
+          headers: {
+            "user-id": userId,
+            ...(authRequired ? { "X-Gravitee-Api-Key": apiKey } : {}),
+          },
+        }
+      );
+      // Catch non-2xx HTTP status codes
+      if (!res.ok) {
         throw new Error(`HTTP error, status = ${res.status}`);
       }
-    });
 
-    setTodos((todos) =>
-      todos.map((todo) => {
-        if (todo._id === data._id) {
-          todo.complete = data.complete;
-        }
-        return todo;
-      })
-    );
+      const data = await res.json();
+      setTodos((todos) =>
+        todos.map((todo) => {
+          if (todo._id === data._id) {
+            todo.complete = data.complete;
+          }
+          return todo;
+        })
+      );
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const archiveTodo = async (id) => {
-    const data = await fetch(
-      "https://" +
-        host +
-        `/todos/${id}?` +
-        new URLSearchParams({
-          action: "archive",
-        }),
-      {
-        method: "PATCH",
+    try {
+      const res = await fetch(
+        "https://" +
+          host +
+          `/todos/${id}?` +
+          new URLSearchParams({
+            action: "archive",
+          }),
+        {
+          method: "PATCH",
+          headers: {
+            "user-id": userId,
+            ...(authRequired ? { "X-Gravitee-Api-Key": apiKey } : {}),
+          },
+        }
+      );
+      // Catch non-2xx HTTP status codes
+      if (!res.ok) {
+        throw new Error(`HTTP error, status = ${res.status}`);
+      }
+
+      const data = await res.json();
+      setTodos((todos) =>
+        todos.map((todo) => {
+          if (todo._id === data._id) {
+            todo.archive = data.archive;
+          }
+          return todo;
+        })
+      );
+    } catch (error) {
+      alert(error);
+      console.error(error);
+    }
+  };
+
+  const deleteTodo = async (id) => {
+    try {
+      const res = await fetch("https://" + host + `/todos/${id}`, {
+        method: "DELETE",
         headers: {
           "user-id": userId,
           ...(authRequired ? { "X-Gravitee-Api-Key": apiKey } : {}),
         },
-      }
-    ).then((res) => {
-      if (res.ok) {
-        return res.json();
-        // Catch non-2xx HTTP status codes
-      } else {
-        alert(`HTTP error, status = ${res.status}`);
+      });
+      // Catch non-2xx HTTP status codes
+      if (!res.ok) {
         throw new Error(`HTTP error, status = ${res.status}`);
       }
-    });
 
-    setTodos((todos) =>
-      todos.map((todo) => {
-        if (todo._id === data._id) {
-          todo.archive = data.archive;
-        }
-        return todo;
-      })
-    );
-  };
-
-  const deleteTodo = async (id) => {
-    const data = await fetch("https://" + host + `/todos/${id}`, {
-      method: "DELETE",
-      headers: {
-        "user-id": userId,
-        ...(authRequired ? { "X-Gravitee-Api-Key": apiKey } : {}),
-      },
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-        // Catch non-2xx HTTP status codes
-      } else {
-        alert(`HTTP error, status = ${res.status}`);
-        throw new Error(`HTTP error, status = ${res.status}`);
-      }
-    });
-
-    setTodos((todos) => todos.filter((todo) => todo._id !== data._id));
+      const data = await res.json();
+      setTodos((todos) => todos.filter((todo) => todo._id !== data._id));
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
