@@ -11,13 +11,13 @@ export default function Home() {
       entrypoint: "REST",
       endpoint: "REST",
       planSecurity: "API Key",
-      policies: "Quota",
+      policies: "Quota, Interrupt",
     },
     {
       title: "Real-time Data and Protocol Mediation",
       description:
         "This tutorial demonstrates Gravitee's ability to natively handle, and mediate between, both asynchronous and synchronous protocols.",
-      architecture: "message introspection",
+      architecture: "message",
       entrypoint: "Websocket",
       endpoint: "Kafka",
       planSecurity: "None (temporary - shared API key support)",
@@ -25,10 +25,11 @@ export default function Home() {
     },
     {
       title: "Advanced Policies and Security",
-      description: "This tutorial details more advanced polices and security measures.",
+      description:
+        "This tutorial details more advanced policies and security measures.",
       architecture: "http-proxy",
-      entrypoint: "Websocket",
-      endpoint: "Kafka",
+      entrypoint: "REST",
+      endpoint: "REST",
       planSecurity: "JWT",
       policies: "Assign Metrics",
     },

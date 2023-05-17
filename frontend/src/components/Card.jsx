@@ -18,7 +18,7 @@ export default function Card({
       <div>{description}</div>
       <br />
       <div>
-        <em>Architecture: </em>
+        <em>Gateway Architecture: </em>
         {architecture}
       </div>
       <div>
