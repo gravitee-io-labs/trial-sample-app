@@ -2,6 +2,7 @@ import { Tabs } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { FaArchive, FaInbox, FaTrash } from "react-icons/fa";
 import { useOutletContext } from "react-router-dom";
+import { toast } from "react-toastify";
 import CustomHeader from "../components/CustomHeader";
 
 export default function Todos() {
@@ -24,6 +25,10 @@ export default function Todos() {
         second: "numeric",
         millisecond: "numeric",
       });
+      const timeZone = now
+        .toLocaleTimeString([], { timeZoneName: "short" })
+        .split(" ")[2];
+      console.log(timeZone);
       const res = await fetch("https://" + host + "/todo-actions", {
         method: "POST",
         headers: {
@@ -33,6 +38,7 @@ export default function Todos() {
           userId,
           date: formattedDate,
           time: formattedTime,
+          timeZone,
           action,
         }),
       });
@@ -40,6 +46,20 @@ export default function Todos() {
       // Catch non-2xx HTTP status codes
       if (!res.ok) {
         throw new Error(`HTTP status code ${res.status}.`);
+      }
+
+      if (toast.isActive("main")) {
+        toast.update("main", {
+          render: `Todo ${action} at ${formattedTime} ${timeZone} on ${formattedDate}`,
+          type: toast.TYPE.INFO,
+        });
+      } else {
+        toast.info(
+          `Todo ${action} at ${formattedTime} ${timeZone} on ${formattedDate}`,
+          {
+            toastId: "main",
+          }
+        );
       }
     } catch (error) {
       console.error(error);
@@ -84,7 +104,7 @@ export default function Todos() {
 
       setTodos([...todos, data]);
       setNewTodo("");
-      logAction("Create");
+      logAction("Created");
     } catch (error) {
       console.error(error);
       alert(error);
@@ -124,7 +144,7 @@ export default function Todos() {
         setTodos(prevTodos);
         throw new Error(`HTTP status code ${res.status}. ${data.message}`);
       }
-      logAction("Complete");
+      logAction("Completed");
     } catch (error) {
       console.error(error);
     }
@@ -162,7 +182,7 @@ export default function Todos() {
         setTodos(prevTodos);
         throw new Error(`HTTP status code ${res.status}. ${data.message}`);
       }
-      log && logAction("Archive");
+      log && logAction("Archived");
     } catch (error) {
       console.error(error);
       alert(error);
@@ -186,7 +206,7 @@ export default function Todos() {
         setTodos(prevTodos);
         throw new Error(`HTTP status code ${res.status}. ${data.message}`);
       }
-      logAction("Delete");
+      logAction("Deleted");
     } catch (error) {
       console.error(error);
     }

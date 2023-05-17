@@ -15,7 +15,7 @@ export default function NotificationHistory() {
               className="flex w-11/12 flex-grow items-center justify-center rounded-xl bg-gray-300 p-5 text-lg text-black shadow-xl md:w-2/3 xl:w-1/3"
               key={item.datetime}
             >
-              {`Todo ${item.action} at ${item.time} GMT on ${item.date}`}
+              {`Todo ${item.action} at ${item.time} ${item.timeZone} on ${item.date}`}
             </div>
           ))}
         </div>

@@ -6,6 +6,8 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
+import { ToastContainer, Zoom } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 import ErrorPage from "./ErrorPage";
 import "./assets/styles/index.css";
 import RootLayout from "./layouts/RootLayout";
@@ -32,6 +34,18 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
+    <ToastContainer
+      position="bottom-right"
+      autoClose={3000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="dark"
+      transition={Zoom}
+    />
     <RouterProvider router={router} />
   </React.StrictMode>
 );
