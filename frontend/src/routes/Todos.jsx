@@ -91,6 +91,16 @@ export default function Todos() {
   };
 
   const completeTodo = async (id) => {
+    const prevTodos = todos.slice();
+    setTodos((todos) =>
+      todos.map((todo) => {
+        if (todo._id === id) {
+          return { ...todo, complete: !todo.complete };
+        }
+        return todo;
+      })
+    );
+
     try {
       const res = await fetch(
         "https://" +
@@ -110,23 +120,24 @@ export default function Todos() {
       const data = await res.json();
       // Catch non-2xx HTTP status codes
       if (!res.ok) {
+        setTodos(prevTodos);
         throw new Error(`HTTP status code ${res.status}. ${data.message}`);
       }
-
-      setTodos((todos) =>
-        todos.map((todo) => {
-          if (todo._id === data._id) {
-            todo.complete = data.complete;
-          }
-          return todo;
-        })
-      );
     } catch (error) {
       console.error(error);
     }
   };
 
   const archiveTodo = async (id) => {
+    const prevTodos = todos.slice();
+    setTodos((todos) =>
+      todos.map((todo) => {
+        if (todo._id === id) {
+          return { ...todo, archive: !todo.archive };
+        }
+        return todo;
+      })
+    );
     try {
       const res = await fetch(
         "https://" +
@@ -146,17 +157,9 @@ export default function Todos() {
       const data = await res.json();
       // Catch non-2xx HTTP status codes
       if (!res.ok) {
+        setTodos(prevTodos);
         throw new Error(`HTTP status code ${res.status}. ${data.message}`);
       }
-
-      setTodos((todos) =>
-        todos.map((todo) => {
-          if (todo._id === data._id) {
-            todo.archive = data.archive;
-          }
-          return todo;
-        })
-      );
     } catch (error) {
       console.error(error);
       alert(error);
@@ -164,6 +167,8 @@ export default function Todos() {
   };
 
   const deleteTodo = async (id) => {
+    const prevTodos = todos.slice();
+    setTodos((todos) => todos.filter((todo) => todo._id !== id));
     try {
       const res = await fetch("https://" + host + `/todos/${id}`, {
         method: "DELETE",
@@ -175,10 +180,9 @@ export default function Todos() {
       const data = await res.json();
       // Catch non-2xx HTTP status codes
       if (!res.ok) {
+        setTodos(prevTodos);
         throw new Error(`HTTP status code ${res.status}. ${data.message}`);
       }
-
-      setTodos((todos) => todos.filter((todo) => todo._id !== data._id));
     } catch (error) {
       console.error(error);
     }
