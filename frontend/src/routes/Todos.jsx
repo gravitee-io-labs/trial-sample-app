@@ -41,7 +41,6 @@ export default function Todos() {
       const timeZone = now
         .toLocaleTimeString([], { timeZoneName: "short" })
         .split(" ")[2];
-      console.log(timeZone);
       const res = await fetch("https://" + host + "/todo-actions", {
         method: "POST",
         headers: {
