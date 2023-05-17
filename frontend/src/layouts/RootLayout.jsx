@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { FaChartBar, FaCheckCircle, FaCog } from "react-icons/fa";
 import { IoHomeOutline, IoNotifications } from "react-icons/io5";
 import { NavLink, Outlet } from "react-router-dom";
+import useWebSocket from "react-use-websocket";
 import { v4 as uuidv4 } from "uuid";
 
 export default function RootLayout() {
@@ -45,31 +46,24 @@ export default function RootLayout() {
   }, []);
 
   const [kafkaData, setKafkaData] = useState([]);
-  useEffect(() => {
-    const ws = new WebSocket(
-      "wss://" +
-        host +
-        "/todo-actions?" +
-        new URLSearchParams({
-          "x-gravitee-client-identifier": uuidv4(),
-        })
-    );
-    ws.onopen = () => console.log("WebSocket connected");
-    ws.onerror = () => console.log("WebSocket error");
-    ws.onclose = () => console.log("WebSocket closed");
-    ws.onmessage = async (event) => {
-      let data = await event.data.text();
-      data = await JSON.parse(data);
-      setKafkaData((prevData) => [...prevData, data]);
-    };
 
-    return () => {
-      if (ws.readyState === 1) {
-        ws.close();
-        setKafkaData([]);
-      }
-    };
-  }, [host]);
+  const [kafkaConsumerId] = useState(() => uuidv4());
+  const { lastMessage } = useWebSocket(`wss://${host}/todo-actions`, {
+    queryParams: { "x-gravitee-client-identifier": kafkaConsumerId },
+    shouldReconnect: () => true,
+    onOpen: () => console.log("WebSocket connected"),
+    onError: (error) => console.log(`WebSocket error: ${error}`),
+    onClose: () => console.log("WebSocket closed"),
+  });
+  useEffect(() => {
+    if (lastMessage !== null) {
+      (async () => {
+        const data = await lastMessage.data.text();
+        const parsedData = JSON.parse(data);
+        setKafkaData((prevData) => [...prevData, parsedData]);
+      })();
+    }
+  }, [lastMessage]);
 
   const pages = [
     { route: "/", icon: <IoHomeOutline size="28" />, text: "Home" },
