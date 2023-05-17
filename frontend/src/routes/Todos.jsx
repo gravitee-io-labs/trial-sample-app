@@ -107,7 +107,7 @@ export default function Todos() {
       logAction("Created");
     } catch (error) {
       console.error(error);
-      alert(error);
+      createToast(error.message);
     }
   };
 
@@ -185,7 +185,7 @@ export default function Todos() {
       log && logAction("Archived");
     } catch (error) {
       console.error(error);
-      alert(error);
+      createToast(error.message);
     }
   };
 
