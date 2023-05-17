@@ -5,6 +5,19 @@ import { useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import CustomHeader from "../components/CustomHeader";
 
+const createToast = (message) => {
+  if (toast.isActive("main")) {
+    toast.update("main", {
+      render: message,
+      type: toast.TYPE.INFO,
+    });
+  } else {
+    toast.info(message, {
+      toastId: "main",
+    });
+  }
+};
+
 export default function Todos() {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
@@ -47,20 +60,7 @@ export default function Todos() {
       if (!res.ok) {
         throw new Error(`HTTP status code ${res.status}.`);
       }
-
-      if (toast.isActive("main")) {
-        toast.update("main", {
-          render: `Todo ${action} at ${formattedTime} ${timeZone} on ${formattedDate}`,
-          type: toast.TYPE.INFO,
-        });
-      } else {
-        toast.info(
-          `Todo ${action} at ${formattedTime} ${timeZone} on ${formattedDate}`,
-          {
-            toastId: "main",
-          }
-        );
-      }
+      createToast(`Todo ${action} at ${formattedTime} ${timeZone} on ${formattedDate}`);
     } catch (error) {
       console.error(error);
     }
