@@ -84,6 +84,7 @@ export default function Todos() {
 
       setTodos([...todos, data]);
       setNewTodo("");
+      logAction("Create");
     } catch (error) {
       console.error(error);
       alert(error);
@@ -123,12 +124,13 @@ export default function Todos() {
         setTodos(prevTodos);
         throw new Error(`HTTP status code ${res.status}. ${data.message}`);
       }
+      logAction("Complete");
     } catch (error) {
       console.error(error);
     }
   };
 
-  const archiveTodo = async (id) => {
+  const archiveTodo = async (id, log = true) => {
     const prevTodos = todos.slice();
     setTodos((todos) =>
       todos.map((todo) => {
@@ -160,6 +162,7 @@ export default function Todos() {
         setTodos(prevTodos);
         throw new Error(`HTTP status code ${res.status}. ${data.message}`);
       }
+      log && logAction("Archive");
     } catch (error) {
       console.error(error);
       alert(error);
@@ -183,6 +186,7 @@ export default function Todos() {
         setTodos(prevTodos);
         throw new Error(`HTTP status code ${res.status}. ${data.message}`);
       }
+      logAction("Delete");
     } catch (error) {
       console.error(error);
     }
@@ -204,9 +208,7 @@ export default function Todos() {
               placeholder="+ Add a task. Press enter to save."
               onChange={(e) => setNewTodo(e.target.value)}
               value={newTodo}
-              onKeyDown={(e) =>
-                e.key === "Enter" ? (createTodo(), logAction("Create")) : null
-              }
+              onKeyDown={(e) => (e.key === "Enter" ? createTodo() : null)}
             />
             {todos
               .filter((todo) => !todo.archive)
@@ -216,10 +218,7 @@ export default function Todos() {
                     todo.complete ? "is-complete" : ""
                   }`}
                   key={todo._id}
-                  onClick={() => {
-                    completeTodo(todo._id);
-                    logAction("Complete");
-                  }}
+                  onClick={() => completeTodo(todo._id)}
                 >
                   <div className="checkbox"></div>
                   <div className="text">{todo.text}</div>
@@ -228,7 +227,6 @@ export default function Todos() {
                     onClick={(e) => {
                       e.stopPropagation();
                       archiveTodo(todo._id);
-                      logAction("Archive");
                     }}
                   >
                     <FaArchive size="20" className="hover:fill-accent-portage" />
@@ -237,7 +235,6 @@ export default function Todos() {
                     onClick={(e) => {
                       e.stopPropagation();
                       deleteTodo(todo._id);
-                      logAction("Delete");
                     }}
                   >
                     <FaTrash size="20" className="hover:fill-accent-rose" />
@@ -260,7 +257,7 @@ export default function Todos() {
                     className="ml-auto"
                     onClick={(e) => {
                       e.stopPropagation();
-                      archiveTodo(todo._id);
+                      archiveTodo(todo._id, false);
                     }}
                   >
                     <FaInbox
@@ -272,7 +269,6 @@ export default function Todos() {
                     onClick={(e) => {
                       e.stopPropagation();
                       deleteTodo(todo._id);
-                      logAction("Delete");
                     }}
                   >
                     <FaTrash
