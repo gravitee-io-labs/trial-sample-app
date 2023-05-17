@@ -39,7 +39,7 @@ export default function Home() {
     <>
       <CustomHeader title="Home"></CustomHeader>
       <div className="flex w-full flex-col items-center px-12 ">
-        <h2 className="">Welcome to Gravitee's API Management Trial App</h2>
+        <h2>{"Welcome to Gravitee's API Management Trial App"}</h2>
         <p>
           This app has been built for you to experience the full benefits of API
           Management with your trial.
