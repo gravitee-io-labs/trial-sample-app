@@ -33,7 +33,7 @@ export default function Configuration() {
   };
 
   return (
-    <form action id="form" onSubmit={handleSubmit} className="">
+    <form id="form" onSubmit={handleSubmit} className="">
       <CustomHeader
         title="Configuration"
         buttonType="save"
