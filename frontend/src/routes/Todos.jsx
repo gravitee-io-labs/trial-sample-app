@@ -37,10 +37,6 @@ export default function Todos() {
     return authHeader;
   };
 
-  useEffect(() => {
-    getTodos();
-  }, [host]);
-
   const logAction = async (action) => {
     try {
       const now = new Date();
@@ -76,6 +72,10 @@ export default function Todos() {
     }
   };
 
+  useEffect(() => {
+    getTodos();
+  }, [host]);
+
   const getTodos = async () => {
     try {
       const res = await fetch("https://" + host + "/todos", {
@@ -90,8 +90,10 @@ export default function Todos() {
         throw new Error(`HTTP status code ${res.status}. ${data.message}`);
       }
       setTodos(data);
+      createToast(`Todos fetched from database`);
     } catch (error) {
       console.error(error);
+      createToast(error.message);
     }
   };
 
@@ -157,6 +159,7 @@ export default function Todos() {
       logAction("Completed");
     } catch (error) {
       console.error(error);
+      createToast(error.message);
     }
   };
 
@@ -219,6 +222,7 @@ export default function Todos() {
       logAction("Deleted");
     } catch (error) {
       console.error(error);
+      createToast(error.message);
     }
   };
 
