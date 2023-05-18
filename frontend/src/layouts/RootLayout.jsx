@@ -22,15 +22,15 @@ export default function RootLayout() {
       return "root";
     }
   });
-  const [authRequired, setAuthRequired] = useState(() => {
-    const storedPreference = localStorage.getItem("userPrefAuthRequired");
+  const [authType, setAuthType] = useState(() => {
+    const storedPreference = localStorage.getItem("userPrefAuthType");
     if (storedPreference) {
-      return JSON.parse(storedPreference);
+      return storedPreference;
     } else {
-      return false;
+      return "none";
     }
   });
-  const [apiKey, setApiKey] = useState(() => {
+  const [authToken, setAuthToken] = useState(() => {
     const storedPreference = localStorage.getItem("userPrefApiKey");
     if (storedPreference) {
       return storedPreference;
@@ -120,10 +120,10 @@ export default function RootLayout() {
             setUserId,
             kafkaData,
             setKafkaData,
-            apiKey,
-            setApiKey,
-            authRequired,
-            setAuthRequired,
+            authToken,
+            setAuthToken,
+            authType,
+            setAuthType,
           }}
         />
       </div>

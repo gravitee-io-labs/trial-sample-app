@@ -6,10 +6,10 @@ export default function Configuration() {
   const {
     host,
     setHost,
-    apiKey,
-    setApiKey,
-    authRequired,
-    setAuthRequired,
+    authToken,
+    setAuthToken,
+    authType,
+    setAuthType,
     userId,
     setUserId,
   } = useOutletContext();
@@ -24,10 +24,10 @@ export default function Configuration() {
     setUserId(e.target.userIdInput.value);
     localStorage.setItem("userId", e.target.userIdInput.value);
 
-    localStorage.setItem("userPrefAuthRequired", e.target.authRequired.checked);
+    localStorage.setItem("userPrefAuthType", e.target.authType.value);
 
-    setApiKey(e.target.apiKey.value);
-    localStorage.setItem("userPrefApiKey", e.target.apiKey.value);
+    setAuthToken(e.target.authToken.value);
+    localStorage.setItem("userPrefApiKey", e.target.authToken.value);
 
     setFormModified(false);
   };
@@ -73,27 +73,27 @@ export default function Configuration() {
           <h2>Authorization</h2>
           <RadioItems
             items={[
-              { label: "None", id: "none", checked: authRequired === "none" },
-              { label: "Api Key", id: "apiKey", checked: authRequired === "apiKey" },
-              { label: "JWT", id: "jwt", checked: authRequired === "jwt" },
+              { label: "None", id: "none", checked: authType === "none" },
+              { label: "Api Key", id: "apiKey", checked: authType === "apiKey" },
+              { label: "JWT", id: "jwt", checked: authType === "jwt" },
             ]}
-            handleChange={() => {
+            handleChange={(e) => {
+              setAuthType(e.target.value);
               setFormModified(true);
-              setAuthRequired(!authRequired);
             }}
             group="authType"
           />
           <div className="relative">
-            <label htmlFor="apiKey" className="form-label">
-              API Key
+            <label htmlFor="authToken" className="form-label">
+              {authType}
             </label>
             <input
               type="text"
-              name="apiKey"
+              name="authToken"
               className="form-input"
-              disabled={!authRequired}
-              required={authRequired}
-              defaultValue={apiKey}
+              disabled={authType === "none"}
+              required={authType !== "none"}
+              defaultValue={authToken}
               onChange={() => setFormModified(true)}
             />
           </div>

@@ -21,7 +21,21 @@ const createToast = (message) => {
 export default function Todos() {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
-  const { host, userId, apiKey, authRequired } = useOutletContext();
+  const { host, userId, authToken, authType } = useOutletContext();
+
+  const authHeaderSelector = () => {
+    let authHeader = {};
+    switch (authType) {
+      case "none":
+        break;
+      case "apiKey":
+        authHeader = { "X-Gravitee-Api-Key": authToken };
+        break;
+      case "jwt":
+        authHeader = { Authorization: `Bearer ${authToken}` };
+    }
+    return authHeader;
+  };
 
   useEffect(() => {
     getTodos();
@@ -43,9 +57,6 @@ export default function Todos() {
         .split(" ")[2];
       const res = await fetch("https://" + host + "/todo-actions", {
         method: "POST",
-        headers: {
-          ...(authRequired ? { "X-Gravitee-Api-Key": apiKey } : {}),
-        },
         body: JSON.stringify({
           userId,
           date: formattedDate,
@@ -70,7 +81,7 @@ export default function Todos() {
       const res = await fetch("https://" + host + "/todos", {
         headers: {
           "user-id": userId,
-          ...(authRequired ? { "X-Gravitee-Api-Key": apiKey } : {}),
+          ...authHeaderSelector(),
         },
       });
       const data = await res.json();
@@ -91,7 +102,7 @@ export default function Todos() {
         headers: {
           "user-id": userId,
           "Content-Type": "application/json",
-          ...(authRequired ? { "X-Gravitee-Api-Key": apiKey } : {}),
+          ...authHeaderSelector(),
         },
         body: JSON.stringify({ userId, text: newTodo }),
       });
@@ -133,7 +144,7 @@ export default function Todos() {
           method: "PATCH",
           headers: {
             "user-id": userId,
-            ...(authRequired ? { "X-Gravitee-Api-Key": apiKey } : {}),
+            ...authHeaderSelector(),
           },
         }
       );
@@ -171,7 +182,7 @@ export default function Todos() {
           method: "PATCH",
           headers: {
             "user-id": userId,
-            ...(authRequired ? { "X-Gravitee-Api-Key": apiKey } : {}),
+            ...authHeaderSelector(),
           },
         }
       );
@@ -196,7 +207,7 @@ export default function Todos() {
         method: "DELETE",
         headers: {
           "user-id": userId,
-          ...(authRequired ? { "X-Gravitee-Api-Key": apiKey } : {}),
+          ...authHeaderSelector(),
         },
       });
       const data = await res.json();
