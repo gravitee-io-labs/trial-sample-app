@@ -99,6 +99,12 @@ export default function Todos() {
 
   const createTodo = async () => {
     try {
+      if (newTodo.trim() === "") {
+        // If newTodo is blank or contains only whitespace characters
+        createToast("Please enter a non-empty todo.");
+        return;
+      }
+
       const res = await fetch("https://" + host + "/todos", {
         method: "POST",
         headers: {
