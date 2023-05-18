@@ -71,14 +71,17 @@ export default function Configuration() {
             />
           </div>
           <h2>Authorization</h2>
-          <Toggle
-            userLabel={"Enable Premium Access"}
+          <RadioItems
+            items={[
+              { label: "None", id: "none", checked: authRequired === "none" },
+              { label: "Api Key", id: "apiKey", checked: authRequired === "apiKey" },
+              { label: "JWT", id: "jwt", checked: authRequired === "jwt" },
+            ]}
             handleChange={() => {
               setFormModified(true);
               setAuthRequired(!authRequired);
             }}
-            htmlName="authRequired"
-            defaultValue={authRequired}
+            group="authType"
           />
           <div className="relative">
             <label htmlFor="apiKey" className="form-label">
@@ -100,16 +103,31 @@ export default function Configuration() {
   );
 }
 
-const Toggle = ({ userLabel, htmlName, handleChange, defaultValue }) => (
-  <label className="relative inline-flex max-w-max cursor-pointer items-center">
-    <input
-      type="checkbox"
-      name={htmlName}
-      defaultChecked={defaultValue}
-      className="peer sr-only"
-      onClick={handleChange}
-    />
-    <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800"></div>
-    <span className="ml-3 text-sm font-medium text-gray-900">{userLabel}</span>
-  </label>
+const RadioItems = ({ items, handleChange, group }) => (
+  <ul className="w-full items-center rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-900  sm:flex">
+    {items.map((item) => (
+      <li
+        key={item.id}
+        className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r"
+      >
+        <div className="flex items-center pl-3">
+          <input
+            name={group}
+            id={item.id}
+            value={item.id}
+            defaultChecked={item.checked}
+            onClick={handleChange}
+            type="radio"
+            className="h-4 w-4 border-gray-300 bg-gray-100 accent-secondary"
+          />
+          <label
+            htmlFor={item.id}
+            className="ml-2 w-full py-3 text-sm font-medium text-gray-900 "
+          >
+            {item.label}
+          </label>
+        </div>
+      </li>
+    ))}
+  </ul>
 );
