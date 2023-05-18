@@ -40,7 +40,7 @@ export default function Configuration() {
         formModified={formModified}
       ></CustomHeader>
       <main className="flex flex-grow flex-col items-center">
-        <fieldset className="flex w-96 flex-col gap-4 px-5">
+        <fieldset className="flex w-11/12 flex-col gap-4 px-5 md:w-2/3 xl:w-1/3">
           <h2>Target Server</h2>
           <div className="relative">
             <label htmlFor="userIdInput" className="form-label">
