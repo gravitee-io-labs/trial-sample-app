@@ -1,0 +1,7 @@
+:root {
+  --toastify-color-info: theme(colors.accent.500);
+}
+
+.Toastify__toast {
+  @apply shadow-lg shadow-accent-500/50;
+}

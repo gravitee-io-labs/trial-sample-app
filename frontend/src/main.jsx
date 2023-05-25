@@ -43,7 +43,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       pauseOnFocusLoss
       draggable
       pauseOnHover
-      theme="dark"
+      // theme="dark"
       transition={Zoom}
     />
     <RouterProvider router={router} />

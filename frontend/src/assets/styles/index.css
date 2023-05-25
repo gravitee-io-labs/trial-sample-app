@@ -5,6 +5,7 @@
 @import "./base/base.scss";
 
 @import "tailwindcss/components";
+@import "./components/react-toastify.scss";
 @import "./components/sidebar.scss";
 @import "./components/todo.scss";
 @import "./components/form.scss";
