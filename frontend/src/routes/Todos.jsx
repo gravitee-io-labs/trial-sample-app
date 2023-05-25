@@ -1,6 +1,6 @@
 import { Tabs } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { FaArchive, FaInbox, FaTrash } from "react-icons/fa";
+import { FiArchive, FiInbox, FiTrash } from "react-icons/fi";
 import { useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import CustomHeader from "../components/CustomHeader";
@@ -254,7 +254,7 @@ export default function Todos() {
               .filter((todo) => !todo.archive)
               .map((todo) => (
                 <div
-                  className={`todo cursor-pointer gap-6 hover:opacity-80 ${
+                  className={`todo cursor-pointer gap-6 hover:bg-space-neutral-100/20 ${
                     todo.complete ? "is-complete" : ""
                   }`}
                   key={todo._id}
@@ -269,7 +269,10 @@ export default function Todos() {
                       archiveTodo(todo._id);
                     }}
                   >
-                    <FaArchive size="20" className="hover:fill-accent-portage" />
+                    <FiArchive
+                      size="20"
+                      className=" text-black hover:text-accent-500"
+                    />
                   </div>
                   <div
                     onClick={(e) => {
@@ -277,7 +280,7 @@ export default function Todos() {
                       deleteTodo(todo._id);
                     }}
                   >
-                    <FaTrash size="20" className="hover:fill-accent-rose" />
+                    <FiTrash size="20" className="text-black hover:text-red-500" />
                   </div>
                 </div>
               ))}
@@ -300,9 +303,9 @@ export default function Todos() {
                       archiveTodo(todo._id, false);
                     }}
                   >
-                    <FaInbox
+                    <FiInbox
                       size="20"
-                      className="cursor-pointer hover:fill-accent-portage"
+                      className="cursor-pointer text-black hover:text-accent-500"
                     />
                   </div>
                   <div
@@ -311,9 +314,9 @@ export default function Todos() {
                       deleteTodo(todo._id);
                     }}
                   >
-                    <FaTrash
+                    <FiTrash
                       size="20"
-                      className="cursor-pointer hover:fill-accent-rose"
+                      className="cursor-pointer text-black hover:text-red-500"
                     />
                   </div>
                 </div>

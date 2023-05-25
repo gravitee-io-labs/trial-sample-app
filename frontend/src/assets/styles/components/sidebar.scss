@@ -13,11 +13,11 @@
   }
 
   &:has(.active) {
-    @apply bg-primary-light;
-    box-shadow: inset 5px 0 0 0 theme(colors.accent-cyan);
+    @apply bg-space-neutral-600;
+    box-shadow: inset 5px 0 0 0 theme(colors.primary.300);
 
     .menu-item__icon {
-      @apply rounded-xl bg-primary-dark text-accent-cyan;
+      @apply rounded-xl bg-space-neutral-800 text-primary-300;
     }
   }
 }

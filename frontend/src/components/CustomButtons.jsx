@@ -29,7 +29,7 @@ function BaseButton({
 }) {
   return (
     <button
-      className={`h-14 w-28 rounded-md bg-accent-cyan/80 font-bold tracking-wider text-black shadow-md shadow-accent-cyan/30 enabled:hover:opacity-70 ${extraClasses}`}
+      className={`h-14 w-28 rounded-md bg-primary-300/80 font-bold tracking-wider text-black shadow-md shadow-primary-300/30 enabled:hover:opacity-70 ${extraClasses}`}
       onClick={handleClick}
       type={type}
       id={id}

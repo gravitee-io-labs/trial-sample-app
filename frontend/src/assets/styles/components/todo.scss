@@ -1,9 +1,10 @@
 .todo {
   position: relative;
   flex-grow: 1;
-  background-color: theme(colors.secondary);
+  border-color: theme(colors.space-neutral.200);
+  border-style: solid;
+  border-width: 3px;
   padding: 20px;
-  border-radius: 16px;
   display: flex;
   align-items: center;
   transition: 0.5s;
@@ -13,21 +14,33 @@
     flex-shrink: 0;
     width: 20px;
     height: 20px;
-    border-radius: 50%;
-    background-color: theme(colors.primary);
+    background-color: theme(colors.space-neutral.100);
+    border-color: theme(colors.space-neutral.200);
+    border-style: solid;
+    border-width: 2px;
     transition: 0.4s;
   }
 
-  &.is-complete .checkbox {
-    background-image: linear-gradient(
-      to bottom,
-      theme(colors.primary-light),
-      theme(colors.accent-portage)
-    );
+  &.is-complete {
+    border-color: theme(colors.accent.500);
+    .checkbox {
+      background-color: theme(colors.accent.500);
+      border-color: theme(colors.accent.500);
+      position: relative;
+      &:before {
+        content: "✓";
+        color: white;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        position: absolute;
+      }
+    }
   }
 
   .text {
     font-size: 20px;
+    color: black;
   }
 
   &.is-complete .text {
@@ -39,7 +52,7 @@
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background-color: theme(colors.accent-rose);
+    background-color: theme(colors.red.500);
     display: flex;
     align-items: center;
     justify-content: center;

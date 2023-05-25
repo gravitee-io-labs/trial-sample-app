@@ -1,19 +1,9 @@
 :root {
   font-family: Inter, sans-serif;
-
-  --color-primary: 235.9 34.1% 16.7%;
-  --color-primary-light: 237.7 15.1% 33.7%;
-  --color-primary-dark: 249 53% 10%;
-  --color-secondary: 211 66% 28%;
-  --color-accent-cyan: 180 100% 50%;
-  --color-accent-portage: 251.5 76.7% 68%;
-  --color-accent-rose: 330.4 81.2% 60.4%;
-  --color-accent-orange: 16.3 99% 62.2%;
-  --color-content: 0 0% 100%;
 }
 
 body {
-  background-color: theme(colors.content);
+  background-color: white;
   color: black;
 }
 

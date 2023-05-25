@@ -3,5 +3,5 @@
 }
 
 .form-input {
-  @apply w-full rounded-xl border bg-[#f3f3f3] px-3 pb-2 pt-8 font-sans text-xl font-bold text-black shadow focus:shadow-inner focus:outline-none focus:valid:shadow-accent-cyan focus:invalid:shadow-red-700 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:opacity-60;
+  @apply w-full rounded-xl border bg-[#f3f3f3] px-3 pb-2 pt-8 font-sans text-xl font-bold text-black shadow focus:shadow-inner focus:outline-none focus:valid:shadow-accent-400 focus:invalid:shadow-red-700 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:opacity-60;
 }

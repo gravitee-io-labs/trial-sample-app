@@ -72,9 +72,9 @@ export default function RootLayout() {
 
   return (
     <>
-      <nav className="navbar fixed z-50 h-full w-20 overflow-clip rounded-r-3xl bg-primary bg-clip-border text-white shadow-xl shadow-primary  transition-[width] duration-500 ease-in-out hover:w-72">
+      <nav className="navbar fixed z-50 h-full w-20 overflow-clip rounded-r-3xl bg-space-neutral-800 bg-clip-border text-white shadow-xl shadow-space-neutral-800  transition-[width] duration-500 ease-in-out hover:w-72">
         <ul className="flex h-full flex-col items-center">
-          <li className="header flex h-[70px] w-full items-center justify-center gap-5 bg-secondary fill-black">
+          <li className="header flex h-[70px] w-full items-center justify-center gap-5 bg-[#184676] fill-black">
             <span className="header-text invisible absolute min-w-max font-[Montserrat] text-3xl font-extrabold uppercase tracking-[0.15em] opacity-0 transition-none">
               Gravitee
             </span>
@@ -93,7 +93,7 @@ export default function RootLayout() {
           </li>
           {pages.map((page) => (
             <li
-              className="menu-item group w-full py-2 transition-none duration-300 ease-linear hover:bg-primary-light hover:transition-all"
+              className="menu-item group w-full py-2 transition-none duration-300 ease-linear hover:bg-space-neutral-600 hover:transition-all"
               key={page.route}
             >
               <NavLink
@@ -133,7 +133,7 @@ export default function RootLayout() {
 
 const MenuItem = ({ icon, text }) => (
   <>
-    <div className="menu-item__icon mx-4 flex h-12 w-12 min-w-[3rem] items-center justify-center rounded-3xl bg-primary-light text-white transition-all duration-300 ease-linear group-hover:rounded-xl group-hover:bg-primary-dark group-hover:text-accent-cyan">
+    <div className="menu-item__icon mx-4 flex h-12 w-12 min-w-[3rem] items-center justify-center rounded-3xl bg-space-neutral-600 text-white transition-all duration-300 ease-linear group-hover:rounded-xl group-hover:bg-space-neutral-800 group-hover:text-primary-300">
       {icon}
     </div>
     <span className="menu-item__text invisible min-w-max opacity-0 transition-all duration-300 ease-linear">
