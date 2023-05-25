@@ -13,7 +13,8 @@ export function SaveFormButton({ formModified }) {
       id="submitForm"
       disabled={!formModified}
       extraClasses={
-        !formModified && "cursor-not-allowed bg-gray-300 shadow-gray-300/30"
+        !formModified &&
+        "cursor-not-allowed bg-dove-neutral-300 border-none !text-black"
       }
     ></BaseButton>
   );
@@ -29,7 +30,7 @@ function BaseButton({
 }) {
   return (
     <button
-      className={`h-14 w-28 rounded-md bg-primary-300/80 font-bold tracking-wider text-black shadow-md shadow-primary-300/30 enabled:hover:opacity-70 ${extraClasses}`}
+      className={`h-14 w-28 rounded-md border-2 border-primary-600 bg-primary-200 font-bold tracking-wider text-primary-800 enabled:hover:opacity-70 ${extraClasses}`}
       onClick={handleClick}
       type={type}
       id={id}
