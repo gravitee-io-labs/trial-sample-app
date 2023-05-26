@@ -46,8 +46,9 @@ export default function Todos() {
         hour: "numeric",
         minute: "numeric",
         second: "numeric",
-        millisecond: "numeric",
       });
+      const milliseconds = now.getMilliseconds();
+      const formattedTimeWithMilliseconds = `${formattedTime}.${milliseconds}`;
       const timeZone = now
         .toLocaleTimeString([], { timeZoneName: "short" })
         .split(" ")[2];
@@ -56,7 +57,7 @@ export default function Todos() {
         body: JSON.stringify({
           userId,
           date: formattedDate,
-          time: formattedTime,
+          time: formattedTimeWithMilliseconds,
           timeZone,
           action,
         }),
@@ -66,7 +67,9 @@ export default function Todos() {
       if (!res.ok) {
         throw new Error(`HTTP status code ${res.status}.`);
       }
-      createToast(`Todo ${action} at ${formattedTime} ${timeZone} on ${formattedDate}`);
+      createToast(
+        `Todo ${action} at ${formattedTimeWithMilliseconds} ${timeZone} on ${formattedDate}`
+      );
     } catch (error) {
       console.error(error);
     }
