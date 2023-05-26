@@ -20,7 +20,7 @@ export function SaveFormButton({ formModified }) {
   );
 }
 
-function BaseButton({
+export function BaseButton({
   text,
   extraClasses = "",
   handleClick = null,
@@ -30,7 +30,7 @@ function BaseButton({
 }) {
   return (
     <button
-      className={`h-14 w-28 rounded-md border-2 border-primary-600 bg-primary-200 font-bold tracking-wider text-primary-800 enabled:hover:opacity-70 ${extraClasses}`}
+      className={`h-14 w-28 rounded-md border-2 border-primary-600 bg-primary-200 font-bold tracking-wider text-primary-800 enabled:hover:opacity-70 enabled:group-hover:opacity-70 ${extraClasses}`}
       onClick={handleClick}
       type={type}
       id={id}

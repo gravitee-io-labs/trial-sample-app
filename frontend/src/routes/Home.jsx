@@ -1,9 +1,17 @@
+import { FiCpu, FiLock, FiZap } from "react-icons/fi";
+import oneBar from "../assets/oneBar.svg";
+import threeBar from "../assets/threeBar.svg";
+import twoBar from "../assets/twoBar.svg";
 import Card from "../components/Card";
 import CustomHeader from "../components/CustomHeader";
 
 export default function Home() {
   const tutorial_options = [
     {
+      subtitle: "Scenario 1",
+      difficulty: "Beginner",
+      difficultyIcon: oneBar,
+      mainIcon: <FiLock size="40" />,
       title: "Basic Security and Access Control",
       description:
         "This tutorial showcases Gravitee's core features which include securing a Gateway API, applying API access restrictions, and managing applications and subscriptions.",
@@ -14,6 +22,10 @@ export default function Home() {
       policies: "Quota, Interrupt",
     },
     {
+      subtitle: "Scenario 2",
+      difficulty: "Intermediate",
+      difficultyIcon: twoBar,
+      mainIcon: <FiZap size="40" />,
       title: "Real-time Data and Protocol Mediation",
       description:
         "This tutorial demonstrates Gravitee's ability to natively handle, and mediate between, both asynchronous and synchronous protocols.",
@@ -24,6 +36,10 @@ export default function Home() {
       policies: "Latency",
     },
     {
+      subtitle: "Scenario 3",
+      difficulty: "Advanced",
+      difficultyIcon: threeBar,
+      mainIcon: <FiCpu size="40" />,
       title: "Advanced Policies and Security",
       description:
         "This tutorial details more advanced policies and security measures.",
