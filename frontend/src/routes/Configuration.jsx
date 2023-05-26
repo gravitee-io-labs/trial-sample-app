@@ -104,13 +104,10 @@ export default function Configuration() {
 }
 
 const RadioItems = ({ items, handleChange, group }) => (
-  <ul className="w-full items-center rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-900  sm:flex">
+  <ul className=" w-2/3 items-center rounded-xl text-sm font-medium outline outline-[1px] outline-offset-4 outline-space-neutral-100/50 sm:flex">
     {items.map((item) => (
-      <li
-        key={item.id}
-        className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r"
-      >
-        <div className="flex items-center pl-3">
+      <li key={item.id} className="w-full">
+        <div className="form-radio flex items-center">
           <input
             name={group}
             id={item.id}
@@ -118,11 +115,11 @@ const RadioItems = ({ items, handleChange, group }) => (
             defaultChecked={item.checked}
             onClick={handleChange}
             type="radio"
-            className="h-4 w-4 border-gray-300 bg-gray-100 accent-secondary"
+            className="fixed opacity-0"
           />
           <label
             htmlFor={item.id}
-            className="ml-2 w-full py-3 text-sm font-medium text-gray-900 "
+            className="w-full cursor-pointer rounded-xl py-3 text-center text-sm font-medium"
           >
             {item.label}
           </label>
