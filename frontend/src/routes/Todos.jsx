@@ -18,6 +18,16 @@ const createToast = (message) => {
   }
 };
 
+const sortTodos = (a, b) => {
+  if (a.complete && !b.complete) {
+    return 1; // a comes after b
+  } else if (!a.complete && b.complete) {
+    return -1; // a comes before b
+  } else {
+    return 0; // a and b remain unchanged
+  }
+};
+
 export default function Todos() {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
@@ -235,6 +245,7 @@ export default function Todos() {
     }
   };
 
+  const sortedTodos = [...todos].sort(sortTodos);
   return (
     <>
       <CustomHeader title="Todos"></CustomHeader>
@@ -253,7 +264,7 @@ export default function Todos() {
               value={newTodo}
               onKeyDown={(e) => (e.key === "Enter" ? createTodo() : null)}
             />
-            {todos
+            {sortedTodos
               .filter((todo) => !todo.archive)
               .map((todo) => (
                 <div
