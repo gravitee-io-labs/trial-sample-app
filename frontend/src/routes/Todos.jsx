@@ -253,6 +253,19 @@ export default function Todos() {
         aria-label="Tabs with underline"
         style="underline"
         className="flex justify-center xl:px-72"
+        theme={{
+          tablist: {
+            tabitem: {
+              styles: {
+                underline: {
+                  active: {
+                    on: "text-accent-500 border-b-2 border-accent-500 !focus-visible:border-accent-500 !focus:border-accent-500",
+                  },
+                },
+              },
+            },
+          },
+        }}
       >
         <Tabs.Item title="Current" active={true}>
           <div className="flex flex-col gap-5">
