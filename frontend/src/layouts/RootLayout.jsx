@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaChartBar, FaCheckCircle, FaCog } from "react-icons/fa";
-import { IoHomeOutline, IoNotifications } from "react-icons/io5";
+import { FiBarChart, FiBell, FiCheckCircle, FiHome, FiSettings } from "react-icons/fi";
 import { NavLink, Outlet } from "react-router-dom";
 import useWebSocket from "react-use-websocket";
 import { v4 as uuidv4 } from "uuid";
@@ -59,15 +58,15 @@ export default function RootLayout() {
   }, [lastMessage]);
 
   const pages = [
-    { route: "/", icon: <IoHomeOutline size="28" />, text: "Home" },
-    { route: "/todos", icon: <FaCheckCircle size="28" />, text: "Todos" },
-    { route: "/analytics", icon: <FaChartBar size="28" />, text: "Analytics" },
+    { route: "/", icon: <FiHome size="20" />, text: "Home" },
+    { route: "/todos", icon: <FiCheckCircle size="20" />, text: "Todos" },
+    { route: "/analytics", icon: <FiBarChart size="20" />, text: "Analytics" },
     {
       route: "/notification-history",
-      icon: <IoNotifications size="28" />,
+      icon: <FiBell size="20" />,
       text: "Notification History",
     },
-    { route: "/configuration", icon: <FaCog size="28" />, text: "Configuration" },
+    { route: "/configuration", icon: <FiSettings size="20" />, text: "Configuration" },
   ];
 
   return (
@@ -93,7 +92,7 @@ export default function RootLayout() {
           </li>
           {pages.map((page) => (
             <li
-              className="menu-item group w-full py-2 transition-none duration-300 ease-linear hover:bg-space-neutral-600 hover:transition-all"
+              className="menu-item group w-full py-1 transition-none duration-300 ease-linear hover:bg-space-neutral-700 hover:transition-all"
               key={page.route}
             >
               <NavLink
@@ -133,7 +132,7 @@ export default function RootLayout() {
 
 const MenuItem = ({ icon, text }) => (
   <>
-    <div className="menu-item__icon mx-4 flex h-12 w-12 min-w-[3rem] items-center justify-center rounded-3xl bg-space-neutral-600 text-white transition-all duration-300 ease-linear group-hover:rounded-xl group-hover:bg-space-neutral-800 group-hover:text-primary-300">
+    <div className="menu-item__icon mx-4 flex h-12 w-12 min-w-[3rem] items-center justify-center text-white transition-all duration-300 ease-linear group-hover:rounded-xl group-hover:bg-space-neutral-800 group-hover:text-primary-300">
       {icon}
     </div>
     <span className="menu-item__text invisible min-w-max opacity-0 transition-all duration-300 ease-linear">

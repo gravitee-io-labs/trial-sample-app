@@ -10,11 +10,11 @@
 .menu-item {
   &:last-child {
     margin-top: auto;
+    @apply border-t-[1px] border-space-neutral-300;
   }
 
   &:has(.active) {
-    @apply bg-space-neutral-600;
-    box-shadow: inset 5px 0 0 0 theme(colors.primary.300);
+    box-shadow: inset 2px 0 0 0 theme(colors.primary.300);
 
     .menu-item__icon {
       @apply rounded-xl bg-space-neutral-800 text-primary-300;
