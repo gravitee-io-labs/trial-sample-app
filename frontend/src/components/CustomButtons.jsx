@@ -14,7 +14,7 @@ export function SaveFormButton({ formModified }) {
       disabled={!formModified}
       extraClasses={
         !formModified &&
-        "cursor-not-allowed bg-dove-neutral-300 border-none !text-black"
+        "cursor-not-allowed !bg-dove-neutral-300 border-none !text-black"
       }
     ></BaseButton>
   );
