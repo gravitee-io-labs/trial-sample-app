@@ -14,7 +14,7 @@ export default function Home() {
       mainIcon: <FiLock size="40" />,
       title: "Basic Security and Access Control",
       description:
-        "This tutorial showcases Gravitee's core features which include securing a Gateway API, applying API access restrictions, and managing applications and subscriptions.",
+        "This tutorial demonstrates Gravitee's core features which include securing a Gateway API, applying API access restrictions, and managing applications and subscriptions.",
       architecture: "http-proxy",
       entrypoint: "REST",
       endpoint: "REST",
@@ -28,12 +28,12 @@ export default function Home() {
       mainIcon: <FiZap size="40" />,
       title: "Real-time Data and Protocol Mediation",
       description:
-        "This tutorial demonstrates Gravitee's ability to natively handle, and mediate between, both asynchronous and synchronous protocols.",
+        "This tutorial showcases Gravitee's event-native API management capabilities that can natively handle, and mediate between, both asynchronous and synchronous protocols.",
       architecture: "message",
       entrypoint: "Websocket",
       endpoint: "Kafka",
-      planSecurity: "None (temporary - shared API key support)",
-      policies: "Latency",
+      planSecurity: "Shared API",
+      policies: "Latency, Transform Headers",
     },
     {
       subtitle: "Scenario 3",
@@ -42,12 +42,12 @@ export default function Home() {
       mainIcon: <FiCpu size="40" />,
       title: "Advanced Policies and Security",
       description:
-        "This tutorial details more advanced policies and security measures.",
+        "This tutorial details a hypothetical monetization use-case that requires a more complex implementation.",
       architecture: "http-proxy",
       entrypoint: "REST",
       endpoint: "REST",
       planSecurity: "JWT",
-      policies: "Assign Metrics",
+      policies: "Assign Metrics, Transform Headers",
     },
   ];
 
