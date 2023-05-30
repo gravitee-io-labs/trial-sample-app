@@ -2,7 +2,7 @@ import { useOutletContext } from "react-router-dom";
 import CustomHeader from "../components/CustomHeader";
 import NoData from "../components/NoData";
 
-export default function NotificationHistory() {
+export default function NotificationCenter() {
   const { kafkaData } = useOutletContext();
 
   return (

@@ -59,12 +59,12 @@ export default function RootLayout() {
 
   const pages = [
     { route: "/", icon: <FiHome size="20" />, text: "Home" },
-    { route: "/todos", icon: <FiCheckCircle size="20" />, text: "Todos" },
+    { route: "/todos", icon: <FiCheckCircle size="20" />, text: "Todo List" },
     { route: "/analytics", icon: <FiBarChart size="20" />, text: "Analytics" },
     {
-      route: "/notification-history",
+      route: "/notification-center",
       icon: <FiBell size="20" />,
-      text: "Notification History",
+      text: "Notification Center",
     },
     { route: "/configuration", icon: <FiSettings size="20" />, text: "Configuration" },
   ];

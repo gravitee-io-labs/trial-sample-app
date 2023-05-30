@@ -248,7 +248,7 @@ export default function Todos() {
   const sortedTodos = [...todos].sort(sortTodos);
   return (
     <>
-      <CustomHeader title="Todos"></CustomHeader>
+      <CustomHeader title="Todo List"></CustomHeader>
       <Tabs.Group
         aria-label="Tabs with underline"
         style="underline"

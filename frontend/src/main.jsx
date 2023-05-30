@@ -14,7 +14,7 @@ import RootLayout from "./layouts/RootLayout";
 import Analytics from "./routes/Analytics";
 import Configuration from "./routes/Configuration";
 import Home from "./routes/Home";
-import NotificationHistory from "./routes/NotificationHistory";
+import NotificationCenter from "./routes/NotificationCenter";
 import Todos from "./routes/Todos";
 
 const router = createBrowserRouter(
@@ -23,7 +23,7 @@ const router = createBrowserRouter(
       <Route index element={<Home />} />
       <Route path="todos" element={<Todos />} />
       <Route path="analytics" element={<Analytics />} />
-      <Route path="notification-history" element={<NotificationHistory />} />
+      <Route path="notification-history" element={<NotificationCenter />} />
       <Route path="configuration" element={<Configuration />} />
     </Route>
   ),
@@ -43,7 +43,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       pauseOnFocusLoss
       draggable
       pauseOnHover
-      // theme="dark"
       transition={Zoom}
     />
     <RouterProvider router={router} />
