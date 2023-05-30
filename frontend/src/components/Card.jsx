@@ -29,23 +29,23 @@ export default function Card({
       <h3 className="mt-0">{title}</h3>
       <div className="mt-6">{description}</div>
       <br />
-      <div>
+      <div className=" list-item list-inside">
         <em>Gateway Architecture: </em>
         {architecture}
       </div>
-      <div>
+      <div className=" list-item list-inside">
         <em>Entrypoint: </em>
         {entrypoint}
       </div>
-      <div>
+      <div className=" list-item list-inside">
         <em>Endpoint: </em>
         {endpoint}
       </div>
-      <div>
+      <div className=" list-item list-inside">
         <em>Plan Security: </em>
         {planSecurity}
       </div>
-      <div>
+      <div className=" list-item list-inside">
         <em>Policies: </em>
         {policies}
       </div>
