@@ -32,7 +32,7 @@ export default function Home() {
       architecture: "message",
       entrypoint: "Websocket",
       endpoint: "Kafka",
-      planSecurity: "Shared API",
+      planSecurity: "None",
       policies: "Latency, Transform Headers",
     },
     {
@@ -40,7 +40,7 @@ export default function Home() {
       difficulty: "Advanced",
       difficultyIcon: threeBar,
       mainIcon: <FiCpu size="40" />,
-      title: "Advanced Policies and Security",
+      title: "Advanced Policies and Developer Portal",
       description:
         "This tutorial details a hypothetical monetization use-case that requires a more complex implementation.",
       architecture: "http-proxy",
