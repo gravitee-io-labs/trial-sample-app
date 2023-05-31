@@ -23,7 +23,7 @@ const router = createBrowserRouter(
       <Route index element={<Home />} />
       <Route path="todos" element={<Todos />} />
       <Route path="analytics" element={<Analytics />} />
-      <Route path="notification-history" element={<NotificationCenter />} />
+      <Route path="notification-center" element={<NotificationCenter />} />
       <Route path="configuration" element={<Configuration />} />
     </Route>
   ),
