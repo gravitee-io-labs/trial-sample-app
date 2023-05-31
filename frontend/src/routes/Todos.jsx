@@ -5,18 +5,7 @@ import { useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import CustomHeader from "../components/CustomHeader";
 
-const createToast = (message) => {
-  if (toast.isActive("main")) {
-    toast.update("main", {
-      render: message,
-      type: toast.TYPE.INFO,
-    });
-  } else {
-    toast.info(message, {
-      toastId: "main",
-    });
-  }
-};
+const createToast = (message) => toast.info(message, {});
 
 const sortTodos = (a, b) => {
   if (a.complete && !b.complete) {
