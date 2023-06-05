@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FiBarChart, FiBell, FiCheckCircle, FiHome, FiSettings } from "react-icons/fi";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate, useSearchParams } from "react-router-dom";
 import useWebSocket from "react-use-websocket";
 import { v4 as uuidv4 } from "uuid";
 
@@ -13,14 +13,24 @@ export default function RootLayout() {
       return "apim-master-gateway.team-apim.gravitee.dev";
     }
   });
+  // Set hrid from query parameters
+  const [searchParams, setSearchparams] = useSearchParams();
+  const navigate = useNavigate();
   const [userId, setUserId] = useState(() => {
-    const storedPreference = localStorage.getItem("userId");
-    if (storedPreference) {
-      return storedPreference;
+    const hrid = searchParams.get("hrid") || localStorage.getItem("hrid");
+    if (hrid) {
+      setSearchparams({}); // once hrid is saved, remove query parameters from URL
+      return hrid;
     } else {
-      return "root";
+      setSearchparams({}); // once hrid is saved, remove query parameters from URL
+      return "not-set";
     }
   });
+  useEffect(() => {
+    localStorage.setItem("hrid", userId);
+    navigate(); // updates the URL
+  }, [userId]);
+
   const [authType, setAuthType] = useState(() => {
     const storedPreference = localStorage.getItem("userPrefAuthType");
     if (storedPreference) {
@@ -59,14 +69,26 @@ export default function RootLayout() {
 
   const pages = [
     { route: "/", icon: <FiHome size="20" />, text: "Home" },
-    { route: "/todos", icon: <FiCheckCircle size="20" />, text: "Todo List" },
-    { route: "/analytics", icon: <FiBarChart size="20" />, text: "Analytics" },
+    {
+      route: "/todos",
+      icon: <FiCheckCircle size="20" />,
+      text: "Todo List",
+    },
+    {
+      route: "/analytics",
+      icon: <FiBarChart size="20" />,
+      text: "Analytics",
+    },
     {
       route: "/notification-center",
       icon: <FiBell size="20" />,
       text: "Notification Center",
     },
-    { route: "/configuration", icon: <FiSettings size="20" />, text: "Configuration" },
+    {
+      route: "/configuration",
+      icon: <FiSettings size="20" />,
+      text: "Configuration",
+    },
   ];
 
   return (
