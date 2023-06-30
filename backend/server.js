@@ -14,10 +14,7 @@ app.set("port", process.env.PORT || 3001);
 // This will be the default option in Mongoose 7. This ensures non-existent query filters are not stripped out
 mongoose.set("strictQuery", false);
 mongoose
-  .connect(
-    `mongodb+srv://bigmike:${process.env.MONGODB_PW}@cluster0.2ogi8pf.mongodb.net/?retryWrites=true&w=majority`,
-    {}
-  )
+  .connect(process.env.MONGODB_URI, {})
   .then(() => console.log("Connected to database"))
   .catch(console.error);
 
