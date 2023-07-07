@@ -20,9 +20,11 @@ const countObjectsByProperty = (arr, prop) => {
 };
 
 export default function Analytics() {
-  const { kafkaData } = useOutletContext();
+  const { kafkaData, delayedKafkaData } = useOutletContext();
 
   const graphData = countObjectsByProperty(kafkaData, "action");
+
+  const delayedGraphData = countObjectsByProperty(delayedKafkaData, "action");
 
   return (
     <div className="h-[80vh]">
@@ -106,7 +108,7 @@ export default function Analytics() {
           />
           <h2>Delayed Graph</h2>
           <ResponsiveBar
-            data={graphData}
+            data={delayedGraphData}
             keys={["quantity"]}
             tooltip={({ id, value }) => (
               <div

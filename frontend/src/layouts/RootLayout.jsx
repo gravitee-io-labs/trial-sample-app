@@ -47,11 +47,15 @@ export default function RootLayout() {
       return "";
     }
   });
-  const [kafkaData, setKafkaData] = useState([]);
 
+  // Real-time data stream
   const [kafkaConsumerId] = useState(() => uuidv4());
+  const [kafkaData, setKafkaData] = useState([]);
   const { lastMessage } = useWebSocket(`wss://${host}/todo-actions`, {
-    queryParams: { "x-gravitee-client-identifier": kafkaConsumerId },
+    queryParams: {
+      "x-gravitee-client-identifier": kafkaConsumerId,
+      "api-key": "preconfigured-api-key", // Custom API key set in Gravitee trial
+    },
     shouldReconnect: () => true,
     onOpen: () => console.log("WebSocket connected"),
     onError: (error) => console.log(`WebSocket error: ${error}`),
@@ -66,6 +70,29 @@ export default function RootLayout() {
       })();
     }
   }, [lastMessage]);
+
+  // Delayed data stream
+  const [delayedKafkaConsumerId] = useState(() => uuidv4());
+  const [delayedKafkaData, setDelayedKafkaData] = useState([]);
+  const { lastMessage: delayedLastMessage } = useWebSocket(
+    `wss://${host}/todo-actions`,
+    {
+      queryParams: { "x-gravitee-client-identifier": delayedKafkaConsumerId },
+      shouldReconnect: () => true,
+      onOpen: () => console.log("WebSocket connected"),
+      onError: (error) => console.log(`WebSocket error: ${error}`),
+      onClose: () => console.log("WebSocket closed"),
+    }
+  );
+  useEffect(() => {
+    if (delayedLastMessage !== null) {
+      (async () => {
+        const data = await delayedLastMessage.data.text();
+        const parsedData = JSON.parse(data);
+        setDelayedKafkaData((prevData) => [...prevData, parsedData]);
+      })();
+    }
+  }, [delayedLastMessage]);
 
   const pages = [
     { route: "/", icon: <FiHome size="20" />, text: "Home" },
@@ -141,6 +168,8 @@ export default function RootLayout() {
             setUserId,
             kafkaData,
             setKafkaData,
+            delayedKafkaData,
+            setDelayedKafkaData,
             authToken,
             setAuthToken,
             authType,
