@@ -9,7 +9,7 @@ export default function Card({
   mainIcon,
   title,
   description,
-  architecture,
+  gatewayApiType,
   entrypoint,
   endpoint,
   planSecurity,
@@ -30,8 +30,8 @@ export default function Card({
       <div className="mt-6">{description}</div>
       <br />
       <div className=" list-item list-inside">
-        <em>Gateway Architecture: </em>
-        {architecture}
+        <em>Gateway API Type: </em>
+        {gatewayApiType}
       </div>
       <div className=" list-item list-inside">
         <em>Entrypoint: </em>
