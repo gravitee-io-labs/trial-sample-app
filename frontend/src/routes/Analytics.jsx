@@ -20,7 +20,7 @@ const countObjectsByProperty = (arr, prop) => {
 };
 
 export default function Analytics() {
-  const { kafkaData, delayedKafkaData } = useOutletContext();
+  const { kafkaData, delayedKafkaData, analytics } = useOutletContext();
 
   const graphData = countObjectsByProperty(kafkaData, "action");
 
@@ -29,7 +29,9 @@ export default function Analytics() {
   return (
     <div className="h-[80vh]">
       <CustomHeader title="Analytics" buttonType="reset"></CustomHeader>
-      {kafkaData.length || delayedKafkaData.length ? (
+      {analytics === "off" ? (
+        <NoData message="Analytics are currently turned off in your Configuration settings." />
+      ) : kafkaData.length || delayedKafkaData.length ? (
         <div className="graph-grid h-full px-6">
           <h2>Real-time Graph</h2>
           <ResponsiveBar
@@ -183,7 +185,7 @@ export default function Analytics() {
           />
         </div>
       ) : (
-        <NoData />
+        <NoData message="There is no data yet. Create, complete, archive, or delete todos to generate data." />
       )}
     </div>
   );
