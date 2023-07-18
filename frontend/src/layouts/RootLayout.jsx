@@ -40,7 +40,7 @@ export default function RootLayout() {
     }
   });
   const [authToken, setAuthToken] = useState(() => {
-    const storedPreference = localStorage.getItem("userPrefApiKey");
+    const storedPreference = localStorage.getItem("userPrefAuthToken");
     if (storedPreference) {
       return storedPreference;
     } else {

@@ -3,32 +3,19 @@ import { useOutletContext } from "react-router-dom";
 import CustomHeader from "../components/CustomHeader";
 
 export default function Configuration() {
-  const {
-    host,
-    setHost,
-    authToken,
-    setAuthToken,
-    authType,
-    setAuthType,
-    userId,
-    setUserId,
-  } = useOutletContext();
+  const { host, authToken, setAuthToken, authType, setAuthType, userId } =
+    useOutletContext();
   const [formModified, setFormModified] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setHost(e.target.hostInput.value);
-    localStorage.setItem("userPrefHost", e.target.hostInput.value);
-
-    setUserId(e.target.userIdInput.value);
-    localStorage.setItem("userId", e.target.userIdInput.value);
-
+    // Update state and/or local storage values
     localStorage.setItem("userPrefAuthType", e.target.authType.value);
-
     setAuthToken(e.target.authToken.value);
-    localStorage.setItem("userPrefApiKey", e.target.authToken.value);
+    localStorage.setItem("userPrefAuthToken", e.target.authToken.value);
 
+    // Reset save changes button after submit
     setFormModified(false);
   };
 
@@ -92,7 +79,6 @@ export default function Configuration() {
               required
               disabled
               defaultValue={userId}
-              onChange={() => setFormModified(true)}
             />
           </div>
           <div className="relative">
@@ -106,7 +92,6 @@ export default function Configuration() {
               required
               disabled
               defaultValue={host}
-              onChange={() => setFormModified(true)}
             />
           </div>
         </fieldset>
