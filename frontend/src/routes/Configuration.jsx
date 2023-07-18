@@ -41,35 +41,6 @@ export default function Configuration() {
       ></CustomHeader>
       <main className="flex flex-grow flex-col items-center">
         <fieldset className="flex w-11/12 flex-col gap-6 px-5 md:w-2/3 xl:w-1/3">
-          <h2>Target Server</h2>
-          <div className="relative">
-            <label htmlFor="userIdInput" className="form-label">
-              Gravitee User ID
-            </label>
-            <input
-              type="text"
-              name="userIdInput"
-              className="form-input"
-              required
-              defaultValue={userId}
-              onChange={() => setFormModified(true)}
-            />
-          </div>
-
-          <div className="relative">
-            <label htmlFor="hostInput" className="form-label">
-              Fully Qualified Domain Name
-            </label>
-            <input
-              type="text"
-              name="hostInput"
-              className="form-input"
-              required
-              disabled
-              defaultValue={host}
-              onChange={() => setFormModified(true)}
-            />
-          </div>
           <h2>Authorization</h2>
           <RadioItems
             items={[
@@ -94,6 +65,35 @@ export default function Configuration() {
               disabled={authType === "none"}
               required={authType !== "none"}
               defaultValue={authToken}
+              onChange={() => setFormModified(true)}
+            />
+          </div>
+          <h2>Target Gateway</h2>
+          <div className="relative">
+            <label htmlFor="userIdInput" className="form-label">
+              Gravitee HRID
+            </label>
+            <input
+              type="text"
+              name="userIdInput"
+              className="form-input"
+              required
+              disabled
+              defaultValue={userId}
+              onChange={() => setFormModified(true)}
+            />
+          </div>
+          <div className="relative">
+            <label htmlFor="hostInput" className="form-label">
+              Fully Qualified Domain Name
+            </label>
+            <input
+              type="text"
+              name="hostInput"
+              className="form-input"
+              required
+              disabled
+              defaultValue={host}
               onChange={() => setFormModified(true)}
             />
           </div>
