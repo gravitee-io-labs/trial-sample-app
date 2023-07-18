@@ -57,9 +57,9 @@ export default function RootLayout() {
       "api-key": "preconfigured-api-key", // Custom API key set in Gravitee trial
     },
     shouldReconnect: () => true,
-    onOpen: () => console.log("WebSocket connected"),
-    onError: (error) => console.log(`WebSocket error: ${error}`),
-    onClose: () => console.log("WebSocket closed"),
+    onOpen: () => console.log("Real-time WebSocket connected"),
+    onError: (error) => console.log(`Real-time WebSocket error: ${error}`),
+    onClose: () => console.log("Real-time WebSocket closed"),
   });
   useEffect(() => {
     if (lastMessage !== null) {
@@ -79,9 +79,9 @@ export default function RootLayout() {
     {
       queryParams: { "x-gravitee-client-identifier": delayedKafkaConsumerId },
       shouldReconnect: () => true,
-      onOpen: () => console.log("WebSocket connected"),
-      onError: (error) => console.log(`WebSocket error: ${error}`),
-      onClose: () => console.log("WebSocket closed"),
+      onOpen: () => console.log("Delayed WebSocket connected"),
+      onError: (error) => console.log(`Delayed WebSocket error: ${error}`),
+      onClose: () => console.log("Delayed WebSocket closed"),
     }
   );
   useEffect(() => {
