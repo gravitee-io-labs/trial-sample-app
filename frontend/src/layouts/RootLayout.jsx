@@ -5,17 +5,18 @@ import useWebSocket from "react-use-websocket";
 import { v4 as uuidv4 } from "uuid";
 
 export default function RootLayout() {
+  // Set host and hrid from query parameters
+  const [searchParams, setSearchparams] = useSearchParams();
+  const navigate = useNavigate();
+
   const [host, setHost] = useState(() => {
-    const storedPreference = localStorage.getItem("userPrefHost");
-    if (storedPreference) {
-      return storedPreference;
+    const host = searchParams.get("host") || localStorage.getItem("host");
+    if (host) {
+      return host;
     } else {
       return "apim-master-gateway.team-apim.gravitee.dev";
     }
   });
-  // Set hrid from query parameters
-  const [searchParams, setSearchparams] = useSearchParams();
-  const navigate = useNavigate();
   const [userId, setUserId] = useState(() => {
     const hrid = searchParams.get("hrid") || localStorage.getItem("hrid");
     if (hrid) {
@@ -25,10 +26,11 @@ export default function RootLayout() {
     }
   });
   useEffect(() => {
+    localStorage.setItem("host", host);
     localStorage.setItem("hrid", userId);
     setSearchparams({}); // once hrid is saved, delete query parameters
     navigate(); // update URL to remove query parameters
-  }, [userId]);
+  }, [host, userId]);
 
   const [authType, setAuthType] = useState(() => {
     const storedPreference = localStorage.getItem("userPrefAuthType");
