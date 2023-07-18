@@ -49,6 +49,7 @@ export default function Configuration() {
               { label: "JWT", id: "jwt", checked: authType === "jwt" },
             ]}
             handleChange={(e) => {
+              // Auth type must be set here to immediately update label
               setAuthType(e.target.value);
               setFormModified(true);
             }}
@@ -68,6 +69,17 @@ export default function Configuration() {
               onChange={() => setFormModified(true)}
             />
           </div>
+          <h2>Analytics</h2>
+          <RadioItems
+            items={[
+              { label: "Off", id: "off", checked: true },
+              { label: "On", id: "on", checked: false },
+            ]}
+            handleChange={() => {
+              setFormModified(true);
+            }}
+            group="analytics"
+          />
           <h2>Target Gateway</h2>
           <div className="relative">
             <label htmlFor="userIdInput" className="form-label">
