@@ -29,7 +29,7 @@ export default function Analytics() {
   return (
     <div className="h-[80vh]">
       <CustomHeader title="Analytics" buttonType="reset"></CustomHeader>
-      {kafkaData.length ? (
+      {kafkaData.length || delayedKafkaData.length ? (
         <div className="graph-grid h-full px-6">
           <h2>Real-time Graph</h2>
           <ResponsiveBar
