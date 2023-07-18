@@ -5,7 +5,7 @@ import useWebSocket from "react-use-websocket";
 import { v4 as uuidv4 } from "uuid";
 
 export default function RootLayout() {
-  // Set host and hrid from query parameters
+  // Set host and userId from query parameters
   const [searchParams, setSearchparams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -18,17 +18,17 @@ export default function RootLayout() {
     }
   });
   const [userId, setUserId] = useState(() => {
-    const hrid = searchParams.get("hrid") || localStorage.getItem("hrid");
-    if (hrid) {
-      return hrid;
+    const userId = searchParams.get("userId") || localStorage.getItem("userId");
+    if (userId) {
+      return userId;
     } else {
       return "not-set";
     }
   });
   useEffect(() => {
     localStorage.setItem("host", host);
-    localStorage.setItem("hrid", userId);
-    setSearchparams({}); // once hrid is saved, delete query parameters
+    localStorage.setItem("userId", userId);
+    setSearchparams({}); // once userId is saved, delete query parameters
     navigate(); // update URL to remove query parameters
   }, [host, userId]);
 
