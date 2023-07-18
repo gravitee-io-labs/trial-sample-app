@@ -49,6 +49,16 @@ export default function RootLayout() {
     }
   });
 
+  // Analytics state management
+  const [analytics, setAnalytics] = useState(() => {
+    const storedPreference = localStorage.getItem("userPrefAnalytics");
+    if (storedPreference) {
+      return storedPreference;
+    } else {
+      return "off";
+    }
+  });
+
   // Real-time data stream
   const [kafkaConsumerId] = useState(() => uuidv4());
   const [kafkaData, setKafkaData] = useState([]);
@@ -167,6 +177,8 @@ export default function RootLayout() {
             setHost,
             userId,
             setUserId,
+            analytics,
+            setAnalytics,
             kafkaData,
             setKafkaData,
             delayedKafkaData,

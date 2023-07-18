@@ -3,8 +3,16 @@ import { useOutletContext } from "react-router-dom";
 import CustomHeader from "../components/CustomHeader";
 
 export default function Configuration() {
-  const { host, authToken, setAuthToken, authType, setAuthType, userId } =
-    useOutletContext();
+  const {
+    host,
+    authToken,
+    setAuthToken,
+    authType,
+    setAuthType,
+    userId,
+    analytics,
+    setAnalytics,
+  } = useOutletContext();
   const [formModified, setFormModified] = useState(false);
 
   const handleSubmit = (e) => {
@@ -12,8 +20,12 @@ export default function Configuration() {
 
     // Update state and/or local storage values
     localStorage.setItem("userPrefAuthType", e.target.authType.value);
+
     setAuthToken(e.target.authToken.value);
     localStorage.setItem("userPrefAuthToken", e.target.authToken.value);
+
+    setAnalytics(e.target.analytics.value);
+    localStorage.setItem("userPrefAnalytics", e.target.analytics.value);
 
     // Reset save changes button after submit
     setFormModified(false);
@@ -59,8 +71,8 @@ export default function Configuration() {
           <h2>Analytics</h2>
           <RadioItems
             items={[
-              { label: "Off", id: "off", checked: true },
-              { label: "On", id: "on", checked: false },
+              { label: "Off", id: "off", checked: analytics === "off" },
+              { label: "On", id: "on", checked: analytics === "on" },
             ]}
             handleChange={() => {
               setFormModified(true);
