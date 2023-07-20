@@ -18,7 +18,7 @@ export default function RootLayout() {
     }
   });
   const [userId, setUserId] = useState(() => {
-    const userId = searchParams.get("userId") || localStorage.getItem("userId");
+    const userId = searchParams.get("hrid") || localStorage.getItem("hrid");
     if (userId) {
       return userId;
     } else {
@@ -27,7 +27,7 @@ export default function RootLayout() {
   });
   useEffect(() => {
     localStorage.setItem("host", host);
-    localStorage.setItem("userId", userId);
+    localStorage.setItem("hrid", userId);
     setSearchparams({}); // once userId is saved, delete query parameters
     navigate(); // update URL to remove query parameters
   }, [host, userId]);
