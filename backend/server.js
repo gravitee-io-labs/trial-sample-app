@@ -6,9 +6,25 @@ import { router as todoRouter } from "./routes/todos.js";
 dotenv.config();
 
 const app = express();
-
 app.use(express.json());
-app.use(cors());
+
+// Middleware to check the origin against the regex pattern
+const corsTrialRegex = /^https:\/\/trial\.apim\.trial-(.+)\.gravitee\.xyz\//;
+const corsDevRegex = /^https:\/\/(.+)\.gravitee\.dev\//;
+function customCorsOrigin(origin, callback) {
+  if (!origin || corsTrialRegex.test(origin) || corsDevRegex.test(origin)) {
+    // Allow the request since it matches the regex pattern or is a same-origin request
+    callback(null, true);
+  } else {
+    // Disallow the request
+    callback(new Error("Origin not allowed"));
+  }
+}
+const corsOptions = {
+  origin: customCorsOrigin,
+};
+
+app.use(cors(corsOptions));
 app.set("port", process.env.PORT || 3001);
 
 // This will be the default option in Mongoose 7. This ensures non-existent query filters are not stripped out
