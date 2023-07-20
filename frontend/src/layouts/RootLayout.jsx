@@ -59,6 +59,9 @@ export default function RootLayout() {
     }
   });
 
+  // Used to track status of websocket connections and update UI
+  const [websocketDisconnected, setWebsocketDisconnected] = useState(false);
+
   // Real-time data stream
   const [kafkaConsumerId] = useState(() => uuidv4());
   const [kafkaData, setKafkaData] = useState([]);
@@ -68,7 +71,9 @@ export default function RootLayout() {
       "api-key": "preconfigured-api-key", // Custom API key set in Gravitee trial
     },
     shouldReconnect: () => true,
-    onOpen: () => console.log("Real-time WebSocket connected"),
+    reconnectAttempts: analytics === "on" ? 20 : 1,
+    onReconnectStop: () => setWebsocketDisconnected(true),
+    onOpen: () => console.log("Real-time WebSocket opened"),
     onError: (error) => console.log(`Real-time WebSocket error: ${error}`),
     onClose: () => console.log("Real-time WebSocket closed"),
   });
@@ -90,7 +95,9 @@ export default function RootLayout() {
     {
       queryParams: { "x-gravitee-client-identifier": delayedKafkaConsumerId },
       shouldReconnect: () => true,
-      onOpen: () => console.log("Delayed WebSocket connected"),
+      reconnectAttempts: analytics === "on" ? 20 : 1,
+      onReconnectStop: () => setWebsocketDisconnected(true),
+      onOpen: () => console.log("Delayed WebSocket opened"),
       onError: (error) => console.log(`Delayed WebSocket error: ${error}`),
       onClose: () => console.log("Delayed WebSocket closed"),
     }
@@ -187,6 +194,8 @@ export default function RootLayout() {
             setAuthToken,
             authType,
             setAuthType,
+            websocketDisconnected,
+            setWebsocketDisconnected,
           }}
         />
       </div>

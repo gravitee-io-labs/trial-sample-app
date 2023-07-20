@@ -20,7 +20,8 @@ const countObjectsByProperty = (arr, prop) => {
 };
 
 export default function Analytics() {
-  const { kafkaData, delayedKafkaData, analytics } = useOutletContext();
+  const { kafkaData, delayedKafkaData, analytics, websocketDisconnected } =
+    useOutletContext();
 
   const graphData = countObjectsByProperty(kafkaData, "action");
 
@@ -31,6 +32,8 @@ export default function Analytics() {
       <CustomHeader title="Analytics" buttonType="reset"></CustomHeader>
       {analytics === "off" ? (
         <NoData message="Analytics are currently turned off in your Configuration settings." />
+      ) : websocketDisconnected ? (
+        <NoData message="One or more WebSocket connections have failed. Please refresh the page." />
       ) : kafkaData.length || delayedKafkaData.length ? (
         <div className="graph-grid h-full px-6">
           <h2>Real-time Graph</h2>
