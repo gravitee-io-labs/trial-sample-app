@@ -68,7 +68,7 @@ export default function RootLayout() {
   const { lastMessage } = useWebSocket(`wss://${host}/todo-actions`, {
     queryParams: {
       "x-gravitee-client-identifier": kafkaConsumerId,
-      "api-key": "preconfigured-api-key", // Custom API key set in Gravitee trial
+      "api-key": authToken, // Custom API key set in Gravitee trial
     },
     shouldReconnect: () => true,
     reconnectAttempts: analytics === "on" ? 20 : 1,
