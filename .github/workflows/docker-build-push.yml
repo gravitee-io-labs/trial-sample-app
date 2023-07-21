@@ -29,5 +29,5 @@ jobs:
               
       - name: 'Build Inventory Image'
         run: |
-          docker build . --tag ghcr.io/gravitee-io-labs/trial-app-backend:latest
+          docker build . --tag ghcr.io/gravitee-io-labs/trial-app-backend:$IMAGE_TAG
           docker push ghcr.io/gravitee-io-labs/trial-app-backend:$IMAGE_TAG
