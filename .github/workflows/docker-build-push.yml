@@ -15,10 +15,6 @@ jobs:
     steps:
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@v3
-        
-        # Set the unique tag based on the commit SHA
-      - name: Set Docker tag
-        run: echo "IMAGE_TAG=$GITHUB_SHA" >> $GITHUB_ENV
             
       - name: 'Login to GitHub Container Registry'
         uses: docker/login-action@v2
@@ -29,5 +25,5 @@ jobs:
               
       - name: 'Build Inventory Image'
         run: |
-          docker build . --tag ghcr.io/gravitee-io-labs/trial-app-backend:$IMAGE_TAG
-          docker push ghcr.io/gravitee-io-labs/trial-app-backend:$IMAGE_TAG
+          docker build . --tag ghcr.io/gravitee-io-labs/trial-app-backend:latest
+          docker push ghcr.io/gravitee-io-labs/trial-app-backend:latest
