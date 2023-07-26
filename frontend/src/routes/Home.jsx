@@ -14,7 +14,7 @@ export default function Home() {
       mainIcon: <FiLock size="40" />,
       title: "Basic Security and Access Control",
       description:
-        "This tutorial demonstrates Gravitee's core features which include securing a Gateway API, applying API access restrictions, and managing applications and subscriptions.",
+        "This tutorial demonstrates Gravitee's core features which include deploying and securing a Gateway API, applying API access restrictions, and managing applications and subscriptions.",
       gatewayApiType: "Proxy",
       entrypoint: "REST",
       endpoint: "REST",
@@ -33,7 +33,7 @@ export default function Home() {
       entrypoint: "Websocket",
       endpoint: "Kafka",
       planSecurity: "Shared API Key",
-      policies: "Latency, Transform Headers (Platform Policy)",
+      policies: "Latency",
     },
     {
       subtitle: "Advanced Scenario 2",
