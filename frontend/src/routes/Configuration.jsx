@@ -90,7 +90,7 @@ export default function Configuration() {
               className="form-input"
               required
               disabled
-              defaultValue={userId}
+              value={userId}
             />
           </div>
           <div className="relative">
@@ -103,7 +103,7 @@ export default function Configuration() {
               className="form-input"
               required
               disabled
-              defaultValue={host}
+              value={host}
             />
           </div>
         </fieldset>
