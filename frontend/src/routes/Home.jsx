@@ -8,13 +8,13 @@ import CustomHeader from "../components/CustomHeader";
 export default function Home() {
   const tutorial_options = [
     {
-      subtitle: "Basic Scenario",
+      subtitle: "Introductory Use Case",
       difficulty: "Beginner",
       difficultyIcon: oneBar,
       mainIcon: <FiLock size="40" />,
       title: "Basic Security and Access Control",
       description:
-        "This tutorial demonstrates Gravitee's core features which include deploying and securing a Gateway API, applying API access restrictions, and managing applications and subscriptions.",
+        "This tutorial details how this application works then demonstrates APIM's core functionality which includes deploying and securing a Gateway API, applying API access restrictions, and managing applications and subscriptions.",
       gatewayApiType: "Proxy",
       entrypoint: "REST",
       endpoint: "REST",
@@ -22,13 +22,13 @@ export default function Home() {
       policies: "Quota",
     },
     {
-      subtitle: "Advanced Scenario 1",
+      subtitle: "Advanced Use Case 1",
       difficulty: "Intermediate",
       difficultyIcon: twoBar,
       mainIcon: <FiZap size="40" />,
       title: "Real-time Data and Protocol Mediation",
       description:
-        "This tutorial showcases Gravitee's event-native API management capabilities that can natively handle, and mediate between, both asynchronous and synchronous protocols.",
+        "This tutorial showcases APIM's event-native API management capabilities that can natively handle, and mediate between, both asynchronous and synchronous protocols.",
       gatewayApiType: "Message",
       entrypoint: "Websocket",
       endpoint: "Kafka",
@@ -36,7 +36,7 @@ export default function Home() {
       policies: "Latency",
     },
     {
-      subtitle: "Advanced Scenario 2",
+      subtitle: "Advanced Use Case 2",
       difficulty: "Advanced",
       difficultyIcon: threeBar,
       mainIcon: <FiCpu size="40" />,
@@ -61,9 +61,9 @@ export default function Home() {
           Management with your trial.
           <br></br>
           <br></br>
-          In this app, you can choose from any of the following paths to experience the
-          power of Gravitee API Management. Selecting a path will configure the
-          application and open up the relevant documentation.
+          {
+            "In this app, you can choose from any of the following paths to experience the power of Gravitee API Management (APIM). Selecting a path will open up the relevant documentation in a new tab."
+          }
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-5">
           {tutorial_options.map((tutorial) => (
