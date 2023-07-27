@@ -18,7 +18,7 @@ export default function Home() {
       gatewayApiType: "Proxy",
       entrypoint: "REST",
       endpoint: "REST",
-      planSecurity: "API Key",
+      planSecurity: "Keyless",
       policies: "Quota",
     },
     {
