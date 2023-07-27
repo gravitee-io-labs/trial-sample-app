@@ -21,7 +21,7 @@ export default function Card({
       className="group flex h-[35rem] w-[28rem] flex-col border border-solid p-6 shadow-xl transition-transform duration-300 ease-in-out hover:translate-y-[-4px]"
     >
       <div className="flex items-center">
-        <p className=" font-bold">{subtitle}</p>
+        <p className=" flex-grow font-bold">{subtitle}</p>
         <img src={difficultyIcon} alt="difficulty icon" className="ml-auto mr-3" />
         <Pill text={difficulty}></Pill>
       </div>

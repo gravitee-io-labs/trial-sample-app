@@ -62,7 +62,7 @@ export default function Home() {
           <br></br>
           <br></br>
           {
-            "In this app, you can choose from any of the following paths to experience the power of Gravitee API Management (APIM). Selecting a path will open up the relevant documentation in a new tab."
+            "The introductory use case: Basic Security and Access Control, should be completed first. The advanced use cases can then be completed in any order to experience the breadth of Gravitee API Management's (APIM) capabilities. Selecting a path will open up the relevant documentation in a new tab."
           }
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-5">
