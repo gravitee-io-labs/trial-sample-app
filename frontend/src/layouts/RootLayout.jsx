@@ -73,10 +73,10 @@ export default function RootLayout() {
   const { lastMessage } = useWebSocket(`wss://${host}/todo-actions`, {
     queryParams: {
       "x-gravitee-client-identifier": kafkaConsumerId,
-      "api-key": authToken, // Custom API key set in Gravitee trial
+      ...(authType === "apiKey" ? { "api-key": authToken } : {}), // Custom API key set in Gravitee trial
     },
     shouldReconnect: () => true,
-    reconnectAttempts: analytics === "on" ? 20 : 1,
+    reconnectAttempts: analytics === "on" ? 100 : 1,
     onReconnectStop: () => setWebsocketDisconnected(true),
     onOpen: () => console.log("Real-time WebSocket opened"),
     onError: (error) => console.log(`Real-time WebSocket error: ${error}`),
@@ -100,7 +100,7 @@ export default function RootLayout() {
     {
       queryParams: { "x-gravitee-client-identifier": delayedKafkaConsumerId },
       shouldReconnect: () => true,
-      reconnectAttempts: analytics === "on" ? 20 : 1,
+      reconnectAttempts: analytics === "on" ? 100 : 1,
       onReconnectStop: () => setWebsocketDisconnected(true),
       onOpen: () => console.log("Delayed WebSocket opened"),
       onError: (error) => console.log(`Delayed WebSocket error: ${error}`),
