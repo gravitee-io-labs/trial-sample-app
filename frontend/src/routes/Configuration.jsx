@@ -44,7 +44,7 @@ export default function Configuration() {
           <RadioItems
             items={[
               { label: "None", id: "none", checked: authType === "none" },
-              { label: "Api Key", id: "apiKey", checked: authType === "apiKey" },
+              { label: "API Key", id: "apiKey", checked: authType === "apiKey" },
               { label: "JWT", id: "jwt", checked: authType === "jwt" },
             ]}
             handleChange={(e) => {
