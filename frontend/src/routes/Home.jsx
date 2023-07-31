@@ -40,7 +40,7 @@ export default function Home() {
       difficulty: "Advanced",
       difficultyIcon: threeBar,
       mainIcon: <FiCpu size="40" />,
-      title: "Advanced Policies and Developer Portal",
+      title: "Advanced Security and Developer Portal",
       description:
         "This tutorial details a hypothetical monetization use case that requires a more complex implementation and use of Gravitee's Developer Portal for API productization.",
       gatewayApiType: "http-proxy",
