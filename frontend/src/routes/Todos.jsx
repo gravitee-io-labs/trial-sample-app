@@ -1,11 +1,11 @@
 import { Tabs } from "flowbite-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FiArchive, FiInbox, FiTrash } from "react-icons/fi";
 import { useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import CustomHeader from "../components/CustomHeader";
 
-const createToast = (message) => toast.info(message, {});
+const createToast = (message, options = {}) => toast.info(message, options);
 
 const sortTodos = (a, b) => {
   if (a.complete && !b.complete) {
@@ -78,7 +78,13 @@ export default function Todos() {
     getTodos();
   }, [host]);
 
+  const fetchTodosToastId = useRef(null);
   const getTodos = async () => {
+    // Backend server has cold starts. Notify the user the request is in progress and dismiss once there is a response
+    fetchTodosToastId.current = createToast(`Fetching todos... Please wait.`, {
+      autoClose: false,
+    });
+
     try {
       const res = await fetch("https://" + host + "/todos", {
         headers: {
@@ -97,6 +103,8 @@ export default function Todos() {
       console.error(error);
       createToast(error.message);
     }
+    // Dismiss in progress toast after a response has been delivered
+    toast.dismiss(fetchTodosToastId.current);
   };
 
   const createTodo = async () => {
