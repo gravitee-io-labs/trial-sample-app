@@ -8,8 +8,11 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(",")
+  : "https://gravitee-io-labs.github.io";
 const corsOptions = {
-  origin: "https://gravitee-io-labs.github.io",
+  origin: allowedOrigins,
 };
 app.use(cors(corsOptions));
 
