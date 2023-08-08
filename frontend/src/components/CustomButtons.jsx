@@ -1,8 +1,16 @@
 import { useOutletContext } from "react-router-dom";
 
 export function ResetButton() {
-  const { setKafkaData } = useOutletContext();
-  return <BaseButton text="Clear" handleClick={() => setKafkaData([])}></BaseButton>;
+  const { setKafkaData, setDelayedKafkaData } = useOutletContext();
+  return (
+    <BaseButton
+      text="Clear Graphs"
+      handleClick={() => {
+        setKafkaData([]);
+        setDelayedKafkaData([]);
+      }}
+    ></BaseButton>
+  );
 }
 
 export function SaveFormButton({ formModified }) {
