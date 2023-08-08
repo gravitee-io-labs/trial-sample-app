@@ -1,10 +1,16 @@
 import { useOutletContext } from "react-router-dom";
 
-export function ResetButton() {
+export function ResetButton({ analyticsEnabled }) {
   const { setKafkaData, setDelayedKafkaData } = useOutletContext();
+  console.log(analyticsEnabled);
   return (
     <BaseButton
       text="Clear Graphs"
+      disabled={!analyticsEnabled}
+      extraClasses={
+        !analyticsEnabled &&
+        "cursor-not-allowed !bg-dove-neutral-300 border-none p-[1px] !text-black"
+      }
       handleClick={() => {
         setKafkaData([]);
         setDelayedKafkaData([]);

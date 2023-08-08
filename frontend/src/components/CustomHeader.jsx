@@ -4,7 +4,7 @@ import { ResetButton, SaveFormButton } from "./CustomButtons";
 export default function CustomHeader({
   title,
   buttonType = "none",
-  formModified = false,
+  disabledButton = false,
 }) {
   return (
     <div className="sticky top-0 z-40 mb-4 flex w-full flex-col items-center justify-between gap-5 bg-dove-neutral-100/80 px-12 py-4 drop-shadow-md sm:flex-row xl:px-64">
@@ -19,8 +19,8 @@ export default function CustomHeader({
           <img src={logo} alt="Gravitee Logo" width="200"></img>
         </a>
       )}
-      {buttonType === "reset" && <ResetButton />}
-      {buttonType === "save" && <SaveFormButton formModified={formModified} />}
+      {buttonType === "reset" && <ResetButton analyticsEnabled={disabledButton} />}
+      {buttonType === "save" && <SaveFormButton formModified={disabledButton} />}
     </div>
   );
 }

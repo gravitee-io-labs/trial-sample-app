@@ -21,7 +21,7 @@ const sortTodos = (a, b) => {
 export default function Todos() {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
-  const { host, userId, authToken, authType } = useOutletContext();
+  const { host, userId, authToken, authType, analytics } = useOutletContext();
 
   const authHeaderSelector = () => {
     let authHeader = {};
@@ -244,9 +244,14 @@ export default function Todos() {
   };
 
   const sortedTodos = [...todos].sort(sortTodos);
+
   return (
     <div className="flex h-screen flex-col pb-3">
-      <CustomHeader title="Todo List" buttonType="reset"></CustomHeader>
+      <CustomHeader
+        title="Todo List"
+        buttonType="reset"
+        disabledButton={analytics === "on"}
+      ></CustomHeader>
       <div className="flex h-full flex-col gap-5 overflow-auto px-1 xl:flex-row xl:px-10">
         <div className="flex w-full flex-auto overflow-auto xl:justify-center">
           <Tabs.Group

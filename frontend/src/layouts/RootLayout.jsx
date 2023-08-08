@@ -150,7 +150,6 @@ export default function RootLayout() {
   // Used for conditionally setting some CSS
   const location = useLocation();
   const currentRoute = location.pathname;
-  console.log(currentRoute);
 
   if (!userId) {
     return (
