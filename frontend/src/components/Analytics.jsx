@@ -15,7 +15,10 @@ const countObjectsByProperty = (arr, prop) => {
       };
     }
   }
-  return Object.values(counts);
+  // Convert the object into an array of objects
+  const unsortedArray = Object.values(counts);
+  // Sort the array of objects based on the "action" key value
+  return unsortedArray.slice().sort((a, b) => a.action.localeCompare(b.action));
 };
 
 export default function Analytics() {
@@ -23,7 +26,7 @@ export default function Analytics() {
     useOutletContext();
 
   const graphData = countObjectsByProperty(kafkaData, "action");
-
+  console.log(graphData);
   const delayedGraphData = countObjectsByProperty(delayedKafkaData, "action");
 
   return (
@@ -61,7 +64,7 @@ export default function Analytics() {
               padding={0}
               valueScale={{ type: "linear" }}
               indexScale={{ type: "band", round: true }}
-              colors={{ scheme: "nivo" }}
+              colors={["#deebf7", "#c6dbef", "#9ecae1", "#6bafd6"]}
               colorBy="index"
               axisBottom={{
                 tickSize: 5,
@@ -115,7 +118,7 @@ export default function Analytics() {
               padding={0}
               valueScale={{ type: "linear" }}
               indexScale={{ type: "band", round: true }}
-              colors={{ scheme: "nivo" }}
+              colors={["#deebf7", "#c6dbef", "#9ecae1", "#6bafd6"]}
               colorBy="index"
               axisBottom={{
                 tickSize: 5,
