@@ -26,7 +26,6 @@ export default function Analytics() {
     useOutletContext();
 
   const graphData = countObjectsByProperty(kafkaData, "action");
-  console.log(graphData);
   const delayedGraphData = countObjectsByProperty(delayedKafkaData, "action");
 
   return (

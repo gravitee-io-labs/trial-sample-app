@@ -2,7 +2,6 @@ import { useOutletContext } from "react-router-dom";
 
 export function ResetButton({ analyticsEnabled }) {
   const { setKafkaData, setDelayedKafkaData } = useOutletContext();
-  console.log(analyticsEnabled);
   return (
     <BaseButton
       text="Clear Graphs"
