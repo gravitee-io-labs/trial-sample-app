@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { FiBarChart, FiBell, FiCheckCircle, FiHome, FiSettings } from "react-icons/fi";
-import { NavLink, Outlet, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  NavLink,
+  Outlet,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import useWebSocket from "react-use-websocket";
 import { v4 as uuidv4 } from "uuid";
 
@@ -141,6 +147,11 @@ export default function RootLayout() {
     },
   ];
 
+  // Used for conditionally setting some CSS
+  const location = useLocation();
+  const currentRoute = location.pathname;
+  console.log(currentRoute);
+
   if (!userId) {
     return (
       <div className="flex h-screen items-center px-32">
@@ -204,7 +215,7 @@ export default function RootLayout() {
             ))}
           </ul>
         </nav>
-        <div className="ml-20 h-full pb-20">
+        <div className={"ml-20 h-full" + (currentRoute !== "/todos" ? " pb-20" : "")}>
           <Outlet
             context={{
               host,
