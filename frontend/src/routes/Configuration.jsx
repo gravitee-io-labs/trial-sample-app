@@ -36,7 +36,7 @@ export default function Configuration() {
       <CustomHeader
         title="Configuration"
         buttonType="save"
-        formModified={formModified}
+        disabledButton={formModified}
       ></CustomHeader>
       <main className="flex flex-grow flex-col items-center">
         <fieldset className="flex w-11/12 flex-col gap-6 px-5 md:w-2/3 xl:w-1/3">
