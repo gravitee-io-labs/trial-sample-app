@@ -68,7 +68,7 @@ export default function Configuration() {
               onChange={() => setFormModified(true)}
             />
           </div>
-          <h2>Analytics</h2>
+          <h2>Analytic Graphs</h2>
           <RadioItems
             items={[
               { label: "Off", id: "off", checked: analytics === "off" },
