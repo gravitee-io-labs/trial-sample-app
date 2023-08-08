@@ -29,7 +29,7 @@ export default function Analytics() {
   return (
     <>
       {analytics === "off" ? (
-        <NoData message="Analytics are currently turned off in your Configuration settings." />
+        <NoData message="Analytic graphs are currently turned off in your Configuration settings. If needed, the tutorial will advise you to enable this feature." />
       ) : websocketDisconnected ? (
         <NoData message="One or more WebSocket connections have failed. Please refresh the page." />
       ) : kafkaData.length || delayedKafkaData.length ? (
