@@ -244,11 +244,10 @@ export default function Todos() {
 
   const sortedTodos = [...todos].sort(sortTodos);
   return (
-    <>
+    <div className="flex h-screen flex-col">
       <CustomHeader title="Todo List"></CustomHeader>
-
-      <div className="flex h-screen flex-col gap-5 overflow-scroll px-1 xl:flex-row xl:px-10">
-        <div className="flex h-1/2 overflow-auto xl:h-full xl:w-1/2 xl:justify-center ">
+      <div className="flex flex-col gap-5 overflow-auto px-1 xl:flex-row xl:px-10">
+        <div className="flex w-full flex-auto overflow-auto xl:justify-center">
           <Tabs.Group
             aria-label="Tabs with underline"
             style="underline"
@@ -258,12 +257,11 @@ export default function Todos() {
                 styles: {
                   underline: "justify-center",
                 },
-
                 tabitem: {
                   styles: {
                     underline: {
                       active: {
-                        on: "text-accent-500 border-b-2 border-accent-500 !focus-visible:border-accent-500 !focus:border-accent-500",
+                        on: "text-accent-500 border-b-2 border-accent-500 mt-[2px] !focus-visible:border-accent-500 !focus:border-accent-500",
                       },
                     },
                   },
@@ -358,8 +356,8 @@ export default function Todos() {
           </Tabs.Group>
         </div>
         <hr />
-        <div className="h-1/2 w-1/2 xl:h-full">This is a test!</div>
+        <div className="flex-auto overflow-auto">This is a test!</div>
       </div>
-    </>
+    </div>
   );
 }
