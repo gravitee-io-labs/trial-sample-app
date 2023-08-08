@@ -33,9 +33,9 @@ export default function RootLayout() {
   });
   useEffect(() => {
     // If the host matches this pattern or is not set, ensure it is updated with any changes to the hrid
-    const regex = /trial\.apim\.trial-.*\.gravitee\.xyz/;
+    const regex = /trial\.apim\..*\.gravitee\.xyz/;
     if (regex.test(host) || !host) {
-      setHost(`trial.apim.trial-${userId}.gravitee.xyz`);
+      setHost(`trial.apim.${userId}.gravitee.xyz`);
     }
     localStorage.setItem("host", host);
     localStorage.setItem("hrid", userId);
