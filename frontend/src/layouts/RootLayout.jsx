@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FiBarChart, FiBell, FiCheckCircle, FiHome, FiSettings } from "react-icons/fi";
+import { FiBell, FiCheckCircle, FiHome, FiSettings } from "react-icons/fi";
 import {
   NavLink,
   Outlet,
@@ -129,11 +129,6 @@ export default function RootLayout() {
       route: "/todos",
       icon: <FiCheckCircle size="20" />,
       text: "Todo List",
-    },
-    {
-      route: "/analytics",
-      icon: <FiBarChart size="20" />,
-      text: "Analytics",
     },
     {
       route: "/notification-center",

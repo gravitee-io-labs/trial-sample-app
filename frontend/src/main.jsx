@@ -11,7 +11,6 @@ import "react-toastify/dist/ReactToastify.min.css";
 import ErrorPage from "./ErrorPage";
 import "./assets/styles/index.css";
 import RootLayout from "./layouts/RootLayout";
-import Analytics from "./routes/Analytics";
 import Configuration from "./routes/Configuration";
 import Home from "./routes/Home";
 import NotificationCenter from "./routes/NotificationCenter";
@@ -22,7 +21,6 @@ const router = createBrowserRouter(
     <Route path="/" element={<RootLayout />} errorElement={<ErrorPage />}>
       <Route index element={<Home />} />
       <Route path="todos" element={<Todos />} />
-      <Route path="analytics" element={<Analytics />} />
       <Route path="notification-center" element={<NotificationCenter />} />
       <Route path="configuration" element={<Configuration />} />
     </Route>
