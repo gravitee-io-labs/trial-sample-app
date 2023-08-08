@@ -4,6 +4,7 @@ import { FiArchive, FiInbox, FiTrash } from "react-icons/fi";
 import { useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import CustomHeader from "../components/CustomHeader";
+import Analytics from "./Analytics";
 
 const createToast = (message, options = {}) => toast.info(message, options);
 
@@ -244,8 +245,8 @@ export default function Todos() {
 
   const sortedTodos = [...todos].sort(sortTodos);
   return (
-    <div className="flex h-screen flex-col">
-      <CustomHeader title="Todo List"></CustomHeader>
+    <div className="flex h-screen flex-col pb-5">
+      <CustomHeader title="Todo List" buttonType="reset"></CustomHeader>
       <div className="flex flex-col gap-5 overflow-auto px-1 xl:flex-row xl:px-10">
         <div className="flex w-full flex-auto overflow-auto xl:justify-center">
           <Tabs.Group
@@ -356,7 +357,7 @@ export default function Todos() {
           </Tabs.Group>
         </div>
         <hr />
-        <div className="flex-auto overflow-auto">This is a test!</div>
+        <Analytics className="w-full flex-auto overflow-auto"></Analytics>
       </div>
     </div>
   );
