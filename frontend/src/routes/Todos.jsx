@@ -245,9 +245,9 @@ export default function Todos() {
 
   const sortedTodos = [...todos].sort(sortTodos);
   return (
-    <div className="flex h-screen flex-col pb-5">
+    <div className="flex h-screen flex-col pb-3">
       <CustomHeader title="Todo List" buttonType="reset"></CustomHeader>
-      <div className="flex flex-col gap-5 overflow-auto px-1 xl:flex-row xl:px-10">
+      <div className="flex h-full flex-col gap-5 overflow-auto px-1 xl:flex-row xl:px-10">
         <div className="flex w-full flex-auto overflow-auto xl:justify-center">
           <Tabs.Group
             aria-label="Tabs with underline"
@@ -357,7 +357,7 @@ export default function Todos() {
           </Tabs.Group>
         </div>
         <hr />
-        <Analytics className="w-full flex-auto overflow-auto"></Analytics>
+        <Analytics className="flex-auto overflow-auto"></Analytics>
       </div>
     </div>
   );

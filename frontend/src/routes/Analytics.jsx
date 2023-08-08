@@ -33,7 +33,7 @@ export default function Analytics() {
       ) : websocketDisconnected ? (
         <NoData message="One or more WebSocket connections have failed. Please refresh the page." />
       ) : kafkaData.length || delayedKafkaData.length ? (
-        <div className="graph-grid h-[40vh] min-h-[40vh] px-2 xl:h-[80vh] xl:max-h-[80vh] xl:w-[50vw] xl:min-w-[50vw] xl:px-0 xl:pt-5">
+        <div className="graph-grid h-[40vh] min-h-[40vh] px-2 xl:h-full xl:max-h-full xl:w-[50vw] xl:min-w-[50vw] xl:px-0 xl:pt-5">
           <h2 className="m-0">Real-time Graph</h2>
           {/* Added container due to bug detailed here: https://github.com/plouc/nivo/issues/411 */}
           <div className="h-[99%]">
