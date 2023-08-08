@@ -1,6 +1,6 @@
 import { ResponsiveBar } from "@nivo/bar";
 import { useOutletContext } from "react-router-dom";
-import NoData from "../components/NoData";
+import NoData from "./NoData";
 
 const countObjectsByProperty = (arr, prop) => {
   const counts = {};

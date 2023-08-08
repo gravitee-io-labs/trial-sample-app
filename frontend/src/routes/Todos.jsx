@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { FiArchive, FiInbox, FiTrash } from "react-icons/fi";
 import { useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
+import Analytics from "../components/Analytics";
 import CustomHeader from "../components/CustomHeader";
-import Analytics from "./Analytics";
 
 const createToast = (message, options = {}) => toast.info(message, options);
 
