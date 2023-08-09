@@ -72,22 +72,27 @@ export default function RootLayout() {
 
   // Used to track status of websocket connections and update UI
   const [websocketDisconnected, setWebsocketDisconnected] = useState(false);
-
   // Real-time data stream
   const [kafkaConsumerId] = useState(() => uuidv4());
   const [kafkaData, setKafkaData] = useState([]);
-  const { lastMessage } = useWebSocket(`wss://${host}/todo-actions`, {
-    queryParams: {
-      "x-gravitee-client-identifier": kafkaConsumerId,
-      ...(authType === "apiKey" ? { "api-key": authToken } : {}), // Custom API key set in Gravitee trial
+  const { lastMessage } = useWebSocket(
+    `wss://${host}/todo-actions`,
+    {
+      queryParams: {
+        "x-gravitee-client-identifier": kafkaConsumerId,
+        "api-key": authToken,
+      },
+
+      shouldReconnect: () => true,
+      reconnectAttempts: 20,
+      onReconnectStop: () => setWebsocketDisconnected(true),
+      onOpen: () => console.log("Real-time WebSocket opened"),
+      onError: (error) => console.log(`Real-time WebSocket error: ${error}`),
+      onClose: () => console.log("Real-time WebSocket closed"),
     },
-    shouldReconnect: () => true,
-    reconnectAttempts: analytics === "on" ? 100 : 1,
-    onReconnectStop: () => setWebsocketDisconnected(true),
-    onOpen: () => console.log("Real-time WebSocket opened"),
-    onError: (error) => console.log(`Real-time WebSocket error: ${error}`),
-    onClose: () => console.log("Real-time WebSocket closed"),
-  });
+    // Only attempt to connect the real-time websocket when conditions are met
+    analytics === "on" && authType === "apiKey"
+  );
   useEffect(() => {
     if (lastMessage !== null) {
       (async () => {
@@ -106,12 +111,14 @@ export default function RootLayout() {
     {
       queryParams: { "x-gravitee-client-identifier": delayedKafkaConsumerId },
       shouldReconnect: () => true,
-      reconnectAttempts: analytics === "on" ? 100 : 1,
+      reconnectAttempts: 20,
       onReconnectStop: () => setWebsocketDisconnected(true),
       onOpen: () => console.log("Delayed WebSocket opened"),
       onError: (error) => console.log(`Delayed WebSocket error: ${error}`),
       onClose: () => console.log("Delayed WebSocket closed"),
-    }
+    },
+    // Only attempt to connect the delayed websocket when conditions are met
+    analytics === "on"
   );
   useEffect(() => {
     if (delayedLastMessage !== null) {
