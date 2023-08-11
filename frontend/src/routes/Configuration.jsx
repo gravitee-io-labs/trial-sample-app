@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useOutletContext } from "react-router-dom";
 import CustomHeader from "../components/CustomHeader";
 
@@ -14,6 +15,7 @@ export default function Configuration() {
     setAnalytics,
   } = useOutletContext();
   const [formModified, setFormModified] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -84,26 +86,22 @@ export default function Configuration() {
             <label htmlFor="userIdInput" className="form-label">
               Gravitee HRID
             </label>
-            <input
-              type="text"
+            <SensitiveInputs
               name="userIdInput"
-              className="form-input"
-              required
-              disabled
               value={userId}
+              isVisible={isVisible}
+              setIsVisible={setIsVisible}
             />
           </div>
           <div className="relative">
             <label htmlFor="hostInput" className="form-label">
               Fully Qualified Domain Name
             </label>
-            <input
-              type="text"
+            <SensitiveInputs
               name="hostInput"
-              className="form-input"
-              required
-              disabled
               value={host}
+              isVisible={isVisible}
+              setIsVisible={setIsVisible}
             />
           </div>
         </fieldset>
@@ -136,4 +134,27 @@ const RadioItems = ({ items, handleChange, group }) => (
       </li>
     ))}
   </ul>
+);
+
+const SensitiveInputs = ({ name, value, isVisible, setIsVisible }) => (
+  <div className="flex">
+    <input
+      type={isVisible ? "text" : "password"}
+      name={name}
+      className="form-input pr-10"
+      required
+      disabled
+      value={value}
+    />
+    <button
+      className="flex items-center justify-around"
+      onClick={() => setIsVisible(!isVisible)}
+    >
+      {isVisible ? (
+        <FiEyeOff size="20" className="absolute mr-10" />
+      ) : (
+        <FiEye size="20" className="absolute mr-10" />
+      )}
+    </button>
+  </div>
 );
