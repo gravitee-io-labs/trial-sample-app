@@ -19,6 +19,7 @@ export default function Configuration() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(e);
 
     // Update state and/or local storage values
     localStorage.setItem("userPrefAuthType", e.target.authType.value);
@@ -164,6 +165,7 @@ const SensitiveInputs = ({
     <button
       className="flex items-center justify-around"
       onClick={() => setIsVisible(!isVisible)}
+      type="button"
     >
       {isVisible ? (
         <FiEyeOff size="20" className="absolute mr-10" />
