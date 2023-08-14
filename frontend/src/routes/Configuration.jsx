@@ -60,10 +60,10 @@ export default function Configuration() {
             <label htmlFor="authToken" className="form-label">
               {authType}
             </label>
-            <input
-              type="text"
+            <SensitiveInputs
               name="authToken"
-              className="form-input"
+              isVisible={isVisible}
+              setIsVisible={setIsVisible}
               disabled={authType === "none"}
               required={authType !== "none"}
               defaultValue={authToken}
@@ -91,6 +91,8 @@ export default function Configuration() {
               value={userId}
               isVisible={isVisible}
               setIsVisible={setIsVisible}
+              required={true}
+              disabled={true}
             />
           </div>
           <div className="relative">
@@ -102,6 +104,8 @@ export default function Configuration() {
               value={host}
               isVisible={isVisible}
               setIsVisible={setIsVisible}
+              required={true}
+              disabled={true}
             />
           </div>
         </fieldset>
@@ -136,15 +140,26 @@ const RadioItems = ({ items, handleChange, group }) => (
   </ul>
 );
 
-const SensitiveInputs = ({ name, value, isVisible, setIsVisible }) => (
+const SensitiveInputs = ({
+  name,
+  isVisible,
+  setIsVisible,
+  value,
+  defaultValue,
+  required,
+  disabled,
+  onChange,
+}) => (
   <div className="flex">
     <input
       type={isVisible ? "text" : "password"}
       name={name}
       className="form-input pr-10"
-      required
-      disabled
+      required={required}
+      disabled={disabled}
       value={value}
+      onChange={onChange}
+      defaultValue={defaultValue}
     />
     <button
       className="flex items-center justify-around"
