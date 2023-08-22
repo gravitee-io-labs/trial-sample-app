@@ -58,13 +58,13 @@ export default function Home() {
   return (
     <>
       <CustomHeader title="Home"></CustomHeader>
-      <div className="flex w-full flex-col items-center px-12 ">
+      <div className="flex w-full flex-col items-center px-12 gap-5">
         <h2>{"Welcome to Gravitee's API Management Trial App"}</h2>
         <p>
           This app has been built for you to experience the full benefits of API
           Management with your trial.
-          <br></br>
-          <br></br>
+        </p>
+        <p>
           {
             "The introductory use case: Basic Security and Access Control, should be completed first. The advanced use cases can then be completed in any order to experience the breadth of Gravitee API Management's (APIM) capabilities. Selecting a path will open up the relevant documentation in a new tab."
           }

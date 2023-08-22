@@ -63,7 +63,7 @@ export default function Card({
         {policies}
       </div>
       <div className="mt-auto flex items-center justify-center">
-        <BaseButton text="Get Started" />
+        <BaseButton text={fromPendoTutorial ? "Continue" : "Get Started"} />
       </div>
     </a>
   );
