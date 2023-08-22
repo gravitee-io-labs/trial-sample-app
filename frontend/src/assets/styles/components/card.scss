@@ -1,21 +1,23 @@
 .highlight-card {
-  animation: wiggle 0.5s ease infinite;
+  animation: pulse 1s ease infinite;
   box-shadow: 0 0 5px theme(colors.accent.500) !important;
+  transition: box-shadow 0.1s linear !important;
 
   &:hover {
     animation-play-state: paused;
+    box-shadow: 1px 1px 8px grey !important;
   }
 }
 
-@keyframes wiggle {
+@keyframes pulse {
   0% {
-    transform: translateX(0);
+    transform: scale(1.01);
   }
   50% {
-    transform: translateX(5px);
+    transform: scale(1);
   }
   100% {
-    transform: translateX(0);
+    transform: scale(1.01);
   }
 }
 
