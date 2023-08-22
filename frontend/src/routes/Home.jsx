@@ -20,6 +20,7 @@ export default function Home() {
       endpoint: "REST",
       planSecurity: "Keyless",
       policies: "Quota",
+      href: "https://documentation.gravitee.io/apim/getting-started/tutorials/comprehensive",
       guideUser: true,
     },
     {
@@ -35,6 +36,7 @@ export default function Home() {
       endpoint: "Kafka",
       planSecurity: "API Key",
       policies: "Latency",
+      href: "https://documentation.gravitee.io/apim/getting-started/tutorials/comprehensive",
     },
     {
       subtitle: "Advanced Use Case 2",
@@ -49,6 +51,7 @@ export default function Home() {
       endpoint: "REST",
       planSecurity: "JWT",
       policies: "Assign Metrics, Transform Headers",
+      href: "https://documentation.gravitee.io/apim/getting-started/tutorials/comprehensive",
     },
   ];
 
