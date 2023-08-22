@@ -9,6 +9,7 @@
 @import "./components/sidebar.scss";
 @import "./components/todo.scss";
 @import "./components/form.scss";
+@import "./components/card.scss";
 @import "./layouts/layouts.scss";
 
 @import "tailwindcss/utilities";

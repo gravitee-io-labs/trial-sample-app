@@ -1,0 +1,25 @@
+.highlight-card {
+  animation: wiggle 0.5s ease infinite;
+  box-shadow: 0 0 5px theme(colors.accent.500) !important;
+
+  &:hover {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes wiggle {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.other-cards {
+  filter: blur(3px);
+  pointer-events: none;
+}

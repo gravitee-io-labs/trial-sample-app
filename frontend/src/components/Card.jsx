@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import { BaseButton } from "./CustomButtons.jsx";
 import Pill from "./Pill.jsx";
 
@@ -14,11 +14,21 @@ export default function Card({
   endpoint,
   planSecurity,
   policies,
+  guideUser = false, // used for adding styling to guide user starting from pendo guide
 }) {
+  const { fromPendoTutorial, setFromPendoTutorial } = useOutletContext();
+
   return (
     <Link
       to="/todos"
-      className="group flex h-[35rem] w-[28rem] flex-col border border-solid p-6 shadow-xl transition-transform duration-300 ease-in-out hover:translate-y-[-4px]"
+      onClick={() => (guideUser ? setFromPendoTutorial("") : "")}
+      className={`group flex h-[35rem] w-[28rem] flex-col border border-solid p-6 shadow-xl transition-transform duration-300 ease-in-out hover:translate-y-[-4px] ${
+        fromPendoTutorial && guideUser
+          ? "highlight-card"
+          : fromPendoTutorial
+          ? "other-cards"
+          : ""
+      }`}
     >
       <div className="flex items-center">
         <p className=" flex-grow font-bold">{subtitle}</p>

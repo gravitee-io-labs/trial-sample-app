@@ -15,6 +15,11 @@ export default function RootLayout() {
   const [searchParams, setSearchparams] = useSearchParams();
   const navigate = useNavigate();
 
+  // Detect if the user is coming from the pendo tutorial
+  const [fromPendoTutorial, setFromPendoTutorial] = useState(() => {
+    return searchParams.get("fromPendoTutorial");
+  });
+
   const [host, setHost] = useState(() => {
     const host = searchParams.get("host") || localStorage.getItem("host");
     if (host) {
@@ -235,6 +240,8 @@ export default function RootLayout() {
               setAuthType,
               websocketDisconnected,
               setWebsocketDisconnected,
+              fromPendoTutorial,
+              setFromPendoTutorial,
             }}
           />
         </div>

@@ -20,6 +20,7 @@ export default function Home() {
       endpoint: "REST",
       planSecurity: "Keyless",
       policies: "Quota",
+      guideUser: true,
     },
     {
       subtitle: "Advanced Use Case 1",
