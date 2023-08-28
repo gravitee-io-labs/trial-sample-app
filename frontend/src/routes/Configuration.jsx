@@ -10,7 +10,7 @@ export default function Configuration() {
     setAuthToken,
     authType,
     setAuthType,
-    userId,
+    hrid,
     analytics,
     setAnalytics,
   } = useOutletContext();
@@ -84,12 +84,12 @@ export default function Configuration() {
           />
           <h2>Target Gateway</h2>
           <div className="relative">
-            <label htmlFor="userIdInput" className="form-label">
+            <label htmlFor="hridInput" className="form-label">
               Gravitee HRID
             </label>
             <SensitiveInputs
-              name="userIdInput"
-              value={userId}
+              name="hridInput"
+              value={hrid}
               isVisible={isVisible}
               setIsVisible={setIsVisible}
               required={true}

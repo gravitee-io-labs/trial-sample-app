@@ -11,7 +11,7 @@ import useWebSocket from "react-use-websocket";
 import { v4 as uuidv4 } from "uuid";
 
 export default function RootLayout() {
-  // Set host and userId from query parameters
+  // Set host and hrid from query parameters
   const [searchParams, setSearchparams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -28,10 +28,10 @@ export default function RootLayout() {
       return "";
     }
   });
-  const [userId, setUserId] = useState(() => {
-    const userId = searchParams.get("hrid") || localStorage.getItem("hrid");
-    if (userId) {
-      return userId;
+  const [hrid, setHridId] = useState(() => {
+    const hrid = searchParams.get("hrid") || localStorage.getItem("hrid");
+    if (hrid) {
+      return hrid;
     } else {
       return "";
     }
@@ -40,13 +40,13 @@ export default function RootLayout() {
     // If the host matches this pattern or is not set, ensure it is updated with any changes to the hrid
     const regex = /trial\.apim\..*\.gravitee\.xyz/;
     if (regex.test(host) || !host) {
-      setHost(`trial.apim.${userId}.gravitee.xyz`);
+      setHost(`trial.apim.${hrid}.gravitee.xyz`);
     }
     localStorage.setItem("host", host);
-    localStorage.setItem("hrid", userId);
-    setSearchparams({}); // once userId is saved, delete query parameters
+    localStorage.setItem("hrid", hrid);
+    setSearchparams({}); // once hrid is saved, delete query parameters
     navigate(); // update URL to remove query parameters
-  }, [host, userId]);
+  }, [host, hrid]);
 
   const [authType, setAuthType] = useState(() => {
     const storedPreference = localStorage.getItem("userPrefAuthType");
@@ -158,7 +158,7 @@ export default function RootLayout() {
   const location = useLocation();
   const currentRoute = location.pathname;
 
-  if (!userId) {
+  if (!hrid) {
     return (
       <div className="flex h-screen items-center px-32">
         <h1>
@@ -226,8 +226,8 @@ export default function RootLayout() {
             context={{
               host,
               setHost,
-              userId,
-              setUserId,
+              hrid,
+              setHridId,
               analytics,
               setAnalytics,
               kafkaData,

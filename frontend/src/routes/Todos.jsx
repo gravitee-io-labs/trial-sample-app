@@ -21,7 +21,7 @@ const sortTodos = (a, b) => {
 export default function Todos() {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
-  const { host, userId, authToken, authType, analytics } = useOutletContext();
+  const { host, authToken, authType, analytics } = useOutletContext();
 
   const authHeaderSelector = () => {
     let authHeader = {};
@@ -55,7 +55,6 @@ export default function Todos() {
       const res = await fetch("https://" + host + "/todo-actions", {
         method: "POST",
         body: JSON.stringify({
-          userId,
           date: formattedDate,
           time: formattedTimeWithMilliseconds,
           timeZone,
@@ -89,7 +88,7 @@ export default function Todos() {
     try {
       const res = await fetch("https://" + host + "/todos", {
         headers: {
-          "user-id": userId,
+          "user-id": host,
           ...authHeaderSelector(),
         },
       });
@@ -119,11 +118,11 @@ export default function Todos() {
       const res = await fetch("https://" + host + "/todos", {
         method: "POST",
         headers: {
-          "user-id": userId,
+          "user-id": host,
           "Content-Type": "application/json",
           ...authHeaderSelector(),
         },
-        body: JSON.stringify({ userId, text: newTodo }),
+        body: JSON.stringify({ text: newTodo }),
       });
       const data = await res.json();
       // Catch non-2xx HTTP status codes
@@ -162,7 +161,7 @@ export default function Todos() {
         {
           method: "PATCH",
           headers: {
-            "user-id": userId,
+            "user-id": host,
             ...authHeaderSelector(),
           },
         }
@@ -201,7 +200,7 @@ export default function Todos() {
         {
           method: "PATCH",
           headers: {
-            "user-id": userId,
+            "user-id": host,
             ...authHeaderSelector(),
           },
         }
@@ -226,7 +225,7 @@ export default function Todos() {
       const res = await fetch("https://" + host + `/todos/${id}`, {
         method: "DELETE",
         headers: {
-          "user-id": userId,
+          "user-id": host,
           ...authHeaderSelector(),
         },
       });
