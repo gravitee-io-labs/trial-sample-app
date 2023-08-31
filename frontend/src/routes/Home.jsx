@@ -7,13 +7,13 @@ import CustomHeader from "../components/CustomHeader";
 export default function Home() {
   const tutorial_options = [
     {
-      subtitle: "Introductory Use Case",
+      subtitle: "Beginner Use Case",
       difficulty: "Beginner",
       difficultyIcon: oneBar,
       mainIcon: <FiZap size="40" />,
       title: "Gateway APIs and Policies",
       description:
-        "This tutorial details how this application works and then demonstrates Gravitee's core features which include managing and deploying a Gateway API and applying API access restrictions with a policy.",
+        "This tutorial demonstrates Gravitee's core features which include managing and deploying a Gateway API and applying API access restrictions with a policy.",
       gatewayApiType: "Proxy",
       entrypoint: "REST",
       endpoint: "REST",
@@ -23,11 +23,11 @@ export default function Home() {
       guideUser: true,
     },
     {
-      subtitle: "Advanced Use Case 1",
+      subtitle: "Intermediate Use Case",
       difficulty: "Intermediate",
       difficultyIcon: twoBar,
       mainIcon: <FiLock size="40" />,
-      title: "Basic Security and Protocol Mediation",
+      title: "Security and Protocol Mediation",
       description:
         "This tutorial showcases APIM's event-native API management capabilities that can manage, secure, and mediate between both asynchronous and synchronous protocols.",
       gatewayApiType: "Message",
@@ -35,17 +35,17 @@ export default function Home() {
       endpoint: "Kafka",
       planSecurity: "API Key",
       policies: "Latency",
-      href: "https://documentation.gravitee.io/apim/getting-started/tutorials/comprehensive",
+      href: "https://documentation.gravitee.io/apim/getting-started/tutorials/real-time-data-and-protocol-mediation",
     },
     // {
-    //   subtitle: "Advanced Use Case 2",
+    //   subtitle: "Advanced Use Case",
     //   difficulty: "Advanced",
     //   difficultyIcon: threeBar,
     //   mainIcon: <FiCpu size="40" />,
-    //   title: "Advanced Security and Developer Portal",
+    //   title: "Enhanced Security and Developer Portal",
     //   description:
     //     "This tutorial details a hypothetical monetization use case that requires a more complex implementation and use of Gravitee's Developer Portal for API productization.",
-    //   gatewayApiType: "http-proxy",
+    //   gatewayApiType: "Proxy",
     //   entrypoint: "REST",
     //   endpoint: "REST",
     //   planSecurity: "JWT",

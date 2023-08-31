@@ -42,24 +42,24 @@ export default function Card({
       <h3 className="mt-0">{title}</h3>
       <div className="mt-6">{description}</div>
       <br />
-      <div className=" list-item list-inside">
-        <em>Gateway API Type: </em>
+      <div>
+        <strong>Gateway API Type: </strong>
         {gatewayApiType}
       </div>
-      <div className=" list-item list-inside">
-        <em>Entrypoint: </em>
+      <div>
+        <strong>Entrypoint: </strong>
         {entrypoint}
       </div>
-      <div className=" list-item list-inside">
-        <em>Endpoint: </em>
+      <div>
+        <strong>Endpoint: </strong>
         {endpoint}
       </div>
-      <div className=" list-item list-inside">
-        <em>Plan Security: </em>
+      <div>
+        <strong>Plan Security: </strong>
         {planSecurity}
       </div>
-      <div className=" list-item list-inside">
-        <em>Policies: </em>
+      <div>
+        <strong>Policies: </strong>
         {policies}
       </div>
       <div className="mt-auto flex items-center justify-center">
