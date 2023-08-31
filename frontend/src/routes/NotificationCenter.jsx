@@ -3,12 +3,20 @@ import CustomHeader from "../components/CustomHeader";
 import NoData from "../components/NoData";
 
 export default function NotificationCenter() {
-  const { kafkaData } = useOutletContext();
+  const { kafkaData, analytics, websocketDisconnected, authType } = useOutletContext();
 
   return (
     <>
       <CustomHeader title="Notification Center" buttonType="reset"></CustomHeader>
-      {kafkaData.length ? (
+      {analytics === "off" ? (
+        <NoData message="Analytics data is currently turned off in your Configuration settings. If needed, the tutorial will advise you to enable this feature." />
+      ) : websocketDisconnected ? (
+        <NoData message="One or more WebSocket connections have failed. Please refresh the page." />
+      ) : authType !== "apiKey" ? (
+        <NoData message="Access to real-time data requires you to provide an API key in the configuration page." />
+      ) : !kafkaData.length ? (
+        <NoData message="There is no data yet. Create, complete, archive, or delete todos to generate data." />
+      ) : (
         <div className="flex flex-col-reverse items-center gap-10 px-12">
           {kafkaData.map((item) => (
             <div
@@ -19,8 +27,6 @@ export default function NotificationCenter() {
             </div>
           ))}
         </div>
-      ) : (
-        <NoData />
       )}
     </>
   );
