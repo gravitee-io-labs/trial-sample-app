@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { FiBell, FiCheckCircle, FiHome, FiSettings } from "react-icons/fi";
+import {
+  FiBell,
+  FiCheckCircle,
+  FiHome,
+  FiSettings,
+  FiTrendingUp,
+} from "react-icons/fi";
 import {
   NavLink,
   Outlet,
@@ -150,6 +156,11 @@ export default function RootLayout() {
       route: "/notification-center",
       icon: <FiBell size="20" />,
       text: "Notification Center",
+    },
+    {
+      route: "/stock-market",
+      icon: <FiTrendingUp size="20" />,
+      text: "Stock Market",
     },
     {
       route: "/configuration",

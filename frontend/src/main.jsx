@@ -14,6 +14,7 @@ import RootLayout from "./layouts/RootLayout";
 import Configuration from "./routes/Configuration";
 import Home from "./routes/Home";
 import NotificationCenter from "./routes/NotificationCenter";
+import StockMarket from "./routes/StockMarket";
 import Todos from "./routes/Todos";
 
 const router = createBrowserRouter(
@@ -22,6 +23,7 @@ const router = createBrowserRouter(
       <Route index element={<Home />} />
       <Route path="todos" element={<Todos />} />
       <Route path="notification-center" element={<NotificationCenter />} />
+      <Route path="stock-market" element={<StockMarket />} />
       <Route path="configuration" element={<Configuration />} />
     </Route>
   ),
