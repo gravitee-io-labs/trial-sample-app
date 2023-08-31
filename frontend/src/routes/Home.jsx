@@ -1,6 +1,5 @@
-import { FiCpu, FiLock, FiZap } from "react-icons/fi";
+import { FiLock, FiZap } from "react-icons/fi";
 import oneBar from "../assets/oneBar.svg";
-import threeBar from "../assets/threeBar.svg";
 import twoBar from "../assets/twoBar.svg";
 import Card from "../components/Card";
 import CustomHeader from "../components/CustomHeader";
@@ -38,21 +37,21 @@ export default function Home() {
       policies: "Latency",
       href: "https://documentation.gravitee.io/apim/getting-started/tutorials/comprehensive",
     },
-    {
-      subtitle: "Advanced Use Case 2",
-      difficulty: "Advanced",
-      difficultyIcon: threeBar,
-      mainIcon: <FiCpu size="40" />,
-      title: "Advanced Security and Developer Portal",
-      description:
-        "This tutorial details a hypothetical monetization use case that requires a more complex implementation and use of Gravitee's Developer Portal for API productization.",
-      gatewayApiType: "http-proxy",
-      entrypoint: "REST",
-      endpoint: "REST",
-      planSecurity: "JWT",
-      policies: "Assign Metrics, Transform Headers",
-      href: "https://documentation.gravitee.io/apim/getting-started/tutorials/comprehensive",
-    },
+    // {
+    //   subtitle: "Advanced Use Case 2",
+    //   difficulty: "Advanced",
+    //   difficultyIcon: threeBar,
+    //   mainIcon: <FiCpu size="40" />,
+    //   title: "Advanced Security and Developer Portal",
+    //   description:
+    //     "This tutorial details a hypothetical monetization use case that requires a more complex implementation and use of Gravitee's Developer Portal for API productization.",
+    //   gatewayApiType: "http-proxy",
+    //   entrypoint: "REST",
+    //   endpoint: "REST",
+    //   planSecurity: "JWT",
+    //   policies: "Assign Metrics, Transform Headers",
+    //   href: "https://documentation.gravitee.io/apim/getting-started/tutorials/comprehensive",
+    // },
   ];
 
   return (
