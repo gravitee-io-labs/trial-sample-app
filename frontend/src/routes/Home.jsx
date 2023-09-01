@@ -64,15 +64,25 @@ export default function Home() {
       <CustomHeader title="Home"></CustomHeader>
       <div className="flex w-full flex-col items-center px-12 gap-5">
         <h2>{"Welcome to Gravitee's API Management Trial App"}</h2>
-        <p>
-          This app has been built for you to experience the full benefits of API
-          Management with your trial.
-        </p>
-        <p>
-          {
-            "The introductory use case: Basic Security and Access Control, should be completed first. The advanced use cases can then be completed in any order to experience the breadth of Gravitee API Management's (APIM) capabilities. Selecting a path will open up the relevant documentation in a new tab."
-          }
-        </p>
+        {fromPendoTutorial ? (
+          <p>
+            To learn how to test your Gateway API, first open the relevant documentation
+            by selecting the highlighted <strong>Gateway APIs and Policies</strong> card
+            below!
+          </p>
+        ) : (
+          <>
+            <p>
+              This app has been built for you to experience the full benefits of API
+              Management with your trial.
+            </p>
+            <p>
+              {
+                "The beginner use case: Gateway APIs and Policies, should be completed first. The other use cases can then be completed in any order to experience the breadth of Gravitee API Management's (APIM) capabilities. Selecting a path will open up the relevant documentation in a new tab."
+              }
+            </p>
+          </>
+        )}
         <div className="mt-6 flex flex-wrap justify-center gap-5">
           {tutorial_options.map((tutorial) => (
             <Card {...tutorial} key={tutorial.title}></Card>
