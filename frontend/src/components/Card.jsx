@@ -24,7 +24,14 @@ export default function Card({
       href={href}
       target="_blank"
       rel="noreferrer"
-      onClick={() => (guideUser ? setFromPendoTutorial("") : "")}
+      // Reset the state to update the card styling and link
+      onClick={() =>
+        guideUser
+          ? setTimeout(() => {
+              setFromPendoTutorial("");
+            }, 500) // a delay is necessary so the external link opens before the state is updated
+          : ""
+      }
       className={`group flex h-[35rem] w-[28rem] flex-col border border-solid p-6 shadow-xl transition-transform duration-300 ease-in-out hover:translate-y-[-4px] ${
         fromPendoTutorial && guideUser
           ? "highlight-card"

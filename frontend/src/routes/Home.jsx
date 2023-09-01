@@ -1,10 +1,13 @@
 import { FiLock, FiZap } from "react-icons/fi";
+import { useOutletContext } from "react-router-dom";
 import oneBar from "../assets/oneBar.svg";
 import twoBar from "../assets/twoBar.svg";
 import Card from "../components/Card";
 import CustomHeader from "../components/CustomHeader";
 
 export default function Home() {
+  const { fromPendoTutorial } = useOutletContext();
+
   const tutorial_options = [
     {
       subtitle: "Beginner Use Case",
@@ -19,7 +22,9 @@ export default function Home() {
       endpoint: "REST",
       planSecurity: "Keyless",
       policies: "Quota",
-      href: "https://documentation.gravitee.io/apim/getting-started/tutorials/comprehensive",
+      href: fromPendoTutorial
+        ? "https://documentation.gravitee.io/apim/getting-started/tutorials/comprehensive#trial-app-architecture"
+        : "https://documentation.gravitee.io/apim/getting-started/tutorials/comprehensive",
       guideUser: true,
     },
     {
