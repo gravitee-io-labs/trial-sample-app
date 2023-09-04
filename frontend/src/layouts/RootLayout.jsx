@@ -84,7 +84,9 @@ export default function RootLayout() {
     `wss://${host}/todo-actions`,
     {
       queryParams: {
-        "x-gravitee-client-identifier": kafkaConsumerId,
+        ...(analytics === "on-history"
+          ? { "X-Gravitee-Client-Identifier": kafkaConsumerId }
+          : {}),
         "api-key": authToken,
       },
 
@@ -96,7 +98,7 @@ export default function RootLayout() {
       onClose: () => console.log("Real-time WebSocket closed"),
     },
     // Only attempt to connect the real-time websocket when conditions are met
-    analytics === "on" && authType === "apiKey"
+    analytics !== "off" && authType === "apiKey"
   );
   useEffect(() => {
     if (lastMessage !== null) {
@@ -114,7 +116,9 @@ export default function RootLayout() {
   const { lastMessage: delayedLastMessage } = useWebSocket(
     `wss://${host}/todo-actions`,
     {
-      queryParams: { "x-gravitee-client-identifier": delayedKafkaConsumerId },
+      ...(analytics === "on-history"
+        ? { queryParams: { "X-Gravitee-Client-Identifier": delayedKafkaConsumerId } }
+        : {}),
       shouldReconnect: () => true,
       reconnectAttempts: 20,
       onReconnectStop: () => setWebsocketDisconnected(true),
@@ -123,7 +127,7 @@ export default function RootLayout() {
       onClose: () => console.log("Delayed WebSocket closed"),
     },
     // Only attempt to connect the delayed websocket when conditions are met
-    analytics === "on"
+    analytics !== "off"
   );
   useEffect(() => {
     if (delayedLastMessage !== null) {

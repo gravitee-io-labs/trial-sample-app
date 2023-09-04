@@ -19,7 +19,6 @@ export default function Configuration() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e);
 
     // Update state and/or local storage values
     localStorage.setItem("userPrefAuthType", e.target.authType.value);
@@ -76,6 +75,11 @@ export default function Configuration() {
             items={[
               { label: "Off", id: "off", checked: analytics === "off" },
               { label: "On", id: "on", checked: analytics === "on" },
+              {
+                label: "On with history",
+                id: "on-history",
+                checked: analytics === "on-history",
+              },
             ]}
             handleChange={() => {
               setFormModified(true);

@@ -249,7 +249,7 @@ export default function Todos() {
       <CustomHeader
         title="Todo List"
         buttonType="reset"
-        disabledButton={analytics === "on"}
+        disabledButton={analytics !== "off"}
       ></CustomHeader>
       <div className="flex h-full flex-col gap-5 overflow-auto px-1 xl:flex-row xl:px-10">
         <div className="flex w-full flex-auto overflow-auto xl:justify-center">
