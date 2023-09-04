@@ -1,13 +1,13 @@
 import { useOutletContext } from "react-router-dom";
 
-export function ResetButton({ analyticsEnabled }) {
+export function ResetButton({ disabledButton }) {
   const { setKafkaData, setDelayedKafkaData } = useOutletContext();
   return (
     <BaseButton
       text="Clear Graphs"
-      disabled={!analyticsEnabled}
+      disabled={disabledButton}
       extraClasses={
-        !analyticsEnabled &&
+        disabledButton &&
         "cursor-not-allowed !bg-dove-neutral-300 border-none p-[1px] !text-black"
       }
       handleClick={() => {
@@ -18,15 +18,15 @@ export function ResetButton({ analyticsEnabled }) {
   );
 }
 
-export function SaveFormButton({ formModified }) {
+export function SaveFormButton({ disabledButton }) {
   return (
     <BaseButton
       text="Save Changes"
       type="submit"
       id="submitForm"
-      disabled={!formModified}
+      disabled={disabledButton}
       extraClasses={
-        !formModified &&
+        disabledButton &&
         "cursor-not-allowed !bg-dove-neutral-300 border-none !text-black"
       }
     ></BaseButton>

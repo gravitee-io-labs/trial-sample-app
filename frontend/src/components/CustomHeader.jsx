@@ -19,8 +19,8 @@ export default function CustomHeader({
           <img src={logo} alt="Gravitee Logo" width="200"></img>
         </a>
       )}
-      {buttonType === "reset" && <ResetButton analyticsEnabled={disabledButton} />}
-      {buttonType === "save" && <SaveFormButton formModified={disabledButton} />}
+      {buttonType === "reset" && <ResetButton disabledButton={disabledButton} />}
+      {buttonType === "save" && <SaveFormButton disabledButton={disabledButton} />}
     </div>
   );
 }
