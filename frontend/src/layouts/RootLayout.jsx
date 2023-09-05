@@ -123,7 +123,11 @@ export default function RootLayout() {
     `wss://${host}/todo-actions`,
     {
       ...(analytics === "on-history"
-        ? { queryParams: { "X-Gravitee-Client-Identifier": delayedKafkaConsumerId } }
+        ? {
+            queryParams: {
+              "X-Gravitee-Client-Identifier": delayedKafkaConsumerId,
+            },
+          }
         : {}),
       shouldReconnect: () => true,
       reconnectAttempts: 20,
@@ -236,7 +240,11 @@ export default function RootLayout() {
             ))}
           </ul>
         </nav>
-        <div className={"ml-20 h-full" + (currentRoute !== "/todos" ? " pb-20" : "")}>
+        <div
+          className={
+            "ml-20 h-full " + (currentRoute !== "/todos" ? " pb-20" : "")
+          }
+        >
           <Outlet
             context={{
               host,

@@ -22,8 +22,13 @@ const countObjectsByProperty = (arr, prop) => {
 };
 
 export default function Analytics() {
-  const { kafkaData, delayedKafkaData, analytics, websocketDisconnected, authType } =
-    useOutletContext();
+  const {
+    kafkaData,
+    delayedKafkaData,
+    analytics,
+    websocketDisconnected,
+    authType,
+  } = useOutletContext();
 
   const graphData = countObjectsByProperty(kafkaData, "action");
   const delayedGraphData = countObjectsByProperty(delayedKafkaData, "action");

@@ -42,7 +42,11 @@ export default function Card({
     >
       <div className="flex items-center">
         <p className=" flex-grow font-bold">{subtitle}</p>
-        <img src={difficultyIcon} alt="difficulty icon" className="ml-auto mr-3" />
+        <img
+          src={difficultyIcon}
+          alt="difficulty icon"
+          className="ml-auto mr-3"
+        />
         <Pill text={difficulty}></Pill>
       </div>
       <div className="my-8 flex items-center justify-center">{mainIcon}</div>

@@ -316,7 +316,10 @@ export default function Todos() {
                           deleteTodo(todo._id);
                         }}
                       >
-                        <FiTrash size="20" className="text-black hover:text-red-500" />
+                        <FiTrash
+                          size="20"
+                          className="text-black hover:text-red-500"
+                        />
                       </div>
                     </div>
                   ))}
@@ -328,7 +331,9 @@ export default function Todos() {
                   .filter((todo) => todo.archive)
                   .map((todo) => (
                     <div
-                      className={`todo gap-6 ${todo.complete ? "is-complete" : ""}`}
+                      className={`todo gap-6 ${
+                        todo.complete ? "is-complete" : ""
+                      }`}
                       key={todo._id}
                     >
                       <div className="text">{todo.text}</div>
