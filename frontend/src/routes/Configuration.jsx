@@ -37,6 +37,7 @@ export default function Configuration() {
     <form id="form" onSubmit={handleSubmit} className="">
       <CustomHeader
         title="Configuration"
+        buttonText="Save Changes"
         buttonType="save"
         disabledButton={!formModified}
       ></CustomHeader>

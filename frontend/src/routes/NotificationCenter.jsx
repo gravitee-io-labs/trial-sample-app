@@ -7,7 +7,11 @@ export default function NotificationCenter() {
 
   return (
     <>
-      <CustomHeader title="Notification Center" buttonType="reset"></CustomHeader>
+      <CustomHeader
+        title="Notification Center"
+        buttonText="Clear Data"
+        buttonType="reset"
+      ></CustomHeader>
       {analytics === "off" ? (
         <NoData message="Analytics data is currently turned off in your Configuration settings. If needed, the tutorial will advise you to enable this feature." />
       ) : websocketDisconnected ? (

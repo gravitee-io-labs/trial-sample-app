@@ -3,6 +3,7 @@ import { ResetButton, SaveFormButton } from "./CustomButtons";
 
 export default function CustomHeader({
   title,
+  buttonText,
   buttonType = "none",
   disabledButton = false,
 }) {
@@ -19,8 +20,12 @@ export default function CustomHeader({
           <img src={logo} alt="Gravitee Logo" width="200"></img>
         </a>
       )}
-      {buttonType === "reset" && <ResetButton disabledButton={disabledButton} />}
-      {buttonType === "save" && <SaveFormButton disabledButton={disabledButton} />}
+      {buttonType === "reset" && (
+        <ResetButton text={buttonText} disabledButton={disabledButton} />
+      )}
+      {buttonType === "save" && (
+        <SaveFormButton text={buttonText} disabledButton={disabledButton} />
+      )}
     </div>
   );
 }

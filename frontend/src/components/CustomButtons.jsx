@@ -1,10 +1,10 @@
 import { useOutletContext } from "react-router-dom";
 
-export function ResetButton({ disabledButton }) {
+export function ResetButton({ text, disabledButton }) {
   const { setKafkaData, setDelayedKafkaData } = useOutletContext();
   return (
     <BaseButton
-      text="Clear Graphs"
+      text={text}
       disabled={disabledButton}
       extraClasses={
         disabledButton &&
@@ -18,10 +18,10 @@ export function ResetButton({ disabledButton }) {
   );
 }
 
-export function SaveFormButton({ disabledButton }) {
+export function SaveFormButton({ text, disabledButton }) {
   return (
     <BaseButton
-      text="Save Changes"
+      text={text}
       type="submit"
       id="submitForm"
       disabled={disabledButton}

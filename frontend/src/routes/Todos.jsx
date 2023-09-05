@@ -248,6 +248,7 @@ export default function Todos() {
     <div className="flex h-screen flex-col pb-3">
       <CustomHeader
         title="Todo List"
+        buttonText="Clear Graphs"
         buttonType="reset"
         disabledButton={analytics === "off"}
       ></CustomHeader>
