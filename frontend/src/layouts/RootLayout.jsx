@@ -242,7 +242,8 @@ export default function RootLayout() {
         </nav>
         <div
           className={
-            "ml-20 h-full " + (currentRoute !== "/todos" ? " pb-20" : "")
+            "ml-20 h-full " +
+            (["/todos", "/stock-market"].includes(currentRoute) ? "" : "pb-20")
           }
         >
           <Outlet
