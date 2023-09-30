@@ -22,28 +22,10 @@ function convertUnixToLocale(unixTimestamp) {
   return date.toLocaleString();
 }
 
-const countObjectsByProperty = (arr, prop) => {
-  const counts = {};
-  for (let obj of arr) {
-    const value = obj[prop];
-    if (counts[value]) {
-      counts[value].quantity++;
-    } else {
-      counts[value] = {
-        [prop]: value,
-        quantity: 1,
-      };
-    }
-  }
-  // Convert the object into an array of objects
-  const unsortedArray = Object.values(counts);
-  // Sort the array of objects based on the "action" key value
-  return unsortedArray.slice().sort((a, b) => a.action.localeCompare(b.action));
-};
-
 export default function StockMarket() {
-  const { kafkaData, host } = useOutletContext();
-  const graphData = countObjectsByProperty(kafkaData, "action");
+  const { host } = useOutletContext();
+
+  const [selectedStock, setSelectedStock] = useState("gravitee");
 
   // Ksqldb data streams share a consumer ID
   const [ksqldbConsumerId] = useState(() => uuidv4());
@@ -151,32 +133,49 @@ export default function StockMarket() {
   return (
     <div className="flex h-screen flex-col">
       <CustomHeader title="Stock Market"></CustomHeader>
-      <div className="flex h-full overflow-clip px-10">
-        <div className="flex h-full max-h-full flex-auto flex-col overflow-x-auto overflow-y-clip pb-10">
-          <h2 className="m-0">Selected Stock</h2>
+      <div className="flex h-full overflow-clip pl-10">
+        <div className="mt-4 flex h-full max-h-full flex-auto flex-col overflow-x-auto overflow-y-clip pb-10">
+          <div className="flex justify-between px-10">
+            <div className="flex flex-col">
+              <div className=" uppercase text-gray-400">Selected Stock</div>
+              <div className=" text-2xl font-extrabold">
+                {selectedStock[0].toUpperCase() + selectedStock.slice(1)}
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <div className=" uppercase text-gray-400">Buying Power</div>
+              <div className=" text-2xl font-extrabold">
+                {"$ " + cashBalance}
+              </div>
+            </div>
+          </div>
           <div className="h-[99%] flex-auto">
             <ResponsiveLine
               data={[
                 {
-                  id: "japan",
+                  id: selectedStock,
                   color: "hsl(65, 70%, 50%)",
-                  data: stockPrices["gravitee"]
-                    ? stockPrices["gravitee"].map((item) => ({
+                  data: stockPrices[selectedStock]
+                    ? stockPrices[selectedStock].map((item) => ({
                         x: convertUnixToLocale(item.datetime),
                         y: item.currentPrice,
                       }))
                     : [],
                 },
               ]}
+              yScale={{
+                type: "linear",
+                stacked: false,
+                min: "auto",
+                max: "auto",
+              }}
               margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
               yFormat=" >-.2f"
-              axisTop={null}
-              axisRight={null}
               axisBottom={{
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: 0,
-                legend: "transportation",
+                legend: "Datetime",
                 legendOffset: 36,
                 legendPosition: "middle",
               }}
@@ -184,7 +183,7 @@ export default function StockMarket() {
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: 0,
-                legend: "count",
+                legend: "Price",
                 legendOffset: -40,
                 legendPosition: "middle",
               }}
@@ -223,13 +222,42 @@ export default function StockMarket() {
             />
           </div>
         </div>
-        <div className="flex flex-col overflow-y-auto">
-          {stockOptions.map((stock) => (
+        <div className="flex w-1/4 max-w-[40%] flex-col overflow-y-auto bg-gray-100">
+          {stockOptions.map((stockOptions) => (
             <div
-              className="flex w-full justify-center border-2 border-space-neutral-200 p-5 text-lg text-black shadow-lg"
-              key={stock.name}
+              className=" flex w-full cursor-pointer items-center justify-center gap-5 border-[1px] border-space-neutral-200 p-5 text-lg text-black hover:opacity-50"
+              key={stockOptions.name}
+              onClick={() => setSelectedStock(stockOptions.name)}
             >
-              {`${stock.name} Price: ${stock.price} Shares: ${stock.shares}`}
+              <div className="w-1/3 font-bold">{stockOptions.name}</div>
+              <div className="h-[99%] w-1/3">
+                <ResponsiveLine
+                  data={[
+                    {
+                      id: selectedStock,
+                      color: "hsl(65, 70%, 50%)",
+                      data: stockPrices[selectedStock]
+                        ? stockPrices[selectedStock].map((item) => ({
+                            x: convertUnixToLocale(item.datetime),
+                            y: item.currentPrice,
+                          }))
+                        : [],
+                    },
+                  ]}
+                  enableGridX={false}
+                  enableGridY={false}
+                  enablePoints={false}
+                  yScale={{
+                    type: "linear",
+                    stacked: false,
+                    min: "auto",
+                    max: "auto",
+                  }}
+                />
+              </div>
+              <div className="flex w-1/3 items-center justify-center bg-green-200 p-2">
+                {stockOptions.price}
+              </div>
             </div>
           ))}
         </div>
