@@ -5,22 +5,13 @@ import useWebSocket from "react-use-websocket";
 import { v4 as uuidv4 } from "uuid";
 import CustomHeader from "../components/CustomHeader";
 
-const stockOptions = [
-  { name: "gravitee", shares: "20", price: "$99" },
-  { name: "kong", shares: "20", price: "$99" },
-  { name: "apigee", shares: "20", price: "$99" },
-  { name: "tinybird", shares: "20", price: "$99" },
-  { name: "confluent", shares: "20", price: "$99" },
-  { name: "tyk", shares: "20", price: "$99" },
-  { name: "solo", shares: "20", price: "$99" },
-  { name: "aws", shares: "20", price: "$99" },
-  { name: "aklivity", shares: "20", price: "$99" },
-];
-
-function convertUnixToLocale(unixTimestamp) {
+const convertUnixToLocale = (unixTimestamp) => {
   const date = new Date(unixTimestamp);
   return date.toLocaleString();
-}
+};
+
+const calcTotalReturns = (totalProceeds, sharesPurchased, currentPrice) =>
+  totalProceeds + sharesPurchased * currentPrice;
 
 export default function StockMarket() {
   const { host, authType, authToken } = useOutletContext();
@@ -126,18 +117,30 @@ export default function StockMarket() {
       (async () => {
         const data = await portfolioLastMessage.data.text();
         const parsedData = JSON.parse(data);
+        const {
+          SHARES_PURCHASED: sharesPurchased,
+          TOTAL_INVESTMENT: totalInvestment,
+          TOTAL_PROCEEDS: totalProceeds,
+          REALIZED_RETURNS: realizedReturns,
+        } = parsedData;
         const stock = parsedData["key"]["STOCK"];
-        delete parsedData.key;
 
         setPortfolio((prevData) => {
           return {
             ...prevData,
-            [stock]: parsedData,
+            [stock]: {
+              sharesPurchased,
+              totalInvestment,
+              totalProceeds,
+              realizedReturns,
+            },
           };
         });
       })();
     }
   }, [portfolioLastMessage]);
+
+  Object.keys(stockPrices).forEach((stock) => console.log(stockPrices[stock]));
 
   return (
     <div className="flex h-screen flex-col bg-gray-100">
@@ -154,7 +157,8 @@ export default function StockMarket() {
             <div className="flex flex-col">
               <div className=" uppercase text-gray-400">Current Price</div>
               <div className=" text-2xl font-extrabold">
-                {"$ " + cashBalance}
+                {"$ " +
+                  stockPrices[selectedStock].at(-1)["currentPrice"].toFixed(2)}
               </div>
             </div>
             <div className="ml-auto flex flex-col">
@@ -237,14 +241,29 @@ export default function StockMarket() {
             />
           </div>
           <div className="flex items-center gap-10 px-10 py-5">
-            <h2 className="m-0">Your Position</h2>
+            <h2 className="m-0 text-xl font-bold uppercase text-gray-400">
+              Your Position
+            </h2>
             <div className="ml-20 flex flex-col">
               <div className="uppercase text-gray-400">Shares</div>
-              <div className=" text-lg font-bold">{"TEST"}</div>
+              <div className=" text-lg font-bold">
+                {portfolio[selectedStock]
+                  ? portfolio[selectedStock]["sharesPurchased"]
+                  : 0}
+              </div>
             </div>
             <div className="flex flex-col">
               <div className=" uppercase text-gray-400">Total Return</div>
-              <div className=" text-lg font-bold">{"$ " + cashBalance}</div>
+              <div className=" text-lg font-bold">
+                {"$ " +
+                  (portfolio[selectedStock] && stockPrices[selectedStock]
+                    ? calcTotalReturns(
+                        portfolio[selectedStock]["realizedReturns"],
+                        portfolio[selectedStock]["sharesPurchased"],
+                        stockPrices[selectedStock].at(-1)["currentPrice"]
+                      ).toFixed(2)
+                    : 0)}
+              </div>
             </div>
           </div>
         </div>
@@ -252,20 +271,20 @@ export default function StockMarket() {
           <h2 className="ml-2 text-lg font-normal uppercase text-gray-400">
             Available Stocks
           </h2>
-          {stockOptions.map((stockOptions) => (
+          {Object.keys(stockPrices).map((stock) => (
             <div
               className=" flex w-full cursor-pointer items-center justify-center gap-7 p-5 text-lg text-black hover:opacity-50"
-              key={stockOptions.name}
-              onClick={() => setSelectedStock(stockOptions.name)}
+              key={stock}
+              onClick={() => setSelectedStock(stock)}
             >
-              <div className="w-1/3 font-bold">{stockOptions.name}</div>
+              <div className="w-1/3 font-bold">{stock}</div>
               <div className="h-[99%] w-1/3">
                 <ResponsiveLine
                   data={[
                     {
-                      id: selectedStock,
-                      data: stockPrices[selectedStock]
-                        ? stockPrices[selectedStock].map((item) => ({
+                      id: stock,
+                      data: stockPrices[stock]
+                        ? stockPrices[stock].map((item) => ({
                             x: convertUnixToLocale(item.datetime),
                             y: item.currentPrice,
                           }))
@@ -284,8 +303,8 @@ export default function StockMarket() {
                   }}
                 />
               </div>
-              <div className="flex w-1/3 items-center justify-center bg-green-200 p-2">
-                {stockOptions.price}
+              <div className="flex w-max min-w-max items-center justify-center rounded-lg bg-green-500/80 p-2">
+                {`$ ${stockPrices[stock].at(-1)["currentPrice"].toFixed(2)}`}
               </div>
             </div>
           ))}
