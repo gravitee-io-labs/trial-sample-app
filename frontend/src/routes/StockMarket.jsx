@@ -140,10 +140,10 @@ export default function StockMarket() {
   }, [portfolioLastMessage]);
 
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex h-screen flex-col bg-gray-100">
       <CustomHeader title="Stock Market"></CustomHeader>
-      <div className="flex h-full overflow-clip pl-10">
-        <div className="mt-4 flex h-full max-h-full flex-auto flex-col overflow-auto pb-10">
+      <div className="flex h-full gap-4 overflow-clip">
+        <div className="flex h-full max-h-full flex-auto flex-col overflow-auto border-2 bg-white pb-10 pt-4">
           <div className="flex gap-10 px-10">
             <div className="flex flex-col">
               <div className=" uppercase text-gray-400">Selected Stock</div>
@@ -248,10 +248,13 @@ export default function StockMarket() {
             </div>
           </div>
         </div>
-        <div className="flex w-1/4 max-w-[40%] flex-col overflow-y-auto bg-gray-100">
+        <div className="flex w-1/4 max-w-[40%] flex-col overflow-y-auto border-2 bg-white">
+          <h2 className="ml-2 text-lg font-normal uppercase text-gray-400">
+            Available Stocks
+          </h2>
           {stockOptions.map((stockOptions) => (
             <div
-              className=" flex w-full cursor-pointer items-center justify-center gap-5 border-[1px] border-space-neutral-200 p-5 text-lg text-black hover:opacity-50"
+              className=" flex w-full cursor-pointer items-center justify-center gap-7 p-5 text-lg text-black hover:opacity-50"
               key={stockOptions.name}
               onClick={() => setSelectedStock(stockOptions.name)}
             >
