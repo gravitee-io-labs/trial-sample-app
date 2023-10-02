@@ -236,7 +236,7 @@ export default function StockMarket() {
               ]}
             />
           </div>
-          <div className="flex items-center gap-10 px-10">
+          <div className="flex items-center gap-10 px-10 py-5">
             <h2 className="m-0">Your Position</h2>
             <div className="ml-20 flex flex-col">
               <div className="uppercase text-gray-400">Shares</div>
