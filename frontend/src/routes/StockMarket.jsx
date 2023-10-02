@@ -6,15 +6,15 @@ import { v4 as uuidv4 } from "uuid";
 import CustomHeader from "../components/CustomHeader";
 
 const stockOptions = [
-  { name: "Gravitee", shares: "20", price: "$99" },
-  { name: "Kong", shares: "20", price: "$99" },
-  { name: "Apigee", shares: "20", price: "$99" },
-  { name: "Tinybird", shares: "20", price: "$99" },
-  { name: "Confluent", shares: "20", price: "$99" },
-  { name: "Tyk", shares: "20", price: "$99" },
-  { name: "Solo", shares: "20", price: "$99" },
-  { name: "AWS", shares: "20", price: "$99" },
-  { name: "Aklivity", shares: "20", price: "$99" },
+  { name: "gravitee", shares: "20", price: "$99" },
+  { name: "kong", shares: "20", price: "$99" },
+  { name: "apigee", shares: "20", price: "$99" },
+  { name: "tinybird", shares: "20", price: "$99" },
+  { name: "confluent", shares: "20", price: "$99" },
+  { name: "tyk", shares: "20", price: "$99" },
+  { name: "solo", shares: "20", price: "$99" },
+  { name: "aws", shares: "20", price: "$99" },
+  { name: "aklivity", shares: "20", price: "$99" },
 ];
 
 function convertUnixToLocale(unixTimestamp) {
@@ -143,8 +143,8 @@ export default function StockMarket() {
     <div className="flex h-screen flex-col">
       <CustomHeader title="Stock Market"></CustomHeader>
       <div className="flex h-full overflow-clip pl-10">
-        <div className="mt-4 flex h-full max-h-full flex-auto flex-col overflow-x-auto overflow-y-clip pb-10">
-          <div className="flex justify-between px-10">
+        <div className="mt-4 flex h-full max-h-full flex-auto flex-col overflow-auto pb-10">
+          <div className="flex gap-10 px-10">
             <div className="flex flex-col">
               <div className=" uppercase text-gray-400">Selected Stock</div>
               <div className=" text-2xl font-extrabold">
@@ -152,18 +152,23 @@ export default function StockMarket() {
               </div>
             </div>
             <div className="flex flex-col">
+              <div className=" uppercase text-gray-400">Current Price</div>
+              <div className=" text-2xl font-extrabold">
+                {"$ " + cashBalance}
+              </div>
+            </div>
+            <div className="ml-auto flex flex-col">
               <div className=" uppercase text-gray-400">Buying Power</div>
               <div className=" text-2xl font-extrabold">
                 {"$ " + cashBalance}
               </div>
             </div>
           </div>
-          <div className="h-[99%] flex-auto">
+          <div className="h-[99%] min-h-0 flex-auto">
             <ResponsiveLine
               data={[
                 {
                   id: selectedStock,
-                  color: "hsl(65, 70%, 50%)",
                   data: stockPrices[selectedStock]
                     ? stockPrices[selectedStock].map((item) => ({
                         x: convertUnixToLocale(item.datetime),
@@ -172,6 +177,7 @@ export default function StockMarket() {
                     : [{ x: 0, y: 0 }],
                 },
               ]}
+              colors={() => "#009999"}
               yScale={{
                 type: "linear",
                 stacked: false,
@@ -230,16 +236,15 @@ export default function StockMarket() {
               ]}
             />
           </div>
-          <div className="flex h-1/4 justify-between px-10">
-            <div className="flex flex-col">
-              <div className=" uppercase text-gray-400">Selected Stock</div>
-              <div className=" text-2xl font-extrabold">{"TEST"}</div>
+          <div className="flex items-center gap-10 px-10">
+            <h2 className="m-0">Your Position</h2>
+            <div className="ml-20 flex flex-col">
+              <div className="uppercase text-gray-400">Shares</div>
+              <div className=" text-lg font-bold">{"TEST"}</div>
             </div>
             <div className="flex flex-col">
-              <div className=" uppercase text-gray-400">Buying Power</div>
-              <div className=" text-2xl font-extrabold">
-                {"$ " + cashBalance}
-              </div>
+              <div className=" uppercase text-gray-400">Total Return</div>
+              <div className=" text-lg font-bold">{"$ " + cashBalance}</div>
             </div>
           </div>
         </div>
@@ -256,7 +261,6 @@ export default function StockMarket() {
                   data={[
                     {
                       id: selectedStock,
-                      color: "hsl(65, 70%, 50%)",
                       data: stockPrices[selectedStock]
                         ? stockPrices[selectedStock].map((item) => ({
                             x: convertUnixToLocale(item.datetime),
@@ -265,6 +269,7 @@ export default function StockMarket() {
                         : [{ x: 0, y: 0 }],
                     },
                   ]}
+                  colors={() => "#009999"}
                   enableGridX={false}
                   enableGridY={false}
                   enablePoints={false}
