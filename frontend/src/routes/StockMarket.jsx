@@ -23,7 +23,7 @@ function convertUnixToLocale(unixTimestamp) {
 }
 
 export default function StockMarket() {
-  const { host } = useOutletContext();
+  const { host, authType, authToken } = useOutletContext();
 
   const [selectedStock, setSelectedStock] = useState("gravitee");
 
@@ -37,6 +37,7 @@ export default function StockMarket() {
     {
       queryParams: {
         "X-Gravitee-Client-Identifier": ksqldbConsumerId,
+        "api-key": authToken,
       },
 
       shouldReconnect: () => true,
@@ -44,7 +45,9 @@ export default function StockMarket() {
       onOpen: () => console.log("Cash Balance WebSocket opened"),
       onError: (error) => console.log(`Cash Balance WebSocket error: ${error}`),
       onClose: () => console.log("Cash Balance WebSocket closed"),
-    }
+    },
+    // Only attempt to connect the real-time websocket when conditions are met
+    authType === "apiKey"
   );
   useEffect(() => {
     if (cashBalanceLastMessage !== null) {
@@ -63,6 +66,7 @@ export default function StockMarket() {
     {
       queryParams: {
         "X-Gravitee-Client-Identifier": ksqldbConsumerId,
+        "api-key": authToken,
       },
 
       shouldReconnect: () => true,
@@ -70,7 +74,9 @@ export default function StockMarket() {
       onOpen: () => console.log("Stock prices WebSocket opened"),
       onError: (error) => console.log(`Stock prices WebSocket error: ${error}`),
       onClose: () => console.log("Stock prices WebSocket closed"),
-    }
+    },
+    // Only attempt to connect the real-time websocket when conditions are met
+    authType === "apiKey"
   );
 
   useEffect(() => {
@@ -102,6 +108,7 @@ export default function StockMarket() {
     {
       queryParams: {
         "X-Gravitee-Client-Identifier": ksqldbConsumerId,
+        "api-key": authToken,
       },
 
       shouldReconnect: () => true,
@@ -109,7 +116,9 @@ export default function StockMarket() {
       onOpen: () => console.log("Portfolio WebSocket opened"),
       onError: (error) => console.log(`Portfolio WebSocket error: ${error}`),
       onClose: () => console.log("Portfolio WebSocket closed"),
-    }
+    },
+    // Only attempt to connect the real-time websocket when conditions are met
+    authType === "apiKey"
   );
 
   useEffect(() => {
@@ -160,7 +169,7 @@ export default function StockMarket() {
                         x: convertUnixToLocale(item.datetime),
                         y: item.currentPrice,
                       }))
-                    : [],
+                    : [{ x: 0, y: 0 }],
                 },
               ]}
               yScale={{
@@ -221,6 +230,18 @@ export default function StockMarket() {
               ]}
             />
           </div>
+          <div className="flex h-1/4 justify-between px-10">
+            <div className="flex flex-col">
+              <div className=" uppercase text-gray-400">Selected Stock</div>
+              <div className=" text-2xl font-extrabold">{"TEST"}</div>
+            </div>
+            <div className="flex flex-col">
+              <div className=" uppercase text-gray-400">Buying Power</div>
+              <div className=" text-2xl font-extrabold">
+                {"$ " + cashBalance}
+              </div>
+            </div>
+          </div>
         </div>
         <div className="flex w-1/4 max-w-[40%] flex-col overflow-y-auto bg-gray-100">
           {stockOptions.map((stockOptions) => (
@@ -241,7 +262,7 @@ export default function StockMarket() {
                             x: convertUnixToLocale(item.datetime),
                             y: item.currentPrice,
                           }))
-                        : [],
+                        : [{ x: 0, y: 0 }],
                     },
                   ]}
                   enableGridX={false}
