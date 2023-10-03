@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import useWebSocket from "react-use-websocket";
 import { v4 as uuidv4 } from "uuid";
+import { SaveFormButton } from "../components/CustomButtons";
 import CustomHeader from "../components/CustomHeader";
 
 const convertUnixToLocale = (unixTimestamp) => {
@@ -13,10 +14,17 @@ const convertUnixToLocale = (unixTimestamp) => {
 const calcTotalReturns = (totalProceeds, sharesPurchased, currentPrice) =>
   totalProceeds + sharesPurchased * currentPrice;
 
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  e.target.stockQuantity.value;
+};
+
 export default function StockMarket() {
   const { host, authType, authToken } = useOutletContext();
 
   const [selectedStock, setSelectedStock] = useState("gravitee");
+  const [stockQuantity, setStockQuantity] = useState(0);
 
   // Ksqldb data streams share a consumer ID
   const [ksqldbConsumerId] = useState(() => uuidv4());
@@ -157,15 +165,14 @@ export default function StockMarket() {
             <div className="flex flex-col">
               <div className=" uppercase text-gray-400">Current Price</div>
               <div className=" text-2xl font-extrabold">
-                {"$ " +
-                  stockPrices[selectedStock].at(-1)["currentPrice"].toFixed(2)}
+                {stockPrices[selectedStock] &&
+                  "$" +
+                    stockPrices[selectedStock].at(-1).currentPrice.toFixed(2)}
               </div>
             </div>
             <div className="ml-auto flex flex-col">
               <div className=" uppercase text-gray-400">Buying Power</div>
-              <div className=" text-2xl font-extrabold">
-                {"$ " + cashBalance}
-              </div>
+              <div className="text-2xl font-extrabold">{"$" + cashBalance}</div>
             </div>
           </div>
           <div className="h-[99%] min-h-0 flex-auto">
@@ -255,7 +262,7 @@ export default function StockMarket() {
             <div className="flex flex-col">
               <div className=" uppercase text-gray-400">Total Return</div>
               <div className=" text-lg font-bold">
-                {"$ " +
+                {"$" +
                   (portfolio[selectedStock] && stockPrices[selectedStock]
                     ? calcTotalReturns(
                         portfolio[selectedStock]["realizedReturns"],
@@ -267,47 +274,105 @@ export default function StockMarket() {
             </div>
           </div>
         </div>
-        <div className="flex w-1/4 max-w-[40%] flex-col overflow-y-auto border-2 bg-white">
-          <h2 className="ml-2 text-lg font-normal uppercase text-gray-400">
-            Available Stocks
-          </h2>
-          {Object.keys(stockPrices).map((stock) => (
-            <div
-              className=" flex w-full cursor-pointer items-center justify-center gap-7 p-5 text-lg text-black hover:opacity-50"
-              key={stock}
-              onClick={() => setSelectedStock(stock)}
-            >
-              <div className="w-1/3 font-bold">{stock}</div>
-              <div className="h-[99%] w-1/3">
-                <ResponsiveLine
-                  data={[
-                    {
-                      id: stock,
-                      data: stockPrices[stock]
-                        ? stockPrices[stock].map((item) => ({
-                            x: convertUnixToLocale(item.datetime),
-                            y: item.currentPrice,
-                          }))
-                        : [{ x: 0, y: 0 }],
-                    },
-                  ]}
-                  colors={() => "#009999"}
-                  enableGridX={false}
-                  enableGridY={false}
-                  enablePoints={false}
-                  yScale={{
-                    type: "linear",
-                    stacked: false,
-                    min: "auto",
-                    max: "auto",
-                  }}
-                />
+        <div className="flex h-full w-1/4 max-w-[40%] flex-col gap-4">
+          <div className="relative flex flex-col overflow-y-auto border-2 bg-white">
+            <h2 className="sticky top-0 ml-3 mt-6 bg-white/95 text-lg font-normal uppercase text-gray-400">
+              Available Stocks
+            </h2>
+            {Object.keys(stockPrices).map((stock) => (
+              <div
+                className=" flex w-full cursor-pointer items-center justify-center gap-7 p-5 text-lg text-black hover:opacity-50"
+                key={stock}
+                onClick={() => {
+                  setSelectedStock(stock);
+                  setStockQuantity(0);
+                }}
+              >
+                <div className="w-1/3 font-bold">{stock}</div>
+                <div className="h-[99%] w-1/3">
+                  <ResponsiveLine
+                    data={[
+                      {
+                        id: stock,
+                        data: stockPrices[stock]
+                          ? stockPrices[stock].map((item) => ({
+                              x: convertUnixToLocale(item.datetime),
+                              y: item.currentPrice,
+                            }))
+                          : [{ x: 0, y: 0 }],
+                      },
+                    ]}
+                    colors={() => "#009999"}
+                    enableGridX={false}
+                    enableGridY={false}
+                    enablePoints={false}
+                    yScale={{
+                      type: "linear",
+                      stacked: false,
+                      min: "auto",
+                      max: "auto",
+                    }}
+                  />
+                </div>
+                <div className="flex w-max min-w-max items-center justify-center rounded-lg bg-green-500/80 p-2">
+                  {stockPrices[selectedStock] &&
+                    "$" + stockPrices[stock].at(-1)["currentPrice"].toFixed(2)}
+                </div>
               </div>
-              <div className="flex w-max min-w-max items-center justify-center rounded-lg bg-green-500/80 p-2">
-                {`$ ${stockPrices[stock].at(-1)["currentPrice"].toFixed(2)}`}
+            ))}
+          </div>
+          <form
+            id="stock-orders"
+            onSubmit={handleSubmit}
+            className="relative flex min-h-[50%] flex-col gap-5 overflow-y-auto border-2 bg-white"
+          >
+            <h2 className="sticky top-0 ml-3 mt-6 bg-white/95 text-lg font-normal uppercase text-gray-400">
+              Buy/sell Stocks
+            </h2>
+            <div className="flex w-full items-center justify-between gap-7 px-5 text-lg text-black">
+              <div>Shares</div>
+              <input
+                name="stockQuantity"
+                className="min-w-[50%] max-w-[50%] rounded-xl border p-2 text-lg text-black focus:shadow-inner focus:outline-none focus:valid:shadow-accent-400 focus:invalid:shadow-red-700 disabled:cursor-not-allowed disabled:bg-space-neutral-100/10"
+                type="number"
+                max={
+                  portfolio[selectedStock]
+                    ? portfolio[selectedStock]["sharesPurchased"]
+                    : 0
+                }
+                min={0}
+                step={1}
+                value={stockQuantity}
+                onChange={(e) => {
+                  setStockQuantity(e.target.value);
+                }}
+                required={true}
+              />
+            </div>
+            <div className="flex w-full items-center justify-between gap-7 px-5 text-lg text-black">
+              <div>Price</div>
+              <div name="stockPrice">
+                {stockPrices[selectedStock] &&
+                  "$" +
+                    stockPrices[selectedStock].at(-1).currentPrice.toFixed(2)}
               </div>
             </div>
-          ))}
+            <div className="flex w-full items-center justify-between gap-7 px-5 text-lg text-black">
+              <div>Total</div>
+              <div name="orderTotal">
+                {stockPrices[selectedStock] &&
+                  "$" +
+                    (
+                      stockPrices[selectedStock].at(-1).currentPrice *
+                      stockQuantity
+                    ).toFixed(2)}
+              </div>
+            </div>
+            <div className="flex w-full items-center justify-center gap-7 px-5 text-lg text-black">
+              <SaveFormButton text={"Buy"} disabledButton={false} />
+              <SaveFormButton text={"Sell"} disabledButton={false} />
+            </div>
+          </form>
         </div>
       </div>
     </div>
