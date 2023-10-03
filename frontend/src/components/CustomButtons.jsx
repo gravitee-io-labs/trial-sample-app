@@ -18,12 +18,18 @@ export function ResetButton({ text, disabledButton }) {
   );
 }
 
-export function SaveFormButton({ text, disabledButton }) {
+export function SaveFormButton({
+  text,
+  disabledButton,
+  name = "submitForm",
+  id = "submit-form",
+}) {
   return (
     <BaseButton
       text={text}
       type="submit"
-      id="submitForm"
+      name={name}
+      id={id}
       disabled={disabledButton}
       extraClasses={
         disabledButton &&
@@ -35,6 +41,7 @@ export function SaveFormButton({ text, disabledButton }) {
 
 export function BaseButton({
   text,
+  name = null,
   extraClasses = "",
   handleClick = null,
   type = null,
@@ -44,6 +51,7 @@ export function BaseButton({
   return (
     <button
       className={`h-14 w-28 rounded-md border-2 border-primary-600 bg-primary-200 font-bold tracking-wider text-primary-800 enabled:hover:opacity-70 enabled:group-hover:opacity-70 ${extraClasses}`}
+      name={name}
       onClick={handleClick}
       type={type}
       id={id}

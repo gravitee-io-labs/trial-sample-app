@@ -17,7 +17,7 @@ const calcTotalReturns = (totalProceeds, sharesPurchased, currentPrice) =>
 const handleSubmit = (e) => {
   e.preventDefault();
 
-  e.target.stockQuantity.value;
+  const action = e.nativeEvent.submitter.name;
 };
 
 export default function StockMarket() {
@@ -25,6 +25,8 @@ export default function StockMarket() {
 
   const [selectedStock, setSelectedStock] = useState("gravitee");
   const [stockQuantity, setStockQuantity] = useState(0);
+  const [buysDisabled, setBuysDisabled] = useState(true);
+  const [sellsDisabled, setSellsDisabled] = useState(true);
 
   // Ksqldb data streams share a consumer ID
   const [ksqldbConsumerId] = useState(() => uuidv4());
@@ -147,8 +149,6 @@ export default function StockMarket() {
       })();
     }
   }, [portfolioLastMessage]);
-
-  Object.keys(stockPrices).forEach((stock) => console.log(stockPrices[stock]));
 
   return (
     <div className="flex h-screen flex-col bg-gray-100">
@@ -286,6 +286,8 @@ export default function StockMarket() {
                 onClick={() => {
                   setSelectedStock(stock);
                   setStockQuantity(0);
+                  setBuysDisabled(true);
+                  setSellsDisabled(true);
                 }}
               >
                 <div className="w-1/3 font-bold">{stock}</div>
@@ -325,6 +327,25 @@ export default function StockMarket() {
             id="stock-orders"
             onSubmit={handleSubmit}
             className="relative flex min-h-[50%] flex-col gap-5 overflow-y-auto border-2 bg-white"
+            onChange={(e) => {
+              let sellMax = portfolio[selectedStock]
+                ? portfolio[selectedStock]["sharesPurchased"]
+                : 0;
+              let buyMax =
+                stockPrices[selectedStock] && cashBalance
+                  ? Math.floor(
+                      cashBalance /
+                        stockPrices[selectedStock].at(-1).currentPrice
+                    )
+                  : 0;
+
+              e.target.value < sellMax && e.target.value > 0
+                ? setSellsDisabled(false)
+                : setSellsDisabled(true);
+              e.target.value < buyMax && e.target.value > 0
+                ? setBuysDisabled(false)
+                : setBuysDisabled(true);
+            }}
           >
             <h2 className="sticky top-0 ml-3 mt-6 bg-white/95 text-lg font-normal uppercase text-gray-400">
               Buy/sell Stocks
@@ -335,12 +356,7 @@ export default function StockMarket() {
                 name="stockQuantity"
                 className="min-w-[50%] max-w-[50%] rounded-xl border p-2 text-lg text-black focus:shadow-inner focus:outline-none focus:valid:shadow-accent-400 focus:invalid:shadow-red-700 disabled:cursor-not-allowed disabled:bg-space-neutral-100/10"
                 type="number"
-                max={
-                  portfolio[selectedStock]
-                    ? portfolio[selectedStock]["sharesPurchased"]
-                    : 0
-                }
-                min={0}
+                min={1}
                 step={1}
                 value={stockQuantity}
                 onChange={(e) => {
@@ -369,8 +385,18 @@ export default function StockMarket() {
               </div>
             </div>
             <div className="flex w-full items-center justify-center gap-7 px-5 text-lg text-black">
-              <SaveFormButton text={"Buy"} disabledButton={false} />
-              <SaveFormButton text={"Sell"} disabledButton={false} />
+              <SaveFormButton
+                name="buy"
+                id="buy-button"
+                text={"Buy"}
+                disabledButton={buysDisabled}
+              />
+              <SaveFormButton
+                name="sell"
+                id="sell-button"
+                text={"Sell"}
+                disabledButton={sellsDisabled}
+              />
             </div>
           </form>
         </div>
