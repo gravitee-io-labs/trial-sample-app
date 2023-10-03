@@ -5,8 +5,7 @@ import { useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import Analytics from "../components/Analytics";
 import CustomHeader from "../components/CustomHeader";
-
-const createToast = (message, options = {}) => toast.info(message, options);
+import { createToast } from "../helpers/helpers";
 
 const sortTodos = (a, b) => {
   if (a.complete && !b.complete) {

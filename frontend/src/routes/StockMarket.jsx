@@ -5,6 +5,7 @@ import useWebSocket from "react-use-websocket";
 import { v4 as uuidv4 } from "uuid";
 import { SaveFormButton } from "../components/CustomButtons";
 import CustomHeader from "../components/CustomHeader";
+import { createToast } from "../helpers/helpers";
 
 const convertUnixToLocale = (unixTimestamp) => {
   const date = new Date(unixTimestamp);
@@ -14,14 +15,47 @@ const convertUnixToLocale = (unixTimestamp) => {
 const calcTotalReturns = (totalProceeds, sharesPurchased, currentPrice) =>
   totalProceeds + sharesPurchased * currentPrice;
 
-const handleSubmit = (e) => {
-  e.preventDefault();
-
-  const action = e.nativeEvent.submitter.name;
-};
-
 export default function StockMarket() {
   const { host, authType, authToken } = useOutletContext();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setBuysDisabled(true);
+    setSellsDisabled(true);
+    const stock = selectedStock;
+    const action = e.nativeEvent.submitter.name;
+    const shares =
+      action == "buy"
+        ? e.target.stockQuantity.value
+        : -e.target.stockQuantity.value;
+    const price = stockPrices[selectedStock].at(-1)["currentPrice"];
+    try {
+      const res = await fetch("http://" + host + "/stock-market/orders", {
+        method: "POST",
+        headers: {
+          "X-Gravitee-API-Key": authToken,
+        },
+        body: JSON.stringify({
+          STOCK: stock,
+          EXECUTION_PRICE: price,
+          SHARES_PURCHASED: shares,
+          ACTION: action,
+        }),
+      });
+
+      // Catch non-2xx HTTP status codes
+      if (!res.ok) {
+        throw new Error(`HTTP status code ${res.status}.`);
+      }
+      createToast(
+        `Executed ${action} order for ${shares} shares of ${
+          stock[0].toUpperCase() + stock.slice(1)
+        }. Total: $${(price * shares).toFixed(2)}`
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const [selectedStock, setSelectedStock] = useState("gravitee");
   const [stockQuantity, setStockQuantity] = useState(0);
@@ -339,10 +373,10 @@ export default function StockMarket() {
                     )
                   : 0;
 
-              e.target.value < sellMax && e.target.value > 0
+              e.target.value <= sellMax && e.target.value > 0
                 ? setSellsDisabled(false)
                 : setSellsDisabled(true);
-              e.target.value < buyMax && e.target.value > 0
+              e.target.value <= buyMax && e.target.value > 0
                 ? setBuysDisabled(false)
                 : setBuysDisabled(true);
             }}
@@ -367,7 +401,7 @@ export default function StockMarket() {
             </div>
             <div className="flex w-full items-center justify-between gap-7 px-5 text-lg text-black">
               <div>Price</div>
-              <div name="stockPrice">
+              <div>
                 {stockPrices[selectedStock] &&
                   "$" +
                     stockPrices[selectedStock].at(-1).currentPrice.toFixed(2)}
