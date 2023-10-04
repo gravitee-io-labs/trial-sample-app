@@ -68,7 +68,7 @@ export default function StockMarket() {
   // Cash balance data management
   const [cashBalance, setCashBalance] = useState();
   const { lastMessage: cashBalanceLastMessage } = useWebSocket(
-    `ws://${host}/stock-market/pksqlc-6v8k8CASH`,
+    `ws://${host}/stock-market/cash`,
     {
       queryParams: {
         "X-Gravitee-Client-Identifier": ksqldbConsumerId,
@@ -97,7 +97,7 @@ export default function StockMarket() {
   // Stock prices data management
   const [stockPrices, setStockPrices] = useState([]);
   const { lastMessage: stockPricesLastMessage } = useWebSocket(
-    `ws://${host}/stock-market/pksqlc-6v8k8CURRENT_STOCK_PRICES`,
+    `ws://${host}/stock-market/current_stock_prices`,
     {
       queryParams: {
         "X-Gravitee-Client-Identifier": ksqldbConsumerId,
@@ -139,7 +139,7 @@ export default function StockMarket() {
   // Portfolio data management
   const [portfolio, setPortfolio] = useState([]);
   const { lastMessage: portfolioLastMessage } = useWebSocket(
-    `ws://${host}/stock-market/pksqlc-6v8k8PORTFOLIO`,
+    `ws://${host}/stock-market/portfolio`,
     {
       queryParams: {
         "X-Gravitee-Client-Identifier": ksqldbConsumerId,
@@ -206,7 +206,14 @@ export default function StockMarket() {
             </div>
             <div className="ml-auto flex flex-col">
               <div className=" uppercase text-gray-400">Buying Power</div>
-              <div className="text-2xl font-extrabold">{"$" + cashBalance}</div>
+              <div className="text-2xl font-extrabold">
+                {cashBalance &&
+                  "$" +
+                    cashBalance.toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+              </div>
             </div>
           </div>
           <div className="h-[99%] min-h-0 flex-auto">
