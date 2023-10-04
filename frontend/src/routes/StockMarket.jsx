@@ -66,7 +66,7 @@ export default function StockMarket() {
   const [ksqldbConsumerId] = useState(() => uuidv4());
 
   // Cash balance data management
-  const [cashBalance, setCashBalance] = useState();
+  const [cashBalance, setCashBalance] = useState(0);
   const { lastMessage: cashBalanceLastMessage } = useWebSocket(
     `ws://${host}/stock-market/cash`,
     {
@@ -213,20 +213,20 @@ export default function StockMarket() {
             <div className="flex flex-col">
               <div className=" uppercase text-gray-400">Current Price</div>
               <div className=" text-2xl font-extrabold">
-                {stockPrices[selectedStock] &&
-                  "$" +
-                    stockPrices[selectedStock].at(-1).currentPrice.toFixed(2)}
+                {"$" +
+                  (stockPrices[selectedStock]
+                    ?.at(-1)
+                    ?.currentPrice.toFixed(2) ?? 0)}
               </div>
             </div>
             <div className="ml-auto flex flex-col">
               <div className=" uppercase text-gray-400">Buying Power</div>
               <div className="text-2xl font-extrabold">
-                {cashBalance &&
-                  "$" +
-                    cashBalance.toLocaleString("en-US", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}
+                {"$" +
+                  (cashBalance ?? 0).toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
               </div>
             </div>
           </div>
@@ -235,12 +235,10 @@ export default function StockMarket() {
               data={[
                 {
                   id: selectedStock,
-                  data: stockPrices[selectedStock]
-                    ? stockPrices[selectedStock].map((item) => ({
-                        x: convertUnixToLocale(item.datetime),
-                        y: item.currentPrice,
-                      }))
-                    : [{ x: 0, y: 0 }],
+                  data: stockPrices[selectedStock]?.map((item) => ({
+                    x: convertUnixToLocale(item.datetime),
+                    y: item.currentPrice,
+                  })) ?? [{ x: 0, y: 0 }],
                 },
               ]}
               colors={() => "#009999"}
@@ -309,22 +307,18 @@ export default function StockMarket() {
             <div className="ml-20 flex flex-col">
               <div className="uppercase text-gray-400">Shares</div>
               <div className=" text-lg font-bold">
-                {portfolio[selectedStock]
-                  ? portfolio[selectedStock]["sharesPurchased"]
-                  : 0}
+                {portfolio[selectedStock]?.["sharesPurchased"] ?? 0}
               </div>
             </div>
             <div className="flex flex-col">
               <div className=" uppercase text-gray-400">Total Return</div>
               <div className=" text-lg font-bold">
                 {"$" +
-                  (portfolio[selectedStock] && stockPrices[selectedStock]
-                    ? calcTotalReturns(
-                        portfolio[selectedStock]["realizedReturns"],
-                        portfolio[selectedStock]["sharesPurchased"],
-                        stockPrices[selectedStock].at(-1)["currentPrice"]
-                      ).toFixed(2)
-                    : 0)}
+                  calcTotalReturns(
+                    portfolio[selectedStock]?.["realizedReturns"] ?? 0,
+                    portfolio[selectedStock]?.["sharesPurchased"] ?? 0,
+                    stockPrices[selectedStock]?.at(-1)?.["currentPrice"] ?? 0
+                  ).toFixed(2)}
               </div>
             </div>
           </div>
@@ -351,12 +345,10 @@ export default function StockMarket() {
                     data={[
                       {
                         id: stock,
-                        data: stockPrices[stock]
-                          ? stockPrices[stock].map((item) => ({
-                              x: convertUnixToLocale(item.datetime),
-                              y: item.currentPrice,
-                            }))
-                          : [{ x: 0, y: 0 }],
+                        data: stockPrices[stock]?.map((item) => ({
+                          x: convertUnixToLocale(item.datetime),
+                          y: item.currentPrice,
+                        })) ?? [{ x: 0, y: 0 }],
                       },
                     ]}
                     colors={() => "#009999"}
@@ -372,8 +364,9 @@ export default function StockMarket() {
                   />
                 </div>
                 <div className="flex w-max min-w-max items-center justify-center rounded-lg bg-green-500/80 p-2">
-                  {stockPrices[selectedStock] &&
-                    "$" + stockPrices[stock].at(-1)["currentPrice"].toFixed(2)}
+                  {"$" +
+                    (stockPrices[stock]?.at(-1)?.["currentPrice"].toFixed(2) ??
+                      0)}
                 </div>
               </div>
             ))}
@@ -383,16 +376,11 @@ export default function StockMarket() {
             onSubmit={handleSubmit}
             className="relative flex min-h-[50%] flex-col gap-5 overflow-y-auto border-2 bg-white"
             onChange={(e) => {
-              let sellMax = portfolio[selectedStock]
-                ? portfolio[selectedStock]["sharesPurchased"]
-                : 0;
+              let sellMax = portfolio[selectedStock]?.["sharesPurchased"] ?? 0;
               let buyMax =
-                stockPrices[selectedStock] && cashBalance
-                  ? Math.floor(
-                      cashBalance /
-                        stockPrices[selectedStock].at(-1).currentPrice
-                    )
-                  : 0;
+                Math.floor(
+                  cashBalance / stockPrices[selectedStock]?.at(-1)?.currentPrice
+                ) ?? 0;
 
               e.target.value <= sellMax && e.target.value > 0
                 ? setSellsDisabled(false)
@@ -423,20 +411,20 @@ export default function StockMarket() {
             <div className="flex w-full items-center justify-between gap-7 px-5 text-lg text-black">
               <div>Price</div>
               <div>
-                {stockPrices[selectedStock] &&
-                  "$" +
-                    stockPrices[selectedStock].at(-1).currentPrice.toFixed(2)}
+                {"$" +
+                  (stockPrices[selectedStock]
+                    ?.at(-1)
+                    ?.currentPrice.toFixed(2) ?? 0)}
               </div>
             </div>
             <div className="flex w-full items-center justify-between gap-7 px-5 text-lg text-black">
               <div>Total</div>
               <div name="orderTotal">
-                {stockPrices[selectedStock] &&
-                  "$" +
-                    (
-                      stockPrices[selectedStock].at(-1).currentPrice *
-                      stockQuantity
-                    ).toFixed(2)}
+                {"$" +
+                  (
+                    (stockPrices[selectedStock]?.at(-1)?.currentPrice ?? 0) *
+                    stockQuantity
+                  ).toFixed(2)}
               </div>
             </div>
             <div className="flex w-full items-center justify-center gap-7 px-5 text-lg text-black">
