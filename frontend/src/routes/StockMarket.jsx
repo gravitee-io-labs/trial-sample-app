@@ -1,6 +1,7 @@
 import { ResponsiveLine } from "@nivo/line";
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
+import { toast } from "react-toastify";
 import useWebSocket from "react-use-websocket";
 import { v4 as uuidv4 } from "uuid";
 import { SaveFormButton } from "../components/CustomButtons";
@@ -50,7 +51,10 @@ export default function StockMarket() {
       createToast(
         `Executed ${action} order for ${shares} shares of ${
           stock[0].toUpperCase() + stock.slice(1)
-        }. Total: $${(price * shares).toFixed(2)}`
+        }. Total: $${(price * shares).toFixed(2)}`,
+        {
+          position: toast.POSITION.BOTTOM_CENTER,
+        }
       );
     } catch (error) {
       console.error(error);
