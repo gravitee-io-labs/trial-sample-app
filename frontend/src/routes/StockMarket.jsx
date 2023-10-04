@@ -21,8 +21,9 @@ export default function StockMarket() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setBuysDisabled(true);
-    setSellsDisabled(true);
+    // Ensure user can not place additional orders until this one is processed
+    setOrdersDisabled({ cashBalancePending: true, portfolioPending: true });
+
     const stock = selectedStock;
     const action = e.nativeEvent.submitter.name;
     const shares =
@@ -63,6 +64,11 @@ export default function StockMarket() {
 
   const [selectedStock, setSelectedStock] = useState("gravitee");
   const [stockQuantity, setStockQuantity] = useState(0);
+
+  const [ordersDisabled, setOrdersDisabled] = useState({
+    cashBalancePending: true,
+    portfolioPending: true,
+  });
   const [buysDisabled, setBuysDisabled] = useState(true);
   const [sellsDisabled, setSellsDisabled] = useState(true);
 
@@ -94,6 +100,11 @@ export default function StockMarket() {
         const data = await cashBalanceLastMessage.data.text();
         const parsedData = JSON.parse(data);
         setCashBalance(parsedData["CASH"]);
+        // Allow users to submit orders once previous order has been processed
+        setOrdersDisabled((prevState) => ({
+          ...prevState,
+          cashBalancePending: false,
+        }));
       })();
     }
   }, [cashBalanceLastMessage]);
@@ -198,6 +209,10 @@ export default function StockMarket() {
             },
           };
         });
+        setOrdersDisabled((prevState) => ({
+          ...prevState,
+          portfolioPending: false,
+        }));
       })();
     }
   }, [portfolioLastMessage]);
@@ -377,8 +392,8 @@ export default function StockMarket() {
           </div>
           <form
             id="stock-orders"
+            className="relative min-h-[50%] overflow-y-auto border-2 bg-white"
             onSubmit={handleSubmit}
-            className="relative flex min-h-[50%] flex-col gap-5 overflow-y-auto border-2 bg-white"
             onChange={(e) => {
               let sellMax = portfolio[selectedStock]?.["sharesPurchased"] ?? 0;
               let buyMax =
@@ -394,57 +409,73 @@ export default function StockMarket() {
                 : setBuysDisabled(true);
             }}
           >
-            <h2 className="sticky top-0 ml-3 mt-6 bg-white/95 text-lg font-normal uppercase text-gray-400">
-              Buy/sell Stocks
-            </h2>
-            <div className="flex w-full items-center justify-between gap-7 px-5 text-lg text-black">
-              <div>Shares</div>
-              <input
-                name="stockQuantity"
-                className="min-w-[50%] max-w-[50%] rounded-xl border p-2 text-lg text-black focus:shadow-inner focus:outline-none focus:valid:shadow-accent-400 focus:invalid:shadow-red-700 disabled:cursor-not-allowed disabled:bg-space-neutral-100/10"
-                type="number"
-                min={1}
-                step={1}
-                value={stockQuantity}
-                onChange={(e) => {
-                  setStockQuantity(e.target.value);
-                }}
-                required={true}
-              />
-            </div>
-            <div className="flex w-full items-center justify-between gap-7 px-5 text-lg text-black">
-              <div>Price</div>
-              <div>
-                {"$" +
-                  (stockPrices[selectedStock]
-                    ?.at(-1)
-                    ?.currentPrice.toFixed(2) ?? 0)}
+            <fieldset
+              disabled={
+                ordersDisabled.cashBalancePending ||
+                ordersDisabled.portfolioPending
+              }
+              className="flex flex-col gap-5"
+            >
+              <h2 className="sticky top-0 ml-3 mt-6 bg-white/95 text-lg font-normal uppercase text-gray-400">
+                Buy/sell Stocks
+              </h2>
+              <div className="flex w-full items-center justify-between gap-7 px-5 text-lg text-black">
+                <div>Shares</div>
+                <input
+                  name="stockQuantity"
+                  className="min-w-[50%] max-w-[50%] rounded-xl border p-2 text-lg text-black focus:shadow-inner focus:outline-none focus:valid:shadow-accent-400 focus:invalid:shadow-red-700 disabled:cursor-not-allowed disabled:bg-space-neutral-100/10"
+                  type="number"
+                  min={1}
+                  step={1}
+                  value={stockQuantity}
+                  onChange={(e) => {
+                    setStockQuantity(e.target.value);
+                  }}
+                  required={true}
+                />
               </div>
-            </div>
-            <div className="flex w-full items-center justify-between gap-7 px-5 text-lg text-black">
-              <div>Total</div>
-              <div name="orderTotal">
-                {"$" +
-                  (
-                    (stockPrices[selectedStock]?.at(-1)?.currentPrice ?? 0) *
-                    stockQuantity
-                  ).toFixed(2)}
+              <div className="flex w-full items-center justify-between gap-7 px-5 text-lg text-black">
+                <div>Price</div>
+                <div>
+                  {"$" +
+                    (stockPrices[selectedStock]
+                      ?.at(-1)
+                      ?.currentPrice.toFixed(2) ?? 0)}
+                </div>
               </div>
-            </div>
-            <div className="flex w-full items-center justify-center gap-7 px-5 text-lg text-black">
-              <SaveFormButton
-                name="buy"
-                id="buy-button"
-                text={"Buy"}
-                disabledButton={buysDisabled}
-              />
-              <SaveFormButton
-                name="sell"
-                id="sell-button"
-                text={"Sell"}
-                disabledButton={sellsDisabled}
-              />
-            </div>
+              <div className="flex w-full items-center justify-between gap-7 px-5 text-lg text-black">
+                <div>Total</div>
+                <div name="orderTotal">
+                  {"$" +
+                    (
+                      (stockPrices[selectedStock]?.at(-1)?.currentPrice ?? 0) *
+                      stockQuantity
+                    ).toFixed(2)}
+                </div>
+              </div>
+              <div className="flex w-full items-center justify-center gap-7 px-5 text-lg text-black">
+                <SaveFormButton
+                  name="buy"
+                  id="buy-button"
+                  text={"Buy"}
+                  disabledButton={
+                    buysDisabled ||
+                    ordersDisabled.cashBalancePending ||
+                    ordersDisabled.portfolioPending
+                  }
+                />
+                <SaveFormButton
+                  name="sell"
+                  id="sell-button"
+                  text={"Sell"}
+                  disabledButton={
+                    sellsDisabled ||
+                    ordersDisabled.cashBalancePending ||
+                    ordersDisabled.portfolioPending
+                  }
+                />
+              </div>
+            </fieldset>
           </form>
         </div>
       </div>
