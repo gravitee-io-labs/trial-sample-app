@@ -126,11 +126,25 @@ export default function StockMarket() {
         } = parsedData;
 
         setStockPrices((prevData) => {
-          key in prevData || (prevData[key] = []);
-          return {
+          const updatedData = {
             ...prevData,
-            [key]: [...prevData[key], { currentPrice, datetime }],
+            [key]: [...(prevData[key] ?? []), { currentPrice, datetime }],
           };
+
+          // Sort the stock prices based on currentPrice in descending order
+          const sortedStocks = Object.keys(updatedData).sort((a, b) => {
+            const aPrice = updatedData[a]?.at(-1)?.currentPrice || 0;
+            const bPrice = updatedData[b]?.at(-1)?.currentPrice || 0;
+            return bPrice - aPrice;
+          });
+
+          // Use sorted array to construct sorted object with updated data
+          const sortedStockPrices = {};
+          sortedStocks.forEach((stock) => {
+            sortedStockPrices[stock] = updatedData[stock];
+          });
+
+          return sortedStockPrices;
         });
       })();
     }
