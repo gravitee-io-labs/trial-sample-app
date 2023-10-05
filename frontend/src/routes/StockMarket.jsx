@@ -95,8 +95,8 @@ export default function StockMarket() {
   const [stockQuantity, setStockQuantity] = useState(0);
 
   const [ordersDisabled, setOrdersDisabled] = useState({
-    cashBalancePending: true,
-    portfolioPending: true,
+    cashBalancePending: false,
+    portfolioPending: false,
   });
   const [buysDisabled, setBuysDisabled] = useState(true);
   const [sellsDisabled, setSellsDisabled] = useState(true);
