@@ -19,6 +19,27 @@ const calcTotalReturns = (totalProceeds, sharesPurchased, currentPrice) =>
 export default function StockMarket() {
   const { host, authType, authToken } = useOutletContext();
 
+  // Create user on initial page load
+  useEffect(() => {
+    const createUser = async () => {
+      const res = await fetch("http://" + host + "/stock-market/users", {
+        method: "POST",
+        headers: {
+          "X-Gravitee-API-Key": authToken,
+        },
+        body: JSON.stringify({
+          STARTING_CASH: localStorage.getItem("startingCash") ?? 2000,
+        }),
+      });
+      // Catch non-2xx HTTP status codes
+      if (!res.ok) {
+        throw new Error(`HTTP status code ${res.status}.`);
+      }
+    };
+
+    createUser().catch((err) => console.error(err));
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Ensure user can not place additional orders until this one is processed
@@ -298,7 +319,8 @@ export default function StockMarket() {
                     stockPrices[selectedStock]?.at(0)?.["datetime"]
                   ),
                   convertUnixToLocale(
-                    stockPrices[selectedStock]?.at(-1)?.["datetime"]
+                    stockPrices[selectedStock]?.at(-1)?.["datetime"] ??
+                      Date.now()
                   ),
                 ],
               }}
