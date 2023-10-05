@@ -13,8 +13,8 @@ const convertUnixToLocale = (unixTimestamp) => {
   return date.toLocaleString();
 };
 
-const calcTotalReturns = (totalProceeds, sharesPurchased, currentPrice) =>
-  totalProceeds + sharesPurchased * currentPrice;
+const calcTotalReturns = (realizedReturns, sharesPurchased, currentPrice) =>
+  realizedReturns + sharesPurchased * currentPrice;
 
 const stockIncrease = (stock) => {
   return stock?.at(-1)?.currentPrice - stock?.at(0)?.currentPrice >= 0;
