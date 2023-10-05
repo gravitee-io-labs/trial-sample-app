@@ -32,6 +32,8 @@ export default function Todos() {
         break;
       case "jwt":
         authHeader = { Authorization: `Bearer ${authToken}` };
+        break;
+      default:
     }
     return authHeader;
   };
@@ -75,6 +77,7 @@ export default function Todos() {
 
   useEffect(() => {
     getTodos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [host]);
 
   const fetchTodosToastId = useRef(null);
@@ -255,6 +258,7 @@ export default function Todos() {
         <div className="flex w-full flex-auto overflow-auto xl:justify-center">
           <Tabs.Group
             aria-label="Tabs with underline"
+            // eslint-disable-next-line react/style-prop-object
             style="underline"
             className="mx-3 w-full"
             theme={{

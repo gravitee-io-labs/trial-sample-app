@@ -38,6 +38,7 @@ export default function StockMarket() {
     };
 
     createUser().catch((err) => console.error(err));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSubmit = async (e) => {
@@ -48,7 +49,7 @@ export default function StockMarket() {
     const stock = selectedStock;
     const action = e.nativeEvent.submitter.name;
     const shares =
-      action == "buy"
+      action === "buy"
         ? e.target.stockQuantity.value
         : -e.target.stockQuantity.value;
     const price = stockPrices[selectedStock].at(-1)["currentPrice"];

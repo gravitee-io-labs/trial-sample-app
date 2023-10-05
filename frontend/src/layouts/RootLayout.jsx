@@ -52,6 +52,7 @@ export default function RootLayout() {
     localStorage.setItem("hrid", hrid);
     setSearchparams({}); // once hrid is saved, delete query parameters
     navigate(); // update URL to remove query parameters
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [host, hrid]);
 
   const [authType, setAuthType] = useState(() => {
