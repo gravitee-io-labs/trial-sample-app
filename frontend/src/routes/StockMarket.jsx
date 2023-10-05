@@ -16,6 +16,10 @@ const convertUnixToLocale = (unixTimestamp) => {
 const calcTotalReturns = (totalProceeds, sharesPurchased, currentPrice) =>
   totalProceeds + sharesPurchased * currentPrice;
 
+const stockIncrease = (stock) => {
+  return stock.at(-1)?.currentPrice - stock.at(0)?.currentPrice >= 0;
+};
+
 export default function StockMarket() {
   const { host, authType, authToken } = useOutletContext();
 
@@ -301,7 +305,11 @@ export default function StockMarket() {
                 );
               }}
               margin={{ top: 50, right: 90, bottom: 50, left: 100 }}
-              colors={() => "#009999"}
+              colors={() =>
+                stockIncrease(stockPrices[selectedStock] ?? true)
+                  ? "#5ccb95"
+                  : "#e15337"
+              }
               yScale={{
                 type: "linear",
                 stacked: false,
@@ -388,7 +396,11 @@ export default function StockMarket() {
                         })) ?? [{ x: 0, y: 0 }],
                       },
                     ]}
-                    colors={() => "#009999"}
+                    colors={() =>
+                      stockIncrease(stockPrices[stock] ?? true)
+                        ? "#5ccb95"
+                        : "#e15337"
+                    }
                     enableGridX={false}
                     enableGridY={false}
                     enablePoints={false}
@@ -400,7 +412,13 @@ export default function StockMarket() {
                     }}
                   />
                 </div>
-                <div className="flex w-max min-w-max items-center justify-center rounded-lg bg-green-500/80 p-2">
+                <div
+                  className={`flex w-max min-w-max items-center justify-center rounded-lg p-2 ${
+                    stockIncrease(stockPrices[stock] ?? true)
+                      ? "bg-[#5ccb95]/90"
+                      : "bg-[#e15337]/90"
+                  }`}
+                >
                   {"$" +
                     (stockPrices[stock]?.at(-1)?.["currentPrice"].toFixed(2) ??
                       0)}
