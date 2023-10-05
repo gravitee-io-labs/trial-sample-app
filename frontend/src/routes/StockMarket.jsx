@@ -17,7 +17,7 @@ const calcTotalReturns = (totalProceeds, sharesPurchased, currentPrice) =>
   totalProceeds + sharesPurchased * currentPrice;
 
 const stockIncrease = (stock) => {
-  return stock.at(-1)?.currentPrice - stock.at(0)?.currentPrice >= 0;
+  return stock?.at(-1)?.currentPrice - stock?.at(0)?.currentPrice >= 0;
 };
 
 export default function StockMarket() {
@@ -306,7 +306,7 @@ export default function StockMarket() {
               }}
               margin={{ top: 50, right: 90, bottom: 50, left: 100 }}
               colors={() =>
-                stockIncrease(stockPrices[selectedStock] ?? true)
+                stockIncrease(stockPrices?.[selectedStock])
                   ? "#5ccb95"
                   : "#e15337"
               }
@@ -397,7 +397,7 @@ export default function StockMarket() {
                       },
                     ]}
                     colors={() =>
-                      stockIncrease(stockPrices[stock] ?? true)
+                      stockIncrease(stockPrices?.[stock])
                         ? "#5ccb95"
                         : "#e15337"
                     }
@@ -414,7 +414,7 @@ export default function StockMarket() {
                 </div>
                 <div
                   className={`flex w-max min-w-max items-center justify-center rounded-lg p-2 ${
-                    stockIncrease(stockPrices[stock] ?? true)
+                    stockIncrease(stockPrices?.[stock])
                       ? "bg-[#5ccb95]/90"
                       : "bg-[#e15337]/90"
                   }`}
