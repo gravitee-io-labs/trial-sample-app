@@ -49,6 +49,9 @@ export default function StockMarket() {
     e.preventDefault();
     // Ensure user can not place additional orders until this one is processed
     setOrdersDisabled({ cashBalancePending: true, portfolioPending: true });
+    setStockQuantity(0);
+    setBuysDisabled(true);
+    setSellsDisabled(true);
 
     const stock = selectedStock;
     const action = e.nativeEvent.submitter.name;
