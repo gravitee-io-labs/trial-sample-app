@@ -34,7 +34,7 @@ export default function Configuration() {
   };
 
   return (
-    <form id="form" onSubmit={handleSubmit} className="">
+    <form id="form" onSubmit={handleSubmit}>
       <CustomHeader
         title="Configuration"
         buttonText="Save Changes"
@@ -42,52 +42,9 @@ export default function Configuration() {
         disabledButton={!formModified}
       ></CustomHeader>
       <main className="flex flex-grow flex-col items-center">
-        <fieldset className="flex w-11/12 flex-col gap-6 px-5 md:w-2/3 xl:w-1/3">
-          <h2>Authorization</h2>
-          <RadioItems
-            items={[
-              { label: "None", id: "none", checked: authType === "none" },
-              { label: "API Key", id: "apiKey", checked: authType === "apiKey" },
-              { label: "JWT", id: "jwt", checked: authType === "jwt" },
-            ]}
-            handleChange={(e) => {
-              // Auth type must be set here to immediately update label
-              setAuthType(e.target.value);
-              setFormModified(true);
-            }}
-            group="authType"
-          />
-          <div className="relative">
-            <label htmlFor="authToken" className="form-label">
-              {authType}
-            </label>
-            <SensitiveInputs
-              name="authToken"
-              isVisible={isVisible}
-              setIsVisible={setIsVisible}
-              disabled={authType === "none"}
-              required={authType !== "none"}
-              defaultValue={authToken}
-              onChange={() => setFormModified(true)}
-            />
-          </div>
-          <h2>Analytic Graphs</h2>
-          <RadioItems
-            items={[
-              { label: "Off", id: "off", checked: analytics === "off" },
-              { label: "On", id: "on", checked: analytics === "on" },
-              {
-                label: "On with history",
-                id: "on-history",
-                checked: analytics === "on-history",
-              },
-            ]}
-            handleChange={() => {
-              setFormModified(true);
-            }}
-            group="analytics"
-          />
-          <h2>Target Gateway</h2>
+        <div className="flex w-11/12 flex-col gap-6 px-5 md:w-2/3 xl:w-1/3">
+          <h2 className="mb-0 font-medium uppercase">General</h2>
+          <h3 className="mt-0">Target Gateway</h3>
           <div className="relative">
             <label htmlFor="hridInput" className="form-label">
               Gravitee HRID
@@ -114,7 +71,57 @@ export default function Configuration() {
               disabled={true}
             />
           </div>
-        </fieldset>
+          <h2 className="mb-0 font-medium uppercase">Todo List</h2>
+          <h3 className="mt-0">Authorization</h3>
+          <RadioItems
+            items={[
+              { label: "None", id: "none", checked: authType === "none" },
+              {
+                label: "API Key",
+                id: "apiKey",
+                checked: authType === "apiKey",
+              },
+              { label: "JWT", id: "jwt", checked: authType === "jwt" },
+            ]}
+            handleChange={(e) => {
+              // Auth type must be set here to immediately update label
+              setAuthType(e.target.value);
+              setFormModified(true);
+            }}
+            group="authType"
+          />
+          <div className="relative">
+            <label htmlFor="authToken" className="form-label">
+              {authType}
+            </label>
+            <SensitiveInputs
+              name="authToken"
+              isVisible={isVisible}
+              setIsVisible={setIsVisible}
+              disabled={authType === "none"}
+              required={authType !== "none"}
+              defaultValue={authToken}
+              onChange={() => setFormModified(true)}
+            />
+          </div>
+          <h3>Analytic Graphs</h3>
+          <RadioItems
+            items={[
+              { label: "Off", id: "off", checked: analytics === "off" },
+              { label: "On", id: "on", checked: analytics === "on" },
+              {
+                label: "On with history",
+                id: "on-history",
+                checked: analytics === "on-history",
+              },
+            ]}
+            handleChange={() => {
+              setFormModified(true);
+            }}
+            group="analytics"
+          />
+          <h2 className="font-medium uppercase">Stock Market</h2>
+        </div>
       </main>
     </form>
   );
