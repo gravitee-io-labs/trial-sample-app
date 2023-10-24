@@ -65,12 +65,11 @@ export default function StockMarket() {
         method: "POST",
         headers: {
           "X-Gravitee-API-Key": authToken,
+          stock: stock,
         },
         body: JSON.stringify({
-          STOCK: stock,
           EXECUTION_PRICE: price,
           SHARES_PURCHASED: shares,
-          ACTION: action,
         }),
       });
 
@@ -165,6 +164,7 @@ export default function StockMarket() {
         const parsedData = JSON.parse(data);
         const {
           key,
+          TICKER: ticker,
           CURRENT_PRICE: currentPrice,
           DATETIME: datetime,
         } = parsedData;
@@ -172,7 +172,10 @@ export default function StockMarket() {
         setStockPrices((prevData) => {
           const updatedData = {
             ...prevData,
-            [key]: [...(prevData[key] ?? []), { currentPrice, datetime }],
+            [key]: [
+              ...(prevData[key] ?? []),
+              { ticker, currentPrice, datetime },
+            ],
           };
 
           // Sort the stock prices based on currentPrice in descending order
@@ -324,16 +327,18 @@ export default function StockMarket() {
                 tickPadding: 5,
                 tickRotation: 0,
                 legend: "Datetime",
-                legendOffset: 20,
+                legendOffset: 40,
                 legendPosition: "middle",
                 tickValues: [
                   convertUnixToLocale(
                     stockPrices[selectedStock]?.at(0)?.["datetime"]
                   ),
-                  convertUnixToLocale(
-                    stockPrices[selectedStock]?.at(-1)?.["datetime"] ??
-                      Date.now()
-                  ),
+                  stockPrices[selectedStock]?.length > 1
+                    ? convertUnixToLocale(
+                        stockPrices[selectedStock]?.at(-1)?.["datetime"] ??
+                          Date.now()
+                      )
+                    : null,
                 ],
               }}
               axisLeft={{
