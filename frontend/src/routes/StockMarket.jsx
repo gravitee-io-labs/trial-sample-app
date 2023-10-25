@@ -86,7 +86,13 @@ export default function StockMarket() {
       createToast(
         `Executed ${action} order for ${shares} shares of ${
           stock[0].toUpperCase() + stock.slice(1)
-        }. Total: $${(price * shares).toFixed(2)}`,
+        } at $${price.toLocaleString("en-US", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })}. Total: $${(price * shares).toLocaleString("en-US", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })}`,
         {
           position: toast.POSITION.BOTTOM_CENTER,
         }
@@ -273,7 +279,10 @@ export default function StockMarket() {
                 {"$" +
                   (stockPrices[selectedStock]
                     ?.at(-1)
-                    ?.currentPrice.toFixed(2) ?? 0)}
+                    ?.currentPrice.toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    }) ?? 0)}
               </div>
             </div>
             <div className="ml-auto flex flex-col">
@@ -311,7 +320,14 @@ export default function StockMarket() {
                     }}
                   >
                     <div>
-                      Price: <strong>${point.data.y.toFixed(2)}</strong>
+                      Price:{" "}
+                      <strong>
+                        $
+                        {point.data.y.toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
+                      </strong>
                     </div>
                   </div>
                 );
@@ -377,7 +393,10 @@ export default function StockMarket() {
                     portfolio[selectedStock]?.["realizedReturns"] ?? 0,
                     portfolio[selectedStock]?.["sharesPurchased"] ?? 0,
                     stockPrices[selectedStock]?.at(-1)?.["currentPrice"] ?? 0
-                  ).toFixed(2)}
+                  ).toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
               </div>
             </div>
           </div>
@@ -434,8 +453,12 @@ export default function StockMarket() {
                   }`}
                 >
                   {"$" +
-                    (stockPrices[stock]?.at(-1)?.["currentPrice"].toFixed(2) ??
-                      0)}
+                    (stockPrices[stock]
+                      ?.at(-1)
+                      ?.["currentPrice"].toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      }) ?? 0)}
                 </div>
               </div>
             ))}
@@ -500,7 +523,10 @@ export default function StockMarket() {
                     (
                       (stockPrices[selectedStock]?.at(-1)?.currentPrice ?? 0) *
                       stockQuantity
-                    ).toFixed(2)}
+                    ).toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
                 </div>
               </div>
               <div className="flex w-full items-center justify-center gap-7 px-5 text-lg text-black">
