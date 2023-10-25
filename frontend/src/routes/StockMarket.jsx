@@ -21,20 +21,23 @@ const stockIncrease = (stock) => {
 };
 
 export default function StockMarket() {
-  const { host, authType, authToken } = useOutletContext();
+  const { authType, authToken } = useOutletContext();
 
   // Create user on initial page load
   useEffect(() => {
     const createUser = async () => {
-      const res = await fetch("http://" + host + "/stock-market/users", {
-        method: "POST",
-        headers: {
-          "X-Gravitee-API-Key": authToken,
-        },
-        body: JSON.stringify({
-          STARTING_CASH: localStorage.getItem("startingCash") ?? 2000,
-        }),
-      });
+      const res = await fetch(
+        "https://trial.apim.kafka-stock-market.gravitee.xyz/stock-market/users",
+        {
+          method: "POST",
+          headers: {
+            "X-Gravitee-API-Key": authToken,
+          },
+          body: JSON.stringify({
+            STARTING_CASH: localStorage.getItem("startingCash") ?? 2000,
+          }),
+        }
+      );
       // Catch non-2xx HTTP status codes
       if (!res.ok) {
         throw new Error(`HTTP status code ${res.status}.`);
@@ -61,17 +64,20 @@ export default function StockMarket() {
         : -e.target.stockQuantity.value;
     const price = stockPrices[selectedStock].at(-1)["currentPrice"];
     try {
-      const res = await fetch("http://" + host + "/stock-market/orders", {
-        method: "POST",
-        headers: {
-          "X-Gravitee-API-Key": authToken,
-          stock: stock,
-        },
-        body: JSON.stringify({
-          EXECUTION_PRICE: price,
-          SHARES_PURCHASED: shares,
-        }),
-      });
+      const res = await fetch(
+        "https://trial.apim.kafka-stock-market.gravitee.xyz/stock-market/orders",
+        {
+          method: "POST",
+          headers: {
+            "X-Gravitee-API-Key": authToken,
+            stock: stock,
+          },
+          body: JSON.stringify({
+            EXECUTION_PRICE: price,
+            SHARES_PURCHASED: shares,
+          }),
+        }
+      );
 
       // Catch non-2xx HTTP status codes
       if (!res.ok) {
@@ -106,7 +112,7 @@ export default function StockMarket() {
   // Cash balance data management
   const [cashBalance, setCashBalance] = useState(0);
   const { lastMessage: cashBalanceLastMessage } = useWebSocket(
-    `ws://${host}/stock-market/cash`,
+    "wss://trial.apim.kafka-stock-market.gravitee.xyz/stock-market/cash",
     {
       queryParams: {
         "X-Gravitee-Client-Identifier": ksqldbConsumerId,
@@ -140,7 +146,7 @@ export default function StockMarket() {
   // Stock prices data management
   const [stockPrices, setStockPrices] = useState([]);
   const { lastMessage: stockPricesLastMessage } = useWebSocket(
-    `ws://${host}/stock-market/current_stock_prices`,
+    "wss://trial.apim.kafka-stock-market.gravitee.xyz/stock-market/current_stock_prices",
     {
       queryParams: {
         "X-Gravitee-Client-Identifier": ksqldbConsumerId,
@@ -200,7 +206,7 @@ export default function StockMarket() {
   // Portfolio data management
   const [portfolio, setPortfolio] = useState([]);
   const { lastMessage: portfolioLastMessage } = useWebSocket(
-    `ws://${host}/stock-market/portfolio`,
+    "wss://trial.apim.kafka-stock-market.gravitee.xyz/stock-market/portfolio",
     {
       queryParams: {
         "X-Gravitee-Client-Identifier": ksqldbConsumerId,
