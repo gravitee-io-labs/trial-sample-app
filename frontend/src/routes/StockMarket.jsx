@@ -1,5 +1,6 @@
 import { ResponsiveLine } from "@nivo/line";
 import { useEffect, useState } from "react";
+import { TailSpin } from "react-loader-spinner";
 import { useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import useWebSocket from "react-use-websocket";
@@ -109,6 +110,11 @@ export default function StockMarket() {
     cashBalancePending: false,
     portfolioPending: false,
   });
+  const [initialData, setInitialData] = useState({
+    cashBalanceLoading: true,
+    portfolioLoading: true,
+    stockPricesLoading: true,
+  });
   const [buysDisabled, setBuysDisabled] = useState(true);
   const [sellsDisabled, setSellsDisabled] = useState(true);
 
@@ -136,6 +142,12 @@ export default function StockMarket() {
   );
   useEffect(() => {
     if (cashBalanceLastMessage !== null) {
+      // Signal cash balance data has loaded on initial connection
+      setInitialData((prevState) => ({
+        ...prevState,
+        cashBalanceLoading: false,
+      }));
+      // Process message
       (async () => {
         const data = await cashBalanceLastMessage.data.text();
         const parsedData = JSON.parse(data);
@@ -171,6 +183,12 @@ export default function StockMarket() {
 
   useEffect(() => {
     if (stockPricesLastMessage !== null) {
+      // Signal stock prices data has loaded on initial connection
+      setInitialData((prevState) => ({
+        ...prevState,
+        stockPricesLoading: false,
+      }));
+      // Process message
       (async () => {
         const data = await stockPricesLastMessage.data.text();
         const parsedData = JSON.parse(data);
@@ -230,7 +248,13 @@ export default function StockMarket() {
   );
 
   useEffect(() => {
+    // Signal portfolio data has loaded on initial connection
     if (portfolioLastMessage !== null) {
+      setInitialData((prevState) => ({
+        ...prevState,
+        portfolioLoading: false,
+      }));
+      // Process message
       (async () => {
         const data = await portfolioLastMessage.data.text();
         const parsedData = JSON.parse(data);
@@ -261,300 +285,326 @@ export default function StockMarket() {
     }
   }, [portfolioLastMessage]);
 
-  return (
-    <div className="flex h-screen flex-col bg-gray-100">
-      <CustomHeader title="Stock Market"></CustomHeader>
-      <div className="flex h-full gap-4 overflow-clip">
-        <div className="flex h-full max-h-full flex-auto flex-col overflow-auto border-2 bg-white pb-10 pt-4">
-          <div className="flex gap-10 px-10">
-            <div className="flex flex-col">
-              <div className=" uppercase text-gray-400">Selected Stock</div>
-              <div className=" text-2xl font-extrabold">
-                {selectedStock[0].toUpperCase() + selectedStock.slice(1)}
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <div className=" uppercase text-gray-400">Current Price</div>
-              <div className=" text-2xl font-extrabold">
-                {"$" +
-                  (stockPrices[selectedStock]
-                    ?.at(-1)
-                    ?.currentPrice.toLocaleString("en-US", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    }) ?? 0)}
-              </div>
-            </div>
-            <div className="ml-auto flex flex-col">
-              <div className=" uppercase text-gray-400">Buying Power</div>
-              <div className="text-2xl font-extrabold">
-                {"$" +
-                  (cashBalance ?? 0).toLocaleString("en-US", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
-              </div>
-            </div>
-          </div>
-          <div className="h-[99%] min-h-0 flex-auto">
-            <ResponsiveLine
-              data={[
-                {
-                  id: selectedStock,
-                  data: stockPrices[selectedStock]?.map((item) => ({
-                    x: convertUnixToLocale(item.datetime),
-                    y: item.currentPrice,
-                  })) ?? [{ x: 0, y: 0 }],
-                },
-              ]}
-              tooltip={({ point }) => {
-                return (
-                  <div
-                    style={{
-                      background: "white",
-                      color: "inherit",
-                      fontSize: "inherit",
-                      borderRadius: "2px",
-                      boxShadow: "0 1px 2px rgba(0, 0, 0, 0.25)",
-                      padding: "5px 9px",
-                    }}
-                  >
-                    <div>
-                      Price:{" "}
-                      <strong>
-                        $
-                        {point.data.y.toLocaleString("en-US", {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        })}
-                      </strong>
-                    </div>
-                  </div>
-                );
-              }}
-              margin={{ top: 50, right: 90, bottom: 50, left: 100 }}
-              colors={() =>
-                stockIncrease(stockPrices?.[selectedStock])
-                  ? "#5ccb95"
-                  : "#e15337"
-              }
-              yScale={{
-                type: "linear",
-                stacked: false,
-                min: "auto",
-                max: "auto",
-              }}
-              axisBottom={{
-                tickSize: 5,
-                tickPadding: 5,
-                tickRotation: 0,
-                legend: "Datetime",
-                legendOffset: 40,
-                legendPosition: "middle",
-                tickValues: [
-                  convertUnixToLocale(
-                    stockPrices[selectedStock]?.at(0)?.["datetime"]
-                  ),
-                  stockPrices[selectedStock]?.length > 1
-                    ? convertUnixToLocale(
-                        stockPrices[selectedStock]?.at(-1)?.["datetime"] ??
-                          Date.now()
-                      )
-                    : null,
-                ],
-              }}
-              axisLeft={{
-                tickSize: 5,
-                tickPadding: 5,
-                tickRotation: 0,
-                legend: "Price",
-                legendOffset: -50,
-                legendPosition: "middle",
-              }}
-              enablePoints={false}
-              useMesh={true}
-            />
-          </div>
-          <div className="flex items-center gap-10 px-10 py-5">
-            <h2 className="m-0 text-xl font-bold uppercase text-gray-400">
-              Your Position
-            </h2>
-            <div className="ml-20 flex flex-col">
-              <div className="uppercase text-gray-400">Shares</div>
-              <div className=" text-lg font-bold">
-                {portfolio[selectedStock]?.["sharesPurchased"] ?? 0}
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <div className=" uppercase text-gray-400">Total Return</div>
-              <div className=" text-lg font-bold">
-                {"$" +
-                  calcTotalReturns(
-                    portfolio[selectedStock]?.["realizedReturns"] ?? 0,
-                    portfolio[selectedStock]?.["sharesPurchased"] ?? 0,
-                    stockPrices[selectedStock]?.at(-1)?.["currentPrice"] ?? 0
-                  ).toLocaleString("en-US", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
-              </div>
-            </div>
+  // See if any data stream are still loading and display a spinner if so
+  if (Object.values(initialData).some((loading) => loading === true)) {
+    return (
+      <div className="flex h-screen flex-col items-center justify-center gap-10">
+        <div className="text-bold text-center text-2xl">
+          <div>Stock data is loading...</div>
+          <div>
+            Please wait, this can take up to 30 seconds on the initial load.
           </div>
         </div>
-        <div className="flex h-full w-1/4 max-w-[40%] flex-col gap-4">
-          <div className="relative flex flex-col overflow-y-auto border-2 bg-white">
-            <h2 className="sticky top-0 ml-3 mt-6 bg-white/95 text-lg font-normal uppercase text-gray-400">
-              Available Stocks
-            </h2>
-            {Object.keys(stockPrices).map((stock) => (
-              <div
-                className=" flex w-full cursor-pointer items-center justify-center gap-7 p-5 text-lg text-black hover:opacity-50"
-                key={stock}
-                onClick={() => {
-                  setSelectedStock(stock);
-                  setStockQuantity(0);
-                  setBuysDisabled(true);
-                  setSellsDisabled(true);
-                }}
-              >
-                <div className="w-1/3 font-bold">{stock}</div>
-                <div className="h-[99%] w-1/3">
-                  <ResponsiveLine
-                    data={[
-                      {
-                        id: stock,
-                        data: stockPrices[stock]?.map((item) => ({
-                          x: convertUnixToLocale(item.datetime),
-                          y: item.currentPrice,
-                        })) ?? [{ x: 0, y: 0 }],
-                      },
-                    ]}
-                    colors={() =>
-                      stockIncrease(stockPrices?.[stock])
-                        ? "#5ccb95"
-                        : "#e15337"
-                    }
-                    enableGridX={false}
-                    enableGridY={false}
-                    enablePoints={false}
-                    yScale={{
-                      type: "linear",
-                      stacked: false,
-                      min: "auto",
-                      max: "auto",
-                    }}
-                  />
+        <TailSpin
+          height="180"
+          width="180"
+          color="#4fa94d"
+          ariaLabel="tail-spin-loading"
+          radius="3"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    );
+  } else {
+    return (
+      <div className="flex h-screen flex-col bg-gray-100">
+        <CustomHeader title="Stock Market"></CustomHeader>
+        <div className="flex h-full gap-4 overflow-clip">
+          <div className="flex h-full max-h-full flex-auto flex-col overflow-auto border-2 bg-white pb-10 pt-4">
+            <div className="flex gap-10 px-10">
+              <div className="flex flex-col">
+                <div className=" uppercase text-gray-400">Selected Stock</div>
+                <div className=" text-2xl font-extrabold">
+                  {selectedStock[0].toUpperCase() + selectedStock.slice(1)}
                 </div>
-                <div
-                  className={`flex w-max min-w-max items-center justify-center rounded-lg p-2 ${
-                    stockIncrease(stockPrices?.[stock])
-                      ? "bg-[#5ccb95]/90"
-                      : "bg-[#e15337]/90"
-                  }`}
-                >
+              </div>
+              <div className="flex flex-col">
+                <div className=" uppercase text-gray-400">Current Price</div>
+                <div className=" text-2xl font-extrabold">
                   {"$" +
-                    (stockPrices[stock]
+                    (stockPrices[selectedStock]
                       ?.at(-1)
-                      ?.["currentPrice"].toLocaleString("en-US", {
+                      ?.currentPrice.toLocaleString("en-US", {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
                       }) ?? 0)}
                 </div>
               </div>
-            ))}
-          </div>
-          <form
-            id="stock-orders"
-            className="relative min-h-[50%] overflow-y-auto border-2 bg-white"
-            onSubmit={handleSubmit}
-            onChange={(e) => {
-              let sellMax = portfolio[selectedStock]?.["sharesPurchased"] ?? 0;
-              let buyMax =
-                Math.floor(
-                  cashBalance / stockPrices[selectedStock]?.at(-1)?.currentPrice
-                ) ?? 0;
-
-              e.target.value <= sellMax && e.target.value > 0
-                ? setSellsDisabled(false)
-                : setSellsDisabled(true);
-              e.target.value <= buyMax && e.target.value > 0
-                ? setBuysDisabled(false)
-                : setBuysDisabled(true);
-            }}
-          >
-            <fieldset
-              disabled={
-                ordersDisabled.cashBalancePending ||
-                ordersDisabled.portfolioPending
-              }
-              className="flex flex-col gap-5"
-            >
-              <h2 className="sticky top-0 ml-3 mt-6 bg-white/95 text-lg font-normal uppercase text-gray-400">
-                Buy/sell Stocks
-              </h2>
-              <div className="flex w-full items-center justify-between gap-7 px-5 text-lg text-black">
-                <div>Shares</div>
-                <input
-                  name="stockQuantity"
-                  className="min-w-[50%] max-w-[50%] rounded-xl border p-2 text-lg text-black focus:shadow-inner focus:outline-none focus:valid:shadow-accent-400 focus:invalid:shadow-red-700 disabled:cursor-not-allowed disabled:bg-space-neutral-100/10"
-                  type="number"
-                  min={1}
-                  step={1}
-                  value={stockQuantity}
-                  onChange={(e) => {
-                    setStockQuantity(e.target.value);
-                  }}
-                  required={true}
-                />
-              </div>
-              <div className="flex w-full items-center justify-between gap-7 px-5 text-lg text-black">
-                <div>Price</div>
-                <div>
+              <div className="ml-auto flex flex-col">
+                <div className=" uppercase text-gray-400">Buying Power</div>
+                <div className="text-2xl font-extrabold">
                   {"$" +
-                    (stockPrices[selectedStock]
-                      ?.at(-1)
-                      ?.currentPrice.toFixed(2) ?? 0)}
+                    (cashBalance ?? 0).toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
                 </div>
               </div>
-              <div className="flex w-full items-center justify-between gap-7 px-5 text-lg text-black">
-                <div>Total</div>
-                <div name="orderTotal">
+            </div>
+            <div className="h-[99%] min-h-0 flex-auto">
+              <ResponsiveLine
+                data={[
+                  {
+                    id: selectedStock,
+                    data: stockPrices[selectedStock]?.map((item) => ({
+                      x: convertUnixToLocale(item.datetime),
+                      y: item.currentPrice,
+                    })) ?? [{ x: 0, y: 0 }],
+                  },
+                ]}
+                tooltip={({ point }) => {
+                  return (
+                    <div
+                      style={{
+                        background: "white",
+                        color: "inherit",
+                        fontSize: "inherit",
+                        borderRadius: "2px",
+                        boxShadow: "0 1px 2px rgba(0, 0, 0, 0.25)",
+                        padding: "5px 9px",
+                      }}
+                    >
+                      <div>
+                        Price:{" "}
+                        <strong>
+                          $
+                          {point.data.y.toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          })}
+                        </strong>
+                      </div>
+                    </div>
+                  );
+                }}
+                margin={{ top: 50, right: 90, bottom: 50, left: 100 }}
+                colors={() =>
+                  stockIncrease(stockPrices?.[selectedStock])
+                    ? "#5ccb95"
+                    : "#e15337"
+                }
+                yScale={{
+                  type: "linear",
+                  stacked: false,
+                  min: "auto",
+                  max: "auto",
+                }}
+                axisBottom={{
+                  tickSize: 5,
+                  tickPadding: 5,
+                  tickRotation: 0,
+                  legend: "Datetime",
+                  legendOffset: 40,
+                  legendPosition: "middle",
+                  tickValues: [
+                    convertUnixToLocale(
+                      stockPrices[selectedStock]?.at(0)?.["datetime"]
+                    ),
+                    stockPrices[selectedStock]?.length > 1
+                      ? convertUnixToLocale(
+                          stockPrices[selectedStock]?.at(-1)?.["datetime"] ??
+                            Date.now()
+                        )
+                      : null,
+                  ],
+                }}
+                axisLeft={{
+                  tickSize: 5,
+                  tickPadding: 5,
+                  tickRotation: 0,
+                  legend: "Price",
+                  legendOffset: -50,
+                  legendPosition: "middle",
+                }}
+                enablePoints={false}
+                useMesh={true}
+              />
+            </div>
+            <div className="flex items-center gap-10 px-10 py-5">
+              <h2 className="m-0 text-xl font-bold uppercase text-gray-400">
+                Your Position
+              </h2>
+              <div className="ml-20 flex flex-col">
+                <div className="uppercase text-gray-400">Shares</div>
+                <div className=" text-lg font-bold">
+                  {portfolio[selectedStock]?.["sharesPurchased"] ?? 0}
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <div className=" uppercase text-gray-400">Total Return</div>
+                <div className=" text-lg font-bold">
                   {"$" +
-                    (
-                      (stockPrices[selectedStock]?.at(-1)?.currentPrice ?? 0) *
-                      stockQuantity
+                    calcTotalReturns(
+                      portfolio[selectedStock]?.["realizedReturns"] ?? 0,
+                      portfolio[selectedStock]?.["sharesPurchased"] ?? 0,
+                      stockPrices[selectedStock]?.at(-1)?.["currentPrice"] ?? 0
                     ).toLocaleString("en-US", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}
                 </div>
               </div>
-              <div className="flex w-full items-center justify-center gap-7 px-5 text-lg text-black">
-                <SaveFormButton
-                  name="buy"
-                  id="buy-button"
-                  text={"Buy"}
-                  disabledButton={
-                    buysDisabled ||
-                    ordersDisabled.cashBalancePending ||
-                    ordersDisabled.portfolioPending
-                  }
-                />
-                <SaveFormButton
-                  name="sell"
-                  id="sell-button"
-                  text={"Sell"}
-                  disabledButton={
-                    sellsDisabled ||
-                    ordersDisabled.cashBalancePending ||
-                    ordersDisabled.portfolioPending
-                  }
-                />
-              </div>
-            </fieldset>
-          </form>
+            </div>
+          </div>
+          <div className="flex h-full w-1/4 max-w-[40%] flex-col gap-4">
+            <div className="relative flex flex-col overflow-y-auto border-2 bg-white">
+              <h2 className="sticky top-0 ml-3 mt-6 bg-white/95 text-lg font-normal uppercase text-gray-400">
+                Available Stocks
+              </h2>
+              {Object.keys(stockPrices).map((stock) => (
+                <div
+                  className=" flex w-full cursor-pointer items-center justify-center gap-7 p-5 text-lg text-black hover:opacity-50"
+                  key={stock}
+                  onClick={() => {
+                    setSelectedStock(stock);
+                    setStockQuantity(0);
+                    setBuysDisabled(true);
+                    setSellsDisabled(true);
+                  }}
+                >
+                  <div className="w-1/3 font-bold">{stock}</div>
+                  <div className="h-[99%] w-1/3">
+                    <ResponsiveLine
+                      data={[
+                        {
+                          id: stock,
+                          data: stockPrices[stock]?.map((item) => ({
+                            x: convertUnixToLocale(item.datetime),
+                            y: item.currentPrice,
+                          })) ?? [{ x: 0, y: 0 }],
+                        },
+                      ]}
+                      colors={() =>
+                        stockIncrease(stockPrices?.[stock])
+                          ? "#5ccb95"
+                          : "#e15337"
+                      }
+                      enableGridX={false}
+                      enableGridY={false}
+                      enablePoints={false}
+                      yScale={{
+                        type: "linear",
+                        stacked: false,
+                        min: "auto",
+                        max: "auto",
+                      }}
+                    />
+                  </div>
+                  <div
+                    className={`flex w-max min-w-max items-center justify-center rounded-lg p-2 ${
+                      stockIncrease(stockPrices?.[stock])
+                        ? "bg-[#5ccb95]/90"
+                        : "bg-[#e15337]/90"
+                    }`}
+                  >
+                    {"$" +
+                      (stockPrices[stock]
+                        ?.at(-1)
+                        ?.["currentPrice"].toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        }) ?? 0)}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <form
+              id="stock-orders"
+              className="relative min-h-[50%] overflow-y-auto border-2 bg-white"
+              onSubmit={handleSubmit}
+              onChange={(e) => {
+                let sellMax =
+                  portfolio[selectedStock]?.["sharesPurchased"] ?? 0;
+                let buyMax =
+                  Math.floor(
+                    cashBalance /
+                      stockPrices[selectedStock]?.at(-1)?.currentPrice
+                  ) ?? 0;
+
+                e.target.value <= sellMax && e.target.value > 0
+                  ? setSellsDisabled(false)
+                  : setSellsDisabled(true);
+                e.target.value <= buyMax && e.target.value > 0
+                  ? setBuysDisabled(false)
+                  : setBuysDisabled(true);
+              }}
+            >
+              <fieldset
+                disabled={
+                  ordersDisabled.cashBalancePending ||
+                  ordersDisabled.portfolioPending
+                }
+                className="flex flex-col gap-5"
+              >
+                <h2 className="sticky top-0 ml-3 mt-6 bg-white/95 text-lg font-normal uppercase text-gray-400">
+                  Buy/sell Stocks
+                </h2>
+                <div className="flex w-full items-center justify-between gap-7 px-5 text-lg text-black">
+                  <div>Shares</div>
+                  <input
+                    name="stockQuantity"
+                    className="min-w-[50%] max-w-[50%] rounded-xl border p-2 text-lg text-black focus:shadow-inner focus:outline-none focus:valid:shadow-accent-400 focus:invalid:shadow-red-700 disabled:cursor-not-allowed disabled:bg-space-neutral-100/10"
+                    type="number"
+                    min={1}
+                    step={1}
+                    value={stockQuantity}
+                    onChange={(e) => {
+                      setStockQuantity(e.target.value);
+                    }}
+                    required={true}
+                  />
+                </div>
+                <div className="flex w-full items-center justify-between gap-7 px-5 text-lg text-black">
+                  <div>Price</div>
+                  <div>
+                    {"$" +
+                      (stockPrices[selectedStock]
+                        ?.at(-1)
+                        ?.currentPrice.toFixed(2) ?? 0)}
+                  </div>
+                </div>
+                <div className="flex w-full items-center justify-between gap-7 px-5 text-lg text-black">
+                  <div>Total</div>
+                  <div name="orderTotal">
+                    {"$" +
+                      (
+                        (stockPrices[selectedStock]?.at(-1)?.currentPrice ??
+                          0) * stockQuantity
+                      ).toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                  </div>
+                </div>
+                <div className="flex w-full items-center justify-center gap-7 px-5 text-lg text-black">
+                  <SaveFormButton
+                    name="buy"
+                    id="buy-button"
+                    text={"Buy"}
+                    disabledButton={
+                      buysDisabled ||
+                      ordersDisabled.cashBalancePending ||
+                      ordersDisabled.portfolioPending
+                    }
+                  />
+                  <SaveFormButton
+                    name="sell"
+                    id="sell-button"
+                    text={"Sell"}
+                    disabledButton={
+                      sellsDisabled ||
+                      ordersDisabled.cashBalancePending ||
+                      ordersDisabled.portfolioPending
+                    }
+                  />
+                </div>
+              </fieldset>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
