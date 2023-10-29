@@ -142,11 +142,6 @@ export default function StockMarket() {
   );
   useEffect(() => {
     if (cashBalanceLastMessage !== null) {
-      // Signal cash balance data has loaded on initial connection
-      setInitialData((prevState) => ({
-        ...prevState,
-        cashBalanceLoading: false,
-      }));
       // Process message
       (async () => {
         const data = await cashBalanceLastMessage.data.text();
@@ -157,8 +152,16 @@ export default function StockMarket() {
           ...prevState,
           cashBalancePending: false,
         }));
+        // Signal cash balance data has loaded on initial connection
+        if (initialData.cashBalanceLoading === true) {
+          setInitialData((prevState) => ({
+            ...prevState,
+            cashBalanceLoading: false,
+          }));
+        }
       })();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cashBalanceLastMessage]);
 
   // Stock prices data management
@@ -183,11 +186,6 @@ export default function StockMarket() {
 
   useEffect(() => {
     if (stockPricesLastMessage !== null) {
-      // Signal stock prices data has loaded on initial connection
-      setInitialData((prevState) => ({
-        ...prevState,
-        stockPricesLoading: false,
-      }));
       // Process message
       (async () => {
         const data = await stockPricesLastMessage.data.text();
@@ -223,8 +221,16 @@ export default function StockMarket() {
 
           return sortedStockPrices;
         });
+        // Signal stock prices data has loaded on initial connection
+        if (initialData.stockPricesLoading === true) {
+          setInitialData((prevState) => ({
+            ...prevState,
+            stockPricesLoading: false,
+          }));
+        }
       })();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stockPricesLastMessage]);
 
   // Portfolio data management
@@ -248,12 +254,7 @@ export default function StockMarket() {
   );
 
   useEffect(() => {
-    // Signal portfolio data has loaded on initial connection
     if (portfolioLastMessage !== null) {
-      setInitialData((prevState) => ({
-        ...prevState,
-        portfolioLoading: false,
-      }));
       // Process message
       (async () => {
         const data = await portfolioLastMessage.data.text();
@@ -281,8 +282,16 @@ export default function StockMarket() {
           ...prevState,
           portfolioPending: false,
         }));
+        // Signal portfolio data has loaded on initial connection
+        if (initialData.portfolioLoading === true) {
+          setInitialData((prevState) => ({
+            ...prevState,
+            portfolioLoading: false,
+          }));
+        }
       })();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [portfolioLastMessage]);
 
   // See if any data stream are still loading and display a spinner if so
