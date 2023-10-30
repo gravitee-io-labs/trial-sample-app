@@ -473,7 +473,9 @@ export default function StockMarket() {
                     setSellsDisabled(true);
                   }}
                 >
-                  <div className="min-w-1/4 w-1/4 font-bold">{stock}</div>
+                  <div className="min-w-1/4 w-1/4 font-bold">
+                    {stockPrices?.[stock]?.at(-1)?.ticker}
+                  </div>
                   <div className="h-8 w-1/4 flex-auto">
                     <ResponsiveLine
                       data={[
