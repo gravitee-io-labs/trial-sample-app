@@ -320,8 +320,8 @@ export default function StockMarket() {
     return (
       <div className="flex h-screen flex-col bg-gray-100">
         <CustomHeader title="Stock Market"></CustomHeader>
-        <div className="flex h-full gap-4 overflow-clip">
-          <div className="flex h-full max-h-full flex-auto flex-col overflow-auto border-2 bg-white pb-10 pt-4">
+        <div className="flex h-full flex-col overflow-clip lg:flex-row lg:gap-4">
+          <div className="flex h-3/5 max-h-full flex-auto flex-col overflow-auto border-2 bg-white pt-4 lg:h-full lg:pb-10">
             <div className="flex gap-10 px-10">
               <div className="flex flex-col">
                 <div className=" uppercase text-gray-400">Selected Stock</div>
@@ -431,7 +431,7 @@ export default function StockMarket() {
                 useMesh={true}
               />
             </div>
-            <div className="flex items-center gap-10 px-10 py-5">
+            <div className="flex items-center gap-10 px-10 py-2 lg:py-5">
               <h2 className="m-0 text-xl font-bold uppercase text-gray-400">
                 Your Position
               </h2>
@@ -457,14 +457,14 @@ export default function StockMarket() {
               </div>
             </div>
           </div>
-          <div className="flex h-full w-1/4 max-w-[40%] flex-col gap-4">
-            <div className="relative flex flex-col overflow-y-auto border-2 bg-white">
+          <div className="flex h-2/5 w-full gap-4 lg:h-full lg:w-1/3 lg:max-w-[40%] lg:flex-col xl:w-1/4">
+            <div className="relative flex-auto overflow-y-auto border-2 bg-white">
               <h2 className="sticky top-0 ml-3 mt-6 bg-white/95 text-lg font-normal uppercase text-gray-400">
                 Available Stocks
               </h2>
               {Object.keys(stockPrices).map((stock) => (
                 <div
-                  className=" flex w-full cursor-pointer items-center justify-center gap-7 p-5 text-lg text-black hover:opacity-50"
+                  className="flex w-full cursor-pointer items-center justify-center gap-7 p-5 text-lg text-black hover:opacity-50"
                   key={stock}
                   onClick={() => {
                     setSelectedStock(stock);
@@ -473,8 +473,8 @@ export default function StockMarket() {
                     setSellsDisabled(true);
                   }}
                 >
-                  <div className="w-1/3 font-bold">{stock}</div>
-                  <div className="h-[99%] w-1/3">
+                  <div className="min-w-1/4 w-1/4 font-bold">{stock}</div>
+                  <div className="h-8 w-1/4 flex-auto">
                     <ResponsiveLine
                       data={[
                         {
@@ -502,7 +502,7 @@ export default function StockMarket() {
                     />
                   </div>
                   <div
-                    className={`flex w-max min-w-max items-center justify-center rounded-lg p-2 ${
+                    className={`flex min-w-min items-center justify-center rounded-lg p-2 ${
                       stockIncrease(stockPrices?.[stock])
                         ? "bg-[#5ccb95]/90"
                         : "bg-[#e15337]/90"
@@ -521,7 +521,7 @@ export default function StockMarket() {
             </div>
             <form
               id="stock-orders"
-              className="relative min-h-[50%] overflow-y-auto border-2 bg-white"
+              className="relative flex-auto overflow-y-auto border-2 bg-white lg:min-h-[50%]"
               onSubmit={handleSubmit}
               onChange={(e) => {
                 let sellMax =
@@ -550,7 +550,7 @@ export default function StockMarket() {
                 <h2 className="sticky top-0 ml-3 mt-6 bg-white/95 text-lg font-normal uppercase text-gray-400">
                   Buy/sell Stocks
                 </h2>
-                <div className="flex w-full items-center justify-between gap-7 px-5 text-lg text-black">
+                <div className="flex w-full items-center justify-between px-5 text-lg text-black">
                   <div>Shares</div>
                   <input
                     name="stockQuantity"
@@ -565,7 +565,7 @@ export default function StockMarket() {
                     required={true}
                   />
                 </div>
-                <div className="flex w-full items-center justify-between gap-7 px-5 text-lg text-black">
+                <div className="flex w-full items-center justify-between px-5 text-lg text-black">
                   <div>Price</div>
                   <div>
                     {"$" +
@@ -574,7 +574,7 @@ export default function StockMarket() {
                         ?.currentPrice.toFixed(2) ?? 0)}
                   </div>
                 </div>
-                <div className="flex w-full items-center justify-between gap-7 px-5 text-lg text-black">
+                <div className="flex w-full items-center justify-between px-5 text-lg text-black">
                   <div>Total</div>
                   <div name="orderTotal">
                     {"$" +
