@@ -206,6 +206,11 @@ export default function StockMarket() {
             ],
           };
 
+          // Ensure that the array has a maximum length of 50
+          if (updatedData[key].length > 50) {
+            updatedData[key] = updatedData[key].slice(-50);
+          }
+
           // Sort the stock prices based on currentPrice in descending order
           const sortedStocks = Object.keys(updatedData).sort((a, b) => {
             const aPrice = updatedData[a]?.at(-1)?.currentPrice || 0;
