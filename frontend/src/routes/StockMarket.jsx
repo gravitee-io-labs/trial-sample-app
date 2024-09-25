@@ -28,7 +28,7 @@ export default function StockMarket() {
   useEffect(() => {
     const createUser = async () => {
       const res = await fetch(
-        "https://trial.apim.kafka-stock-market.gravitee.xyz/stock-market/users",
+        "https://demo-apim-gateway-dev.michael.gravitee.xyz/stock-market/users",
         {
           method: "POST",
           headers: {
@@ -66,7 +66,7 @@ export default function StockMarket() {
     const price = stockPrices[selectedStock].at(-1)["currentPrice"];
     try {
       const res = await fetch(
-        "https://trial.apim.kafka-stock-market.gravitee.xyz/stock-market/orders",
+        "https://demo-apim-gateway-dev.michael.gravitee.xyz/stock-market/orders",
         {
           method: "POST",
           headers: {
@@ -124,7 +124,7 @@ export default function StockMarket() {
   // Cash balance data management
   const [cashBalance, setCashBalance] = useState(0);
   const { lastMessage: cashBalanceLastMessage } = useWebSocket(
-    "wss://trial.apim.kafka-stock-market.gravitee.xyz/stock-market/cash",
+    "wss://demo-apim-gateway-dev.michael.gravitee.xyz/stock-market/cash",
     {
       queryParams: {
         "X-Gravitee-Client-Identifier": ksqldbConsumerId,
@@ -167,7 +167,7 @@ export default function StockMarket() {
   // Stock prices data management
   const [stockPrices, setStockPrices] = useState([]);
   const { lastMessage: stockPricesLastMessage } = useWebSocket(
-    "wss://trial.apim.kafka-stock-market.gravitee.xyz/stock-market/current_stock_prices",
+    "wss://demo-apim-gateway-dev.michael.gravitee.xyz/stock-market/current_stock_prices",
     {
       queryParams: {
         "X-Gravitee-Client-Identifier": ksqldbConsumerId,
@@ -241,7 +241,7 @@ export default function StockMarket() {
   // Portfolio data management
   const [portfolio, setPortfolio] = useState([]);
   const { lastMessage: portfolioLastMessage } = useWebSocket(
-    "wss://trial.apim.kafka-stock-market.gravitee.xyz/stock-market/portfolio",
+    "wss://demo-apim-gateway-dev.michael.gravitee.xyz/stock-market/portfolio",
     {
       queryParams: {
         "X-Gravitee-Client-Identifier": ksqldbConsumerId,
