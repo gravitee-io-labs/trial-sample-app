@@ -112,7 +112,7 @@ export default function StockMarket() {
   });
   const [initialData, setInitialData] = useState({
     cashBalanceLoading: true,
-    portfolioLoading: true,
+    portfolioLoading: false,
     stockPricesLoading: true,
   });
   const [buysDisabled, setBuysDisabled] = useState(true);
